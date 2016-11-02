@@ -3,13 +3,16 @@
 # build image:
 #   docker build --force-rm -t platbase.com/dev.nodejs:1.0 .
 # run:
-#   docker run -it --rm -p 8080:8080 -v /tmp:/workspace platbase.com/dev.nodejs:1.0
+#   docker run -it --rm -p 8080:8080 -v /tmp/nodejs.ws:/workspace -v /tmp/nodejs.data:/data platbase.com/dev.nodejs:1.0
 
 FROM ubuntu:16.04
 MAINTAINER https://github.com/platbase
 
 # The version of node js
 ENV VERSION=6.2.0
+
+# The npm registry server
+ENV NPM_REG=https://registry.npm.taobao.org
 
 ###############################################################################
 
@@ -30,6 +33,9 @@ RUN \
     mkdir -p /opt/nodejs; \
     tar xzvf /tmp/node-v${VERSION}-linux-x64.tar.gz -C /opt/nodejs
 RUN chown -Rv u01:u01 /opt/nodejs
+RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set prefix /data/global --global
+RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set cache  /data/cache  --global
+RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set registry ${NPM_REG} --global
 
 # Env setup
 ENV PS1_GREEN="\[$(tput bold)$(tput setaf 2)\]"
@@ -47,7 +53,7 @@ RUN rm /tmp/node-v${VERSION}-linux-x64.tar.gz
 
 # Mappings
 EXPOSE 8080
-VOLUME ["/workspace"]
+VOLUME ["/workspace", "/data"]
 
 # Entry - force work with user "u01"
 CMD su - u01
