@@ -14,17 +14,37 @@ ENV VERSION=6.2.0
 # The npm registry server
 ENV NPM_REG=https://registry.npm.taobao.org
 
+# Mappings
+EXPOSE 8080
+VOLUME ["/workspace", "/data"]
+
+# Entry - force work with user "u01"
+CMD su - u01
+
 ###############################################################################
 
-# Preparing installation
+# Preparing installation and install basic tools
 ADD files /
 RUN apt-get update
 RUN \
     export DEBIAN_FRONTEND=noninteractive; \
     apt-get install -y --allow-unauthenticated sudo; \
-    apt-get install -y --allow-unauthenticated wget; \
+    apt-get install -y --allow-unauthenticated wget;
+
+# Download nodejs
+RUN wget https://nodejs.org/dist/v${VERSION}/node-v${VERSION}-linux-x64.tar.gz -O /tmp/node-v${VERSION}-linux-x64.tar.gz;
+
+# Install necessary packages
+RUN \
+    export DEBIAN_FRONTEND=noninteractive; \
+    apt-get install -y --allow-unauthenticated net-tools; \
+    apt-get install -y --allow-unauthenticated inetutils-ping; \
     apt-get install -y --allow-unauthenticated python; \
     apt-get install -y --allow-unauthenticated build-essential
+RUN \
+    export DEBIAN_FRONTEND=noninteractive; \
+    apt-get install -y --allow-unauthenticated telnet; \
+    apt-get install -y --allow-unauthenticated nano
 
 # Add work user
 RUN useradd -mU -u 1000 -d /home/u01 -s /bin/bash u01
@@ -32,9 +52,7 @@ RUN echo "u01:docker.io" | chpasswd     # Can't set password properly with "-p" 
 RUN usermod -a -G sudo u01
 
 # Install NodeJS
-RUN \
-    wget https://nodejs.org/dist/v${VERSION}/node-v${VERSION}-linux-x64.tar.gz -O /tmp/node-v${VERSION}-linux-x64.tar.gz; \
-    mkdir -p /opt/nodejs; \
+RUN mkdir -p /opt/nodejs; \
     tar xzvf /tmp/node-v${VERSION}-linux-x64.tar.gz -C /opt/nodejs
 RUN chown -Rv u01:u01 /opt/nodejs
 RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set prefix /data/global --global
@@ -56,10 +74,3 @@ RUN echo "cd /workspace"                   >> /home/u01/.bashrc
 
 # Clean up
 RUN rm /tmp/node-v${VERSION}-linux-x64.tar.gz
-
-# Mappings
-EXPOSE 8080
-VOLUME ["/workspace", "/data"]
-
-# Entry - force work with user "u01"
-CMD su - u01
