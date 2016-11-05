@@ -19,12 +19,12 @@ EXPOSE 8080
 VOLUME ["/workspace", "/data"]
 
 # Entry - force work with user "u01"
-CMD su - u01
+CMD /docker-nodejs-start.sh
 
 ###############################################################################
 
 # Preparing installation and install basic tools
-ADD files /
+ADD files/sources.list /etc/apt/sources.list
 RUN apt-get update
 RUN \
     export DEBIAN_FRONTEND=noninteractive; \
@@ -71,6 +71,9 @@ RUN echo "# Added by docker ******"        >> /home/u01/.bashrc
 RUN echo "export PS1=\"${_PS1}\""          >> /home/u01/.bashrc
 RUN echo "export PATH=\"${_PATH}\""        >> /home/u01/.bashrc
 RUN echo "cd /workspace"                   >> /home/u01/.bashrc
+
+# Prepare starting commands
+ADD files/docker-nodejs-start.sh /docker-nodejs-start.sh
 
 # Clean up
 RUN rm /tmp/node-v${VERSION}-linux-x64.tar.gz
