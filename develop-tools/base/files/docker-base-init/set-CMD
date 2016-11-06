@@ -1,0 +1,3 @@
+# Add to command running after shell started
+
+echo "$1" >> /home/u01/.bashrc-docker-CMD

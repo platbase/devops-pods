@@ -1,0 +1,22 @@
+# Some command when container boot
+set +x
+
+# Detect the host IP and bind it to hostname "docker-host"
+cat /etc/hosts | grep "docker-host"
+if [ $? > 0 ]; then
+    echo "# Add docker host's IP address(The same as the default gateway)"    >> /etc/hosts
+    echo "$(route | awk '/default/ { print $2 }')     docker-host"            >> /etc/hosts
+fi
+
+# Cron
+echo "# min    hour      date       month      week      command" > /root/.crontab
+/usr/sbin/cron
+/usr/bin/crontab /root/.crontab
+
+# Clean .bashrc-docker-*
+export _RC="/home/u01/.bashrc-docker-PATH"; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
+export _RC="/home/u01/.bashrc-docker-PS1" ; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
+export _RC="/home/u01/.bashrc-docker-CMD" ; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
+
+# The defaults
+/docker-base-init/set-PATH "/usr/sbin:/sbin"

@@ -1,0 +1,5 @@
+# Add to PATH
+
+_PATH="\${PATH}:$1"
+
+echo "export PATH=\"${_PATH}\"" >> /home/u01/.bashrc-docker-PATH

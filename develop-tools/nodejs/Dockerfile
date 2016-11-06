@@ -5,7 +5,7 @@
 # run:
 #   docker run -it --rm -p 8080:8080 -v /tmp/nodejs.ws:/workspace -v /tmp/nodejs.data:/data platbase.com/dev.nodejs:1.0
 
-FROM ubuntu:16.04
+FROM platbase.com/dev.base:1.0
 MAINTAINER https://github.com/platbase
 
 # The version of node js
@@ -19,37 +19,12 @@ EXPOSE 8080
 VOLUME ["/workspace", "/data"]
 
 # Entry - force work with user "u01"
-CMD /docker-nodejs-start.sh
+CMD /start-nodejs-shell.sh
 
 ###############################################################################
 
-# Preparing installation and install basic tools
-ADD files/sources.list /etc/apt/sources.list
-RUN apt-get update
-RUN \
-    export DEBIAN_FRONTEND=noninteractive; \
-    apt-get install -y --allow-unauthenticated sudo; \
-    apt-get install -y --allow-unauthenticated wget;
-
 # Download nodejs
 RUN wget https://nodejs.org/dist/v${VERSION}/node-v${VERSION}-linux-x64.tar.gz -O /tmp/node-v${VERSION}-linux-x64.tar.gz;
-
-# Install necessary packages
-RUN \
-    export DEBIAN_FRONTEND=noninteractive; \
-    apt-get install -y --allow-unauthenticated net-tools; \
-    apt-get install -y --allow-unauthenticated inetutils-ping; \
-    apt-get install -y --allow-unauthenticated python; \
-    apt-get install -y --allow-unauthenticated build-essential
-RUN \
-    export DEBIAN_FRONTEND=noninteractive; \
-    apt-get install -y --allow-unauthenticated telnet; \
-    apt-get install -y --allow-unauthenticated nano
-
-# Add work user
-RUN useradd -mU -u 1000 -d /home/u01 -s /bin/bash u01
-RUN echo "u01:docker.io" | chpasswd     # Can't set password properly with "-p" argument in "useradd" command
-RUN usermod -a -G sudo u01
 
 # Install NodeJS
 RUN mkdir -p /opt/nodejs; \
@@ -59,21 +34,8 @@ RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set
 RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set cache  /data/cache  --global
 RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set registry ${NPM_REG} --global
 
-# Env setup
-ENV PS1_GREEN="\[$(tput bold)$(tput setaf 2)\]"
-ENV PS1_RESET="\[$(tput sgr0)\]"
-ENV _PS1="${PS1_GREEN}[NodeJS] ${PS1_RESET}\W${PS1_GREEN} > ${PS1_RESET}"
-ENV _PATH="./node_modules/.bin:/data/global/bin"
-ENV _PATH="${_PATH}:/opt/nodejs/node-v${VERSION}-linux-x64/bin:/opt/nodejs/node-v${VERSION}-linux-x64/bin/npm-global/bin"
-ENV _PATH="/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:${_PATH}"
-RUN echo ""                                >> /home/u01/.bashrc
-RUN echo "# Added by docker ******"        >> /home/u01/.bashrc
-RUN echo "export PS1=\"${_PS1}\""          >> /home/u01/.bashrc
-RUN echo "export PATH=\"${_PATH}\""        >> /home/u01/.bashrc
-RUN echo "cd /workspace"                   >> /home/u01/.bashrc
-
-# Prepare starting commands
-ADD files/docker-nodejs-start.sh /docker-nodejs-start.sh
-
 # Clean up
 RUN rm /tmp/node-v${VERSION}-linux-x64.tar.gz
+
+# Prepare starting commands
+ADD files/start-nodejs-shell.sh /start-nodejs-shell.sh
