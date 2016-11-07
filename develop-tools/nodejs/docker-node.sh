@@ -5,6 +5,7 @@ SHELL_ROOT=$(cd "$(dirname "$0")"; pwd)
 
 mkdir -p "${SHELL_ROOT}/.runtime/cache"
 mkdir -p "${SHELL_ROOT}/.runtime/global"
+touch "${SHELL_ROOT}/.runtime/devops.platbase.com-docker-data"
 
 # Find avaliable ports between 8080 to 9080
 LOWERPORT=8080

@@ -1,4 +1,6 @@
+#!/bin/bash
 echo "*** The Basic Development Environment ***"
+set -o errexit
 
 /docker-base-init/docker-boot
 

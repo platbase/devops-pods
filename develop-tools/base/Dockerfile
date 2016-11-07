@@ -62,6 +62,8 @@ RUN chown -R u01:u01 /data
 
 # Add base-init shell scripts
 ADD files/docker-base-init /docker-base-init
+RUN chmod +x /docker-base-init/*
 
 # Prepare starting commands
 ADD files/start-example.sh /start-example.sh
+RUN chmod +x /start-example.sh

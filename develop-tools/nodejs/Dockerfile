@@ -39,3 +39,4 @@ RUN rm /tmp/node-v${VERSION}-linux-x64.tar.gz
 
 # Prepare starting commands
 ADD files/start-nodejs-shell.sh /start-nodejs-shell.sh
+RUN chmod +x /start-nodejs-shell.sh

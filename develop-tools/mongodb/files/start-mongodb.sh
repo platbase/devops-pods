@@ -1,4 +1,6 @@
+#!/bin/bash
 echo "*** Development environment - mongodb server ***"
+set -o errexit
 
 /docker-base-init/docker-boot
 

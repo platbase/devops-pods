@@ -1,7 +1,27 @@
+#!/bin/bash
 # Some command when container boot
-set +x
+
+# Check /workspace and /data: MUST contain 'devops.platbase.com-docker-workspace'/'devops.platbase.com-docker-data'
+echo "... Validate /workspace and /data"
+function check_docker_dir() {
+    if [ -d "/$1" ]; then
+        if [ -z "$(ls -qAL /$1)" ]; then
+            # If '/$1' directory is Empty ...
+            touch /$1/devops.platbase.com-docker-$1
+            chown u01:u01 /$1
+            chown u01:u01 /$1/devops.platbase.com-docker-$1
+        elif [ ! -f "/$1/devops.platbase.com-docker-$1" ]; then
+            #If directory is not empty, then it MUST contains devops.platbase.com-docker-XXX
+            echo "MUST contain file '/$1/devops.platbase.com-docker-$1' to mark it's a valid '/$1' directory in Docker."
+            exit -1;
+        fi
+    fi
+}
+check_docker_dir "data"
+check_docker_dir "workspace"
 
 # Detect the host IP and bind it to hostname "docker-host"
+echo "... Detect IP of docker host and bind it's hostname to 'docker-host'"
 cat /etc/hosts | grep "docker-host"
 if [ $? > 0 ]; then
     echo "# Add docker host's IP address(The same as the default gateway)"    >> /etc/hosts
@@ -9,6 +29,7 @@ if [ $? > 0 ]; then
 fi
 
 # Cron
+echo "... Initialize cron"
 echo "# min    hour      date       month      week      command" > /root/.crontab
 /usr/sbin/cron
 /usr/bin/crontab /root/.crontab

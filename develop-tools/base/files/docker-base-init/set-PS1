@@ -1,4 +1,7 @@
+#!/bin/bash
 # Set PS1 variable
+
+echo ".... Set PS1: $1"
 
 PS1_GREEN="\[$(tput bold)$(tput setaf 2)\]"
 PS1_RESET="\[$(tput sgr0)\]"

@@ -13,7 +13,7 @@ EXPOSE 27017
 VOLUME ["/workspace", "/data"]
 
 # Entry - force work with user "u01"
-CMD /docker-mongodb-start.sh
+CMD /start-mongodb.sh
 
 ###############################################################################
 
@@ -25,4 +25,5 @@ RUN apt-get update
 RUN apt-get install -y --allow-unauthenticated mongodb-org
 
 # Prepare starting commands
-ADD files/docker-mongodb-start.sh /docker-mongodb-start.sh
+ADD files/start-mongodb.sh /start-mongodb.sh
+RUN chmod +x /start-mongodb.sh

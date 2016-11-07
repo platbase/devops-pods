@@ -1,4 +1,6 @@
+#!/bin/bash
 echo "*** Development environment with NodeJS and Npm ***"
+set -o errexit
 
 # Env setup
 /docker-base-init/docker-boot
