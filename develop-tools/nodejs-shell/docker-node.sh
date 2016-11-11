@@ -21,8 +21,4 @@ done
 
 echo ">>> Find avaliable local port: $port ."
 
-docker run -it --rm -p $port:8080 \
-           -v "`pwd`":/workspace \
-           -v "${SHELL_ROOT}/.runtime":/data \
-           -v /tmp/.X11-unix:/tmp/.X11-unix \
-           platbase.com/dev.nodejs-debug:1.0
+docker run -it --rm -p $port:8080 -v "`pwd`":/workspace -v "${SHELL_ROOT}/.runtime":/data platbase.com/dev.nodejs:6.2.1

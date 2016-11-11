@@ -1,13 +1,13 @@
 # NodeJS and npm, with chromium-browser, As the basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.nodejs-debug:1.0 .
+#   docker build --force-rm -t platbase.com/dev.nodejs-debug:6.2.1 .
 # run:
 #   docker run -it --rm -p 8080:8080 \
 #              -v /tmp/nodejs.ws:/workspace -v /tmp/nodejs.data:/data \
-#              -v /tmp/.X11-unix:/tmp/.X11-unix platbase.com/dev.nodejs-debug:1.0
+#              -v /tmp/.X11-unix:/tmp/.X11-unix platbase.com/dev.nodejs-debug:6.2.1
 
-FROM platbase.com/dev.nodejs:1.0
+FROM platbase.com/dev.nodejs:6.2.1
 MAINTAINER https://github.com/platbase
 
 # Mappings

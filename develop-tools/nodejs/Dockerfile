@@ -1,15 +1,15 @@
 # NodeJS and npm, As the basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.nodejs:1.0 .
+#   docker build --force-rm -t platbase.com/dev.nodejs:6.2.1 .
 # run:
-#   docker run -it --rm -p 8080:8080 -v /tmp/nodejs.ws:/workspace -v /tmp/nodejs.data:/data platbase.com/dev.nodejs:1.0
+#   docker run -it --rm -p 8080:8080 -v /tmp/nodejs.ws:/workspace -v /tmp/nodejs.data:/data platbase.com/dev.nodejs:6.2.1
 
 FROM platbase.com/dev.base:1.0
 MAINTAINER https://github.com/platbase
 
 # The version of node js
-ENV VERSION=6.2.0
+ENV VERSION=6.2.1
 
 # The npm registry server
 ENV NPM_REG=https://registry.npm.taobao.org
