@@ -8,7 +8,7 @@ services:
         volumes:
              - /tmp/.X11-unix:/tmp/.X11-unix  # Use host's X
              - ${WORKING_DIR}:/workspace
-             - ${RUNTIME_DIR}/nodejs:/data
+             - ${DOCKER_BASE}/${COMPOSE_NAME}/nodejs:/data
         environment:
              - TERM=xterm
              - LANG=zh_CN.UTF-8
@@ -20,6 +20,6 @@ services:
     mongodb:
         image: platbase.com/dev.mongodb:1.0
         volumes:
-             - ${RUNTIME_DIR}/mongodb:/data
+             - ${DOCKER_BASE}/${COMPOSE_NAME}/mongodb:/data
         environment:
              - TERM=vt100
