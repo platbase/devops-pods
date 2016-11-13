@@ -22,9 +22,8 @@ echo "${bldblu}NOTE:${txtrst} Current 'main' container stopped, remove it ..."
 docker-compose -f $YML_FILE rm -f
 
 # if all "main" container instance removed, stop and remove other linked containers
-COMPOSE_NAME_L=${COMPOSE_NAME,,}
 echo "${bldblu}INFO:${txtrst} Check running 'main' containers ..."
-docker-compose -f $YML_FILE ps | grep "_${COMPOSE_NAME_L}_run_"
+docker-compose -f $YML_FILE ps | grep "_${COMPOSE_NAME}_run_"
 if [ $? -eq 1 ]; then
     echo "${bldblu}NOTE:${txtrst} All 'main' containers stopped, now stop linked containers ..."
     docker-compose -f $YML_FILE stop
