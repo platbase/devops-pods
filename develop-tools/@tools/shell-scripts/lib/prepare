@@ -1,0 +1,90 @@
+#!/bin/bash
+# MUST be used with "source"
+# Preapre the environment variables could be used in docker-compose yml file, include:
+#   - DOCKER_BASE: The base directory for container's runtime data file
+#                  (Usually, the database file, cahce or downloaded resources);
+#   - COMPOSE_NAME: docker-compose yml filename(without file extension)
+#                  (For singleton docker-compose service, use '${DOCKER_BASE}/${COMPOSE_NAME}' as the
+#                   directory for container's runtime data is recommended);
+#   - WORKING_DIR: Full filename of the current working directory
+#                  (For an interactive shell container, It's always mapped to /workspace);
+#   - POSITION_ID: A string which identify current working directory ($WORKING_DIR, replace "/" with "^")
+#                  (To separate the data file's position from containers which has a same image but started
+#                   from different working directory)
+#   - RUNTIME_DIR = ${DOCKER_BASE}/${COMPOSE_NAME}/${POSITION_ID}
+#                  (A same docker-compose with different working directory should have it own "container's
+#                   runtime data file")
+
+function detectPort() {
+    local LOWERPORT=$1
+    local UPPERPORT=$2
+
+    # FIXME: "netstat -ntpl" warning:
+    #   Not all processes could be identified, non-owned process info will not be shown, you would have to be root to see it all..
+    local freePort=null
+    local port
+    for (( port = LOWERPORT ; port <= UPPERPORT ; port++ )); do
+        netstat -ntpl 2>/dev/null | grep ":$port "
+        if [ $? -eq 1 ]; then
+            docker ps | grep ":$port->"
+            if [ $? -eq 1 ]; then
+                freePort=$port;
+                break;
+            fi
+        fi
+    done
+    if [ "$freePort" = "null" ]; then
+        echo "No free local ports available(between $LOWERPORT and $UPPERPORT)" >&2
+        _PORT_=-1
+    else
+        _PORT_=$port
+    fi
+}
+
+# Text color variables
+txtund=$(tput sgr 0 1)          # Underline
+txtbld=$(tput bold)             # Bold
+bldred=${txtbld}$(tput setaf 1) #  red
+bldgrn=${txtbld}$(tput setaf 2) #  green
+bldblu=${txtbld}$(tput setaf 4) #  blue
+bldwht=${txtbld}$(tput setaf 7) #  white
+txtrst=$(tput sgr0)             # Reset
+
+export DOCKER_BASE="$HOME/.platbase-devops-docker/@${COMPOSE_TYPE}"
+if [ ! -z $DEVOPS_DOCKER_DATA_BASE ]; then
+    export DOCKER_BASE="$DEVOPS_DOCKER_DATA_BASE/@${COMPOSE_TYPE}"
+fi
+echo "${bldblu}NOTE:${txtrst} Read docker-compose definition(*.yml) from ${bldgrn}$DOCKER_BASE${txtrst}" >&2
+
+if  [ -z $1 ]; then
+    echo "${bldred}ERROR:${txtrst} Argument missed - the compose name(docker-compose yml file's name without 'yml' extension" >&2
+    echo "(For example, command '$0 nodejs' will start file '$DOCKER_BASE/nodejs.yml')" >&2
+    exit -1
+fi
+
+export COMPOSE_NAME="$1"
+YML_FILE="$DOCKER_BASE/$COMPOSE_NAME.yml"
+
+if [ ! -f "$YML_FILE" ]; then
+    echo "${bldred}ERROR:${txtrst} docker-compose file ${bldwht}$YML_FILE${txtrst} missing" >&2
+    exit -1
+fi
+
+export WORKING_DIR="`pwd`"
+
+# "Position ID" for WORKING_DIR(replace "/" to "^")
+POSITION_ID="${WORKING_DIR}"
+export POSITION_ID="${POSITION_ID//\//^}"
+
+export RUNTIME_DIR=${DOCKER_BASE}/${COMPOSE_NAME}/${POSITION_ID}
+echo "${bldblu}NOTE:${txtrst} (recommended) to store container's runtime data in ${bldgrn}$RUNTIME_DIR${txtrst}" >&2
+
+# Three ports between 8080-9080，18080-19080, 28080-29080
+_PORT_=-1
+detectPort 8080 9080
+export PORT1=$_PORT_
+detectPort 18080 19080
+export PORT2=$_PORT_
+detectPort 28080 29080
+export PORT3=$_PORT_
+echo "${bldblu}NOTE:${txtrst} Avaliable ports: ${bldgrn}$PORT1${txtrst}, ${bldgrn}$PORT2${txtrst} and ${bldgrn}$PORT3${txtrst}"

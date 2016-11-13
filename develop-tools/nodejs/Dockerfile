@@ -22,7 +22,7 @@ ENV NPM_REG=https://registry.npm.taobao.org
 EXPOSE 8080
 VOLUME ["/workspace", "/data", "/tmp/.X11-unix"]
 
-# DISPLAY
+# Environment variables
 ENV DISPLAY ":0"
 
 # Entry - force work with user "u01"

@@ -67,3 +67,11 @@ RUN chmod +x /docker-base-init/*
 # Prepare starting commands
 ADD files/start-example.sh /start-example.sh
 RUN chmod +x /start-example.sh
+
+###############################################################################
+
+# Environment variable
+#  - To mark the environment variables which should be used in "u01"'s shell.
+#  - because: su option "-, -l, --login" should build a new environment(see option "-m, -p, --preserve-environment")
+#  - NOTE: default value "TERM LANG DISPLAY" was assumed in shell script "docker-boot"
+ENV DEVOPS_FIXED_ENVS ""
