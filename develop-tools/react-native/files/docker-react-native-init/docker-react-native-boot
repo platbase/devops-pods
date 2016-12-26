@@ -44,9 +44,34 @@ if [[ ! -f "/data/.android-sdk-installed" ]]; then
 	echo "Created: $(date)" > /data/.android-sdk-installed
 fi
 
-#Install react-native at first time
-if [[ ! -f "/data/.react-native-installed" ]]; then
-	/docker-base-init/set-CMD "npm install -g yarn react-native-cli; echo \"Created: \$(date)\" > /data/.react-native-installed"
+# Apply proxy to gradle
+mkdir -p /data/home/.gradle
+if [[ -f "/data/home/.gradle/gradle.properties" ]]; then
+	sed -i '/^systemProp.http.proxyHost=/d' /data/home/.gradle/gradle.properties
+	sed -i '/^systemProp.http.proxyPort=/d' /data/home/.gradle/gradle.properties
 fi
+if [[ ! -z "$http_proxy" ]]; then
+	echo "systemProp.http.proxyHost=$_android_proxy_host" >> /data/home/.gradle/gradle.properties
+	echo "systemProp.http.proxyPort=$_android_proxy_port" >> /data/home/.gradle/gradle.properties
+fi
+chown -R u01:u01 /data/home/.gradle
+
+# Apply proxy to android
+mkdir -p /data/home/.android
+if [[ -f "/data/home/.android/androidtool.cfg" ]]; then
+	sed -i '/^http.proxyHost=/d' /data/home/.android/androidtool.cfg
+	sed -i '/^http.proxyPort=/d' /data/home/.android/androidtool.cfg
+fi
+if [[ ! -z "$http_proxy" ]]; then
+	echo "http.proxyHost=$_android_proxy_host" >> /data/home/.android/androidtool.cfg
+	echo "http.proxyPort=$_android_proxy_port" >> /data/home/.android/androidtool.cfg
+fi
+chown -R u01:u01 /data/home/.android
+
+#Install react-native at first time
+/docker-base-init/set-CMD 'if [[ ! -f "/data/.react-native-installed" ]]; then
+    npm install -g yarn react-native-cli
+    echo "Created: \$(date)" > /data/.react-native-installed
+fi'
 
 echo "========"
