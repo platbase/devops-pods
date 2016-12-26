@@ -2,7 +2,7 @@
 #
 # See README.md for build and run.
 
-FROM platbase.com/dev.base:1.1
+FROM platbase.com/dev.base:1.2
 MAINTAINER https://github.com/platbase
 
 # The version of node js
