@@ -1,9 +1,9 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.base:1.1 .
+#   docker build --force-rm -t platbase.com/dev.base:1.2 .
 # run:
-#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base:1.1
+#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base:1.2
 
 FROM ubuntu:16.04
 MAINTAINER https://github.com/platbase

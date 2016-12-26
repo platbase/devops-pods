@@ -3,4 +3,4 @@
 
 echo ".... Add PATH: $1"
 _PATH="\${PATH}:$1"
-echo "export PATH=\"${_PATH}\"" >> /home/u01/.bashrc-docker-PATH
+echo "export PATH=\"${_PATH}\"" >> /data/home/.bashrc-docker-PATH

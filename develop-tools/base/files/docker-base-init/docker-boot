@@ -39,10 +39,20 @@ if [ $? > 0 ]; then
     echo "$(route | awk '/default/ { print $2 }')     docker-host"            >> /etc/hosts
 fi
 
+# Move u01's home to /data
+if [[ ! -f "/data/.home-moved" ]]; then
+	cp -Rv /home/u01 /data/home
+    chown -R u01:u01 /data/home
+	
+	#Mark installed
+	echo "Moved: $(date)" > /data/.home-moved
+fi
+usermod -d /data/home u01
+
 # Clean .bashrc-docker-*
-export _RC="/home/u01/.bashrc-docker-PATH"; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
-export _RC="/home/u01/.bashrc-docker-PS1" ; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
-export _RC="/home/u01/.bashrc-docker-CMD" ; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
+export _RC="/data/home/.bashrc-docker-PATH"; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
+export _RC="/data/home/.bashrc-docker-PS1" ; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
+export _RC="/data/home/.bashrc-docker-CMD" ; rm ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
 
 # The defaults
 /docker-base-init/set-PATH "/usr/sbin:/sbin"
