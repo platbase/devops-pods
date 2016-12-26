@@ -1,19 +1,12 @@
-# NodeJS and npm, As the basic environment for development
-# ----
-# build image:
-#   docker build --force-rm -t platbase.com/dev.nodejs:6.2.1 .
-# run:
-#   docker run -it --rm -p 8080:8080                   \
-#              -v /tmp/nodejs.ws:/workspace            \
-#              -v /tmp/nodejs.data:/data               \
-#              -v /tmp/.X11-unix:/tmp/.X11-unix        \
-#              platbase.com/dev.nodejs:6.2.1
+# NodeJS and npm, As the basic environment for development.
+#
+# See README.md for build and run.
 
-FROM platbase.com/dev.base:1.0
+FROM platbase.com/dev.base:1.1
 MAINTAINER https://github.com/platbase
 
 # The version of node js
-ENV VERSION=6.2.1
+ENV VERSION=6.9.2
 
 # The npm registry server
 ENV NPM_REG=https://registry.npm.taobao.org
@@ -31,14 +24,14 @@ CMD /start-nodejs-shell.sh
 ###############################################################################
 
 # Download nodejs
-RUN wget https://nodejs.org/dist/v${VERSION}/node-v${VERSION}-linux-x64.tar.gz -O /tmp/node-v${VERSION}-linux-x64.tar.gz;
+RUN wget http://nodejs.org/dist/v${VERSION}/node-v${VERSION}-linux-x64.tar.gz -O /tmp/node-v${VERSION}-linux-x64.tar.gz;
 
 # Install NodeJS
 RUN mkdir -p /opt/nodejs; \
     tar xzvf /tmp/node-v${VERSION}-linux-x64.tar.gz -C /opt/nodejs
 RUN chown -Rv u01:u01 /opt/nodejs
-RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set prefix /data/global --global
-RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set cache  /data/cache  --global
+RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set prefix /data/nodejs/global --global
+RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set cache  /data/nodejs/cache  --global
 RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set registry ${NPM_REG} --global
 
 # Clean up
@@ -54,6 +47,10 @@ RUN apt-get install -y ttf-wqy-zenhei ttf-wqy-microhei
 
 # Install Chromium
 RUN apt-get install -y chromium-browser
+
+# Add nodejs-init shell scripts
+ADD files/docker-nodejs-init /docker-nodejs-init
+RUN chmod +x /docker-nodejs-init/*
 
 # Prepare starting commands
 ADD files/start-nodejs-shell.sh /start-nodejs-shell.sh
