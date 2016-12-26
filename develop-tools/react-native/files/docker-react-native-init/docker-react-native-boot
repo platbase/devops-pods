@@ -40,11 +40,6 @@ if [[ ! -f "/data/.android-sdk-installed" ]]; then
     done
     chown -R u01:u01 /data/android-sdk
 
-    #Link ~/.android to /data
-    rm -fv /home/u01/.android
-    mkdir -p /data/.android; chown u01:u01 /data/.android
-    ln -s /data/.android /home/u01/.android
-
 	#Mark installed
 	echo "Created: $(date)" > /data/.android-sdk-installed
 fi
