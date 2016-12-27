@@ -35,20 +35,22 @@ docker run -it --rm -p 8081:8081 \
  - mapping `/dev/bus/usb:/dev/bus/usb`
 
 ### Reference
+ - https://github.com/rajendarreddyj/etc-udev-rules.d
  - https://github.com/gilesp/docker/tree/master/react_native
 
 #### TRY following operation(Maybe not needed)
 ```
 sudo -i
 
-echo '# adb protocol on Huawei honor4
-SUBSYSTEM=="usb", ATTR{idVendor}=="12d1", ATTR{idProduct}=="1052", MODE="0600", OWNER="<user, not root>"
-' > /etc/udev/rules.d/51-honor4.rules
+echo '## Huawei
+SUBSYSTEM=="usb", ATTR{idVendor}=="12d1", MODE="0666", GROUP="plugdev"
+' > /etc/udev/rules.d/51-Huawei.rules
 
-echo '# adb protocol on OPPO 7
-SUBSYSTEM=="usb", ATTR{idVendor}=="22d9", ATTR{idProduct}=="2774", MODE="0600", OWNER="<user, not root>"
-' > /etc/udev/rules.d/51-oppo7.rules
+echo '# OPPO
+SUBSYSTEM=="usb", ATTR{idVendor}=="22d9", MODE="0666", GROUP="plugdev"
+' > /etc/udev/rules.d/51-OPPO.rules
 
+chmod a+r /etc/udev/rules.d/51-*.rules
 ls -al /etc/udev/rules.d
 
 udevadm control --reload-rules
