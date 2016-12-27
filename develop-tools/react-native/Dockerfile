@@ -47,6 +47,12 @@ RUN cd /tmp;	\
 	make &&	\
 	make install
 
+# Some fix
+# AAPT err(11880): /data/android-sdk/build-tools/23.0.1/aapt: error while loading shared libraries: libz.so.1: cannot open shared object file: No such file or directory
+RUN apt-get install -qy lib32z1
+# Support lsusb
+RUN apt-get install -qy usbutils
+
 # Add base-init shell scripts
 ADD files/docker-react-native-init /docker-react-native-init
 RUN chmod +x /docker-react-native-init/*

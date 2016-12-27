@@ -49,10 +49,14 @@ mkdir -p /data/home/.gradle
 if [[ -f "/data/home/.gradle/gradle.properties" ]]; then
 	sed -i '/^systemProp.http.proxyHost=/d' /data/home/.gradle/gradle.properties
 	sed -i '/^systemProp.http.proxyPort=/d' /data/home/.gradle/gradle.properties
+	sed -i '/^systemProp.https.proxyHost=/d' /data/home/.gradle/gradle.properties
+	sed -i '/^systemProp.https.proxyPort=/d' /data/home/.gradle/gradle.properties
 fi
 if [[ ! -z "$http_proxy" ]]; then
 	echo "systemProp.http.proxyHost=$_android_proxy_host" >> /data/home/.gradle/gradle.properties
 	echo "systemProp.http.proxyPort=$_android_proxy_port" >> /data/home/.gradle/gradle.properties
+	echo "systemProp.https.proxyHost=$_android_proxy_host" >> /data/home/.gradle/gradle.properties
+	echo "systemProp.https.proxyPort=$_android_proxy_port" >> /data/home/.gradle/gradle.properties
 fi
 chown -R u01:u01 /data/home/.gradle
 

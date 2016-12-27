@@ -29,3 +29,28 @@ docker run -it --rm -p 8081:8081 \
     $ENV_http_proxy \
     platbase.com/dev.react-native:1.0
 ```
+
+## About accessing physical device
+ - privileged
+ - mapping `/dev/bus/usb:/dev/bus/usb`
+
+### Reference
+ - https://github.com/gilesp/docker/tree/master/react_native
+
+#### TRY following operation(Maybe not needed)
+```
+sudo -i
+
+echo '# adb protocol on Huawei honor4
+SUBSYSTEM=="usb", ATTR{idVendor}=="12d1", ATTR{idProduct}=="1052", MODE="0600", OWNER="<user, not root>"
+' > /etc/udev/rules.d/51-honor4.rules
+
+echo '# adb protocol on OPPO 7
+SUBSYSTEM=="usb", ATTR{idVendor}=="22d9", ATTR{idProduct}=="2774", MODE="0600", OWNER="<user, not root>"
+' > /etc/udev/rules.d/51-oppo7.rules
+
+ls -al /etc/udev/rules.d
+
+udevadm control --reload-rules
+service udev restart
+```
