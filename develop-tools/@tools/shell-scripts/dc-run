@@ -20,6 +20,7 @@ $CMD
 # remove stopped containers - always just current "main" container itself.
 echo "${bldblu}NOTE:${txtrst} Current 'main' container stopped, remove it ..."
 docker-compose -f $YML_FILE rm -f
+docker-compose -f $YML_FILE down
 
 # if all "main" container instance removed, stop and remove other linked containers
 echo "${bldblu}INFO:${txtrst} Check running 'main' containers ..."
@@ -28,6 +29,7 @@ if [ $? -eq 1 ]; then
     echo "${bldblu}NOTE:${txtrst} All 'main' containers stopped, now stop linked containers ..."
     docker-compose -f $YML_FILE stop
     docker-compose -f $YML_FILE rm -f
+    docker-compose -f $YML_FILE down
 fi
 
 echo "${bldblu}INFO:${txtrst} ${bldgrn}OK.${txtrst}"

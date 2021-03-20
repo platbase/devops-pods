@@ -12,3 +12,4 @@ source "$SHELL_DIR/lib/prepare"
 
 docker-compose -f $YML_FILE up
 docker-compose -f $YML_FILE rm -f
+docker-compose -f $YML_FILE down
