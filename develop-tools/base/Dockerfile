@@ -1,11 +1,11 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.base:1.2 .
+#   docker build --force-rm -t platbase.com/dev.base:1.2-20.04 .
 # run:
-#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base:1.2
+#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base:1.2-20.04
 
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 MAINTAINER https://github.com/platbase
 
 # Mappings
@@ -17,7 +17,6 @@ CMD /start-example.sh
 ###############################################################################
 
 # Preparing installation and install basic tools
-ADD files/sources.list /etc/apt/sources.list
 RUN apt-get update
 RUN \
     export DEBIAN_FRONTEND=noninteractive; \
@@ -55,10 +54,6 @@ RUN echo "# Added by platbase.com/dev.base"         >> /home/u01/.bashrc
 RUN echo ". ./.bashrc-docker-PATH"                  >> /home/u01/.bashrc
 RUN echo ". ./.bashrc-docker-PS1"                   >> /home/u01/.bashrc
 RUN echo ". ./.bashrc-docker-CMD"                   >> /home/u01/.bashrc
-
-# Force u01 the owner of /workspace and /data
-RUN chown -R u01:u01 /workspace
-RUN chown -R u01:u01 /data
 
 # Add base-init shell scripts
 ADD files/docker-base-init /docker-base-init
