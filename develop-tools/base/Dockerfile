@@ -6,7 +6,7 @@
 #   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base:1.2-20.04
 
 FROM ubuntu:20.04
-MAINTAINER https://github.com/platbase
+LABEL maintainer="https://github.com/platbase"
 
 # Mappings
 VOLUME ["/workspace", "/data"]
@@ -27,6 +27,7 @@ RUN \
 RUN \
     export DEBIAN_FRONTEND=noninteractive; \
     apt-get install -y --allow-unauthenticated net-tools; \
+    apt-get install -y --allow-unauthenticated iproute2; \
     apt-get install -y --allow-unauthenticated inetutils-ping; \
     apt-get install -y --allow-unauthenticated python; \
     apt-get install -y --allow-unauthenticated build-essential
