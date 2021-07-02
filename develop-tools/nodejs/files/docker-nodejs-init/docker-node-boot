@@ -13,6 +13,6 @@ echo "*** Development environment with NodeJS and Npm ***"
 /docker-base-init/set-PS1 NodeJS
 /docker-base-init/set-CMD "cd /workspace"
 /docker-base-init/set-PATH "./node_modules/.bin:/data/nodejs/global/bin"
-/docker-base-init/set-PATH "/opt/nodejs/node-v${VERSION}-linux-x64/bin:/opt/nodejs/node-v${VERSION}-linux-x64/bin/npm-global/bin"
+/docker-base-init/set-PATH "/opt/node-v${NODE_VERSION}-linux-x64/bin:/opt/node-v${NODE_VERSION}-linux-x64/bin/npm-global/bin"
 
 echo "========"

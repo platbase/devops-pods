@@ -13,3 +13,6 @@ source "$SHELL_DIR/lib/prepare"
 docker-compose -f $YML_FILE up
 docker-compose -f $YML_FILE rm -f
 docker-compose -f $YML_FILE down
+
+# Try to remove $RUNTIME_DIR (If no data in it)
+rmdir -v --ignore-fail-on-non-empty -p "$RUNTIME_DIR"

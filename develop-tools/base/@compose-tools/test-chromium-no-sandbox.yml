@@ -1,0 +1,16 @@
+---
+# Running on parent folder: dc-run test-chromium-no-sandbox
+version: '3'
+services:
+    test-chromium-no-sandbox:
+        image: platbase.com/dev.base:1.2-20.04
+        volumes:
+            - ${RUNTIME_DIR}/workspace:/workspace
+            - ${RUNTIME_DIR}/data:/data
+            #- /tmp/dev-base.ws:/workspace
+            #- /tmp/dev-base.data:/data
+            - /tmp/.X11-unix:/tmp/.X11-unix
+            - /dev/snd:/dev/snd
+        environment:
+            - DISPLAY=unix$DISPLAY
+        #privileged: true

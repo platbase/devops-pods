@@ -32,4 +32,7 @@ if [ $? -eq 1 ]; then
     docker-compose -f $YML_FILE down
 fi
 
+# Try to remove $RUNTIME_DIR (If no data in it)
+rmdir -v --ignore-fail-on-non-empty -p "$RUNTIME_DIR"
+
 echo "${bldblu}INFO:${txtrst} ${bldgrn}OK.${txtrst}"

@@ -1,12 +1,17 @@
 # NodeJS and npm, As the basic environment for development.
-#
-# See README.md for build and run.
+# ----
+# build image:
+#   docker build --force-rm -t platbase.com/dev.nodejs:1.2-14.17.1 .
+# run test:
+#   dc-run test-nodejs
 
-FROM platbase.com/dev.base:1.2
-MAINTAINER https://github.com/platbase
+FROM platbase.com/dev.base:1.2-20.04
+LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV VERSION=6.9.2
+ENV NODE_VERSION=14.17.1
+
+ENV DEVOPS_FIXED_ENVS "NODE_VERSION"
 
 # The npm registry server
 ENV NPM_REG=https://registry.npm.taobao.org
@@ -15,38 +20,21 @@ ENV NPM_REG=https://registry.npm.taobao.org
 EXPOSE 8080
 VOLUME ["/workspace", "/data", "/tmp/.X11-unix"]
 
-# Environment variables
-ENV DISPLAY ":0"
-
 # Entry - force work with user "u01"
 CMD /start-nodejs-shell.sh
 
 ###############################################################################
 
-# Download nodejs
-RUN wget http://nodejs.org/dist/v${VERSION}/node-v${VERSION}-linux-x64.tar.gz -O /tmp/node-v${VERSION}-linux-x64.tar.gz;
-
 # Install NodeJS
-RUN mkdir -p /opt/nodejs; \
-    tar xzvf /tmp/node-v${VERSION}-linux-x64.tar.gz -C /opt/nodejs
-RUN chown -Rv u01:u01 /opt/nodejs
-RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set prefix /data/nodejs/global --global
-RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set cache  /data/nodejs/cache  --global
-RUN export PATH=$PATH:/opt/nodejs/node-v${VERSION}-linux-x64/bin; npm config set registry ${NPM_REG} --global
+RUN wget -O "/tmp/node-v${NODE_VERSION}-linux-x64.tar.xz" https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
+RUN tar xvJf "/tmp/node-v${NODE_VERSION}-linux-x64.tar.xz" -C /opt
+RUN chown -Rv u01:u01 /opt/node-v${NODE_VERSION}-linux-x64
+RUN export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin; npm config set prefix /data/nodejs/global --global
+RUN export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin; npm config set cache  /data/nodejs/cache  --global
+RUN export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin; npm config set registry ${NPM_REG} --global
 
 # Clean up
-RUN rm /tmp/node-v${VERSION}-linux-x64.tar.gz
-
-# make sure the package repository is up to date
-RUN apt-get update
-
-# Install zh-CN support
-RUN apt-get install -y language-pack-zh-hans
-RUN apt-get install -y ttf-ubuntu-font-family
-RUN apt-get install -y ttf-wqy-zenhei ttf-wqy-microhei
-
-# Install Chromium
-RUN apt-get install -y chromium-browser
+RUN rm "/tmp/node-v${NODE_VERSION}-linux-x64.tar.xz"
 
 # Add nodejs-init shell scripts
 ADD files/docker-nodejs-init /docker-nodejs-init
