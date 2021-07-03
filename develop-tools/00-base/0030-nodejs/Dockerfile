@@ -33,7 +33,8 @@ RUN wget -O "/tmp/node-v${NODE_VERSION}-linux-x64.tar.xz" https://nodejs.org/dis
 RUN export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin; \
     npm config set prefix /data/nodejs/global --global ; \
     npm config set cache  /data/nodejs/cache  --global ; \
-    npm config set registry ${NPM_REG} --global
+    npm config set registry ${NPM_REG} --global ; \
+    echo "export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin:/opt/node-v${NODE_VERSION}-linux-x64/bin/npm-global/bin" >> /etc/profile
 
 # Add nodejs-init shell scripts
 ADD files /
