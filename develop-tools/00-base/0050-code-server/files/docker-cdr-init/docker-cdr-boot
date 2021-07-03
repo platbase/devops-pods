@@ -4,6 +4,7 @@ set -o errexit
 # NodeJS environment
 /docker-nodejs-init/docker-node-boot
 
+/docker-base-init/set-PS1 code-server
 echo "*** Starting code-server ***"
 su - u01 -c ' \
 /usr/bin/code-server \

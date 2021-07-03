@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-cdr:
-        image: platbase.com/dev.code-server:1.2-3.10.2
+        image: platbase.com/dev.code-server:1.3-3.10.2
         ports:
             - "${PORT1}:8080"
         volumes:
