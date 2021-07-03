@@ -1,0 +1,12 @@
+#!/bin/bash
+set -o errexit
+
+# NodeJS environment
+/docker-nodejs-init/docker-node-boot
+
+echo "*** Starting code-server ***"
+su - u01 -c ' \
+/usr/bin/code-server \
+    --auth none \
+    --bind-addr 0.0.0.0:8080
+'

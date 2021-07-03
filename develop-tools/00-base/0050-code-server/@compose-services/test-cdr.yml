@@ -1,0 +1,15 @@
+---
+# Running on parent folder: dc-start test-cdr
+version: '3'
+services:
+    test-cdr:
+        image: platbase.com/dev.code-server:1.2-3.10.2
+        ports:
+            - "${PORT1}:8080"
+        volumes:
+            - ${RUNTIME_DIR}/workspace:/workspace
+            - ${RUNTIME_DIR}/data:/data
+            - /tmp/.X11-unix:/tmp/.X11-unix
+        environment:
+            - DISPLAY=unix$DISPLAY
+        #privileged: true
