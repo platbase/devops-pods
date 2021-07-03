@@ -6,12 +6,7 @@ echo "*** Development environment with NodeJS and Npm ***"
 # Env setup
 /docker-base-init/docker-boot
 
-# To mark the environment variables which should be used in "u01"'s shell
-/docker-base-init/set-fixed-ENVs http_proxy https_proxy
-
 # Init nodejs environment for 'u01'
-/docker-base-init/set-PS1 NodeJS
-/docker-base-init/set-CMD "cd /workspace"
 /docker-base-init/set-PATH "./node_modules/.bin:/data/nodejs/global/bin"
 /docker-base-init/set-PATH "/opt/node-v${NODE_VERSION}-linux-x64/bin:/opt/node-v${NODE_VERSION}-linux-x64/bin/npm-global/bin"
 
