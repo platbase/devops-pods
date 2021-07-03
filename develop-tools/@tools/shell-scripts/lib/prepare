@@ -53,38 +53,38 @@ txtrst=$(tput sgr0)             # Reset
 # Find compose file by COMPOSE_TYPE in DEVOPS_COMPOSE_PATH
 if [ -z $DEVOPS_COMPOSE_PATH ]; then
 	# Default value - current path, then user home
-    export DEVOPS_COMPOSE_PATH="./@${COMPOSE_TYPE}:$HOME/.platbase-devops-docker/@${COMPOSE_TYPE}"
+    export DEVOPS_COMPOSE_PATH=".:$HOME/.platbase-devops-docker"
     #Compatible with DEVOPS_DOCKER_DATA_BASE environment variable
 	if [ ! -z $DEVOPS_DOCKER_DATA_BASE ]; then
-	    export DEVOPS_COMPOSE_PATH="$DEVOPS_COMPOSE_PATH:$DEVOPS_DOCKER_DATA_BASE/@${COMPOSE_TYPE}"
+	    export DEVOPS_COMPOSE_PATH="$DEVOPS_COMPOSE_PATH:$DEVOPS_DOCKER_DATA_BASE"
 	fi
 fi
 
 YML_FILE_DEFAULT="docker-compose"
 export COMPOSE_NAME="$1"
 
-# $0=='-' is the specifal mode with: 1)COMPOSE_NAME=docker-compose; 2)DEVOPS_COMPOSE_PATH=./@${COMPOSE_TYPE}
+# $0=='-' means the "PWD" mode with: 1)COMPOSE_NAME=docker-compose; 2)DEVOPS_COMPOSE_PATH=.
 if [ "$1" == "-" ]; then
 	export COMPOSE_NAME="$YML_FILE_DEFAULT"
-	export DEVOPS_COMPOSE_PATH=./@${COMPOSE_TYPE}
+	export DEVOPS_COMPOSE_PATH=.
 fi
 
-echo "${bldblu}NOTE:${txtrst} Read docker-compose definition(*.yml) from ${bldgrn}$DEVOPS_COMPOSE_PATH${txtrst}" >&2
+echo "${bldblu}NOTE:${txtrst} Read docker-compose definition(@${COMPOSE_TYPE}/*.yml) from ${bldgrn}$DEVOPS_COMPOSE_PATH${txtrst}" >&2
 
 if  [ -z $1 ]; then
-    echo -e "\n${bldred}ERROR:${txtrst} Argument missing: \n    the compose name(docker-compose yml file's name without 'yml' extension" >&2
-    echo -e "\n(For example, command '$(basename $0) nodejs' will start file 'nodejs.yml' in '$DEVOPS_COMPOSE_PATH')" >&2
-    echo -e "\n${bldblu}NOTE:${txtrst} '$(basename $0) -' should find the default file ${bldgrn}${YML_FILE_DEFAULT}.yml${txtrst} in '$DEVOPS_COMPOSE_PATH'" >&2
+    echo -e "\n${bldred}ERROR:${txtrst} Argument \$1 missing: \n    the compose name(docker-compose yml file's name without 'yml' extension)" >&2
+    echo -e "\n(For example, command '$(basename $0) nodejs' will start file '@${COMPOSE_TYPE}/nodejs.yml' in '$DEVOPS_COMPOSE_PATH')" >&2
+    echo -e "\n${bldblu}NOTE:${txtrst} '$(basename $0) -' should find the default file ${bldgrn}@${COMPOSE_TYPE}/${YML_FILE_DEFAULT}.yml${txtrst} in '$DEVOPS_COMPOSE_PATH'" >&2
     exit -1
 fi
 
 _FOUND="NO";
 for _PATH in $(tr ':' '\n' <<< "$DEVOPS_COMPOSE_PATH"); do
-	_TMP="$_PATH/$COMPOSE_NAME.yml"
+	_TMP="$_PATH/@${COMPOSE_TYPE}/$COMPOSE_NAME.yml"
 	if [ -f "$_TMP" ]; then
 		_FOUND="YES"
-		export DOCKER_BASE="$(cd "$_PATH"; pwd)"
-		export YML_FILE="$(cd "$_PATH"; pwd)/$COMPOSE_NAME.yml"
+		export DOCKER_BASE="$(cd "$_PATH"; pwd)/@${COMPOSE_TYPE}"
+		export YML_FILE="$(cd "$_PATH"; pwd)/@${COMPOSE_TYPE}/$COMPOSE_NAME.yml"
 		echo "${bldblu}NOTE:${txtrst} Docker-compose found in ${bldgrn}$YML_FILE${txtrst}" >&2
 		break
 	fi
@@ -100,9 +100,9 @@ fi
 
 export WORKING_DIR="`pwd`"
 
-# "Position ID" for WORKING_DIR(replace "/" to ".")
+# "Position ID" for WORKING_DIR(replace "~" to "-", then "/" to ".")
 POSITION_ID="${WORKING_DIR}"
-export POSITION_ID="${POSITION_ID//$HOME\//.}"
+export POSITION_ID="${POSITION_ID//$HOME/-}"
 export POSITION_ID="${POSITION_ID//\//.}"
 
 export RUNTIME_DIR=${DOCKER_BASE}/${COMPOSE_NAME}/${POSITION_ID}
