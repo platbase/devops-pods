@@ -8,7 +8,7 @@ set -o errexit
 
 # code-server environment
 /docker-base-init/set-PS1 code-server
-/docker-base-init/set-CMD "cd /workspace"
+#/docker-base-init/set-CMD "cd /workspace" -- VSCode'Debugger should focus pwd to project's folder
 
 echo "*** Starting code-server ***"
 su - u01 -c ' \
