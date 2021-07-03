@@ -50,13 +50,6 @@ bldblu=${txtbld}$(tput setaf 4) #  blue
 bldwht=${txtbld}$(tput setaf 7) #  white
 txtrst=$(tput sgr0)             # Reset
 
-if  [ -z $1 ]; then
-    echo "${bldred}ERROR:${txtrst} Argument missed - the compose name(docker-compose yml file's name without 'yml' extension" >&2
-    echo "(For example, command '$0 nodejs' will start file '$DOCKER_BASE/nodejs.yml')" >&2
-    exit -1
-fi
-export COMPOSE_NAME="$1"
-
 # Find compose file by COMPOSE_TYPE in DEVOPS_COMPOSE_PATH
 if [ -z $DEVOPS_COMPOSE_PATH ]; then
 	# Default value - current path, then user home
@@ -66,7 +59,24 @@ if [ -z $DEVOPS_COMPOSE_PATH ]; then
 	    export DEVOPS_COMPOSE_PATH="$DEVOPS_COMPOSE_PATH:$DEVOPS_DOCKER_DATA_BASE/@${COMPOSE_TYPE}"
 	fi
 fi
+
+YML_FILE_DEFAULT="docker-compose"
+export COMPOSE_NAME="$1"
+
+# $0=='-' is the specifal mode with: 1)COMPOSE_NAME=docker-compose; 2)DEVOPS_COMPOSE_PATH=./@${COMPOSE_TYPE}
+if [ "$1" == "-" ]; then
+	export COMPOSE_NAME="$YML_FILE_DEFAULT"
+	export DEVOPS_COMPOSE_PATH=./@${COMPOSE_TYPE}
+fi
+
 echo "${bldblu}NOTE:${txtrst} Read docker-compose definition(*.yml) from ${bldgrn}$DEVOPS_COMPOSE_PATH${txtrst}" >&2
+
+if  [ -z $1 ]; then
+    echo -e "\n${bldred}ERROR:${txtrst} Argument missing: \n    the compose name(docker-compose yml file's name without 'yml' extension" >&2
+    echo -e "\n(For example, command '$(basename $0) nodejs' will start file 'nodejs.yml' in '$DEVOPS_COMPOSE_PATH')" >&2
+    echo -e "\n${bldblu}NOTE:${txtrst} '$(basename $0) -' should find the default file ${bldgrn}${YML_FILE_DEFAULT}.yml${txtrst} in '$DEVOPS_COMPOSE_PATH'" >&2
+    exit -1
+fi
 
 _FOUND="NO";
 for _PATH in $(tr ':' '\n' <<< "$DEVOPS_COMPOSE_PATH"); do
@@ -75,16 +85,16 @@ for _PATH in $(tr ':' '\n' <<< "$DEVOPS_COMPOSE_PATH"); do
 		_FOUND="YES"
 		export DOCKER_BASE="$(cd "$_PATH"; pwd)"
 		export YML_FILE="$(cd "$_PATH"; pwd)/$COMPOSE_NAME.yml"
-		echo "${bldblu}NOTE:${txtrst} Docker-compose definition(*.yml) found in ${bldgrn}$YML_FILE${txtrst}" >&2
+		echo "${bldblu}NOTE:${txtrst} Docker-compose found in ${bldgrn}$YML_FILE${txtrst}" >&2
 		break
 	fi
 done
 if [ "$_FOUND" == "NO" ]; then
-    echo "${bldred}ERROR:${txtrst} Can't find docker-compose file ${bldred}$COMPOSE_NAME.yml${txtrst} in ${bldgrn}$DEVOPS_COMPOSE_PATH${txtrst}" >&2
+    echo -e "\n${bldred}ERROR:${txtrst} Can't find docker-compose file ${bldred}$COMPOSE_NAME.yml${txtrst} in ${bldgrn}$DEVOPS_COMPOSE_PATH${txtrst}" >&2
     exit -1	
 fi
 if [ ! -f "$YML_FILE" ]; then
-    echo "${bldred}ERROR:${txtrst} Docker-compose file ${bldwht}$YML_FILE${txtrst} missing" >&2
+    echo -e "\n${bldred}ERROR:${txtrst} Docker-compose file ${bldwht}$YML_FILE${txtrst} missing" >&2
     exit -1
 fi
 
