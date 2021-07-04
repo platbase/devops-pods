@@ -100,9 +100,9 @@ fi
 
 export WORKING_DIR="`pwd`"
 
-# "Position ID" for WORKING_DIR(replace "~" to "-", then "/" to ".")
+# "Position ID" for WORKING_DIR(replace "~" to "H", then "/" to ".")
 POSITION_ID="${WORKING_DIR}"
-export POSITION_ID="${POSITION_ID//$HOME/-}"
+export POSITION_ID="${POSITION_ID//$HOME/H}"
 export POSITION_ID="${POSITION_ID//\//.}"
 
 export RUNTIME_DIR=${DOCKER_BASE}/${COMPOSE_NAME}/${POSITION_ID}
