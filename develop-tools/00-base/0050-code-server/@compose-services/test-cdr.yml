@@ -1,5 +1,5 @@
 ---
-# Running on parent folder: dc-start test-cdr
+# Running on parent folder: dc-start -
 version: '3'
 services:
     test-cdr:

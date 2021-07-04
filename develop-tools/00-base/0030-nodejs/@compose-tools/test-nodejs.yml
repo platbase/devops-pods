@@ -1,5 +1,5 @@
 ---
-# Running on parent folder: dc-run test-nodejs
+# Running on parent folder: dc-run -
 version: '3'
 services:
     test-nodejs:

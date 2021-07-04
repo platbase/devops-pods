@@ -3,7 +3,7 @@
 # build image:
 #   docker build --force-rm -t platbase.com/dev.nodejs:1.4-14.17.1 .
 # run test:
-#   dc-run test-nodejs
+#   dc-run -
 
 FROM platbase.com/dev.base:1.4-20.04
 LABEL maintainer="https://github.com/platbase"
