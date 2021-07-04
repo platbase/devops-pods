@@ -22,11 +22,11 @@ CMD /start-cdr.sh
 
 # Install code-server
 RUN wget -O "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb" \
-	       https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VER}/code-server_${CODE_SERVER_VER}_amd64.deb ; \
-    dpkg -i "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb" ; \
+	       https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VER}/code-server_${CODE_SERVER_VER}_amd64.deb && \
+    dpkg -i "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb" && \
     rm -f "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb"
 
 # Add shell scripts
 ADD files /
-RUN chmod +x /docker-cdr-init/* ; \
+RUN chmod +x /docker-cdr-init/* && \
     chmod +x /start-cdr.sh

@@ -2,3 +2,11 @@
 set -o errexit
 
 /docker-nodejs-init/docker-node-boot
+
+if [ ! -d "/data/home/.local/share/code-server/extensions/" ]; then
+	mkdir -p /data/home/.local/share/code-server/extensions
+	chown -Rv u01:u01 /data/home/.local/
+
+    /docker-cdr-init/docker-cdr-install-ext.sh
+	chown -Rv u01:u01 /data/home/.local/share/code-server/extensions
+fi
