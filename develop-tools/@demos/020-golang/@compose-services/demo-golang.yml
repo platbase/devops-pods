@@ -1,0 +1,16 @@
+---
+# Running on parent folder: dc-start -
+version: '3'
+services:
+    demo-golang:
+        image: platbase.com/dev.env-go:1.4-1.16.5
+        ports:
+            - "${PORT1}:8080"
+        volumes:
+            - ..:/workspace   # Relative path based compose file
+            - ${RUNTIME_DIR}/data:/data
+        environment:
+            - TERM=xterm-256color    # make terminal of VSCode colorful
+            - http_proxy=${http_proxy}
+            - https_proxy=${http_proxy}
+        #privileged: true
