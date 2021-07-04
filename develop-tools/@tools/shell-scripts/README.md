@@ -59,7 +59,7 @@ There are variables can be used in compose file:
 
 
 
-See [../../@demos/010-nodejs/@compose-services/docker-compose.yml](../../@demos/010-nodejs/@compose-services/docker-compose.yml) for example.
+See [../../@demos/010-nodejs/@compose-services/demo-nodejs.yml](../../@demos/010-nodejs/@compose-services/demo-nodejs.yml) for example.
 
 
 
@@ -75,5 +75,5 @@ Environment variable `DEVOPS_COMPOSE_PATH` used to setup the search path list fo
 
 **NOTE 2**:
 
-- If `$1`==`-` , means the `PWD` mode: <u>1)</u>Compose file use the default name `docker-compose.yml`; <u>2)</u>`DEVOPS_COMPOSE_PATH`=`.` .
+- If `$1`==**`-`** , means the **`PWD`** mode: <u>1)</u>Find the first `*.yml` file; <u>2)</u>`DEVOPS_COMPOSE_PATH`=`.` .
 

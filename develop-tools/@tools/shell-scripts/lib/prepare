@@ -60,12 +60,11 @@ if [ -z $DEVOPS_COMPOSE_PATH ]; then
 	fi
 fi
 
-YML_FILE_DEFAULT="docker-compose"
 export COMPOSE_NAME="$1"
 
-# $0=='-' means the "PWD" mode with: 1)COMPOSE_NAME=docker-compose; 2)DEVOPS_COMPOSE_PATH=.
+# $0=='-' means the "PWD" mode with: 1)COMPOSE_NAME=the first *.yml file; 2)DEVOPS_COMPOSE_PATH=.
 if [ "$1" == "-" ]; then
-	export COMPOSE_NAME="$YML_FILE_DEFAULT"
+	export COMPOSE_NAME="$(basename $(ls -l @${COMPOSE_TYPE}/*.yml | head -1 | awk '{print $NF}') .yml)"
 	export DEVOPS_COMPOSE_PATH=.
 fi
 
@@ -74,7 +73,7 @@ echo "${bldblu}NOTE:${txtrst} Read docker-compose definition(@${COMPOSE_TYPE}/*.
 if  [ -z $1 ]; then
     echo -e "\n${bldred}ERROR:${txtrst} Argument \$1 missing: \n    the compose name(docker-compose yml file's name without 'yml' extension)" >&2
     echo -e "\n(For example, command '$(basename $0) nodejs' will start file '@${COMPOSE_TYPE}/nodejs.yml' in '$DEVOPS_COMPOSE_PATH')" >&2
-    echo -e "\n${bldblu}NOTE:${txtrst} '$(basename $0) -' should find the default file ${bldgrn}@${COMPOSE_TYPE}/${YML_FILE_DEFAULT}.yml${txtrst} in '$DEVOPS_COMPOSE_PATH'" >&2
+    echo -e "\n${bldblu}NOTE:${txtrst} '$(basename $0) -' should find the first ${bldgrn}@${COMPOSE_TYPE}/*.yml${txtrst} file in '$DEVOPS_COMPOSE_PATH'" >&2
     exit -1
 fi
 
@@ -90,7 +89,7 @@ for _PATH in $(tr ':' '\n' <<< "$DEVOPS_COMPOSE_PATH"); do
 	fi
 done
 if [ "$_FOUND" == "NO" ]; then
-    echo -e "\n${bldred}ERROR:${txtrst} Can't find docker-compose file ${bldred}$COMPOSE_NAME.yml${txtrst} in ${bldgrn}$DEVOPS_COMPOSE_PATH${txtrst}" >&2
+    echo -e "\n${bldred}ERROR:${txtrst} Can't find docker-compose file ${bldred}$COMPOSE_NAME.yml${txtrst} in ${bldgrn}$DEVOPS_COMPOSE_PATH${txtrst}/@${COMPOSE_TYPE}" >&2
     exit -1	
 fi
 if [ ! -f "$YML_FILE" ]; then
