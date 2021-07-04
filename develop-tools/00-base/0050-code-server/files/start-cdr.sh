@@ -1,6 +1,9 @@
 #!/bin/bash
 set -o errexit
 
+# Initialization scripts
+/docker-base-init/docker-boot
+/docker-nodejs-init/docker-node-boot
 /docker-cdr-init/docker-cdr-boot
 
 # To mark the environment variables which should be used in "u01"'s shell

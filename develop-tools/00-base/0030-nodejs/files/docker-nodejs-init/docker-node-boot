@@ -3,11 +3,6 @@ set -o errexit
 
 echo "*** Development environment with NodeJS and Npm ***"
 
-# Env setup
-/docker-base-init/docker-boot
-
 # Init nodejs environment for 'u01'
 /docker-base-init/set-PATH "./node_modules/.bin:/data/nodejs/global/bin"
 #/docker-base-init/set-PATH "/opt/node-v${NODE_VERSION}-linux-x64/bin:/opt/node-v${NODE_VERSION}-linux-x64/bin/npm-global/bin"
-
-echo "========"

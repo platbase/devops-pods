@@ -1,11 +1,11 @@
 # Development environment with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.code-server:1.3-3.10.2 .
+#   docker build --force-rm -t platbase.com/dev.code-server:1.4-3.10.2 .
 # run test:
 #   dc-start test-cdr
 
-FROM platbase.com/dev.nodejs:1.3-14.17.1
+FROM platbase.com/dev.nodejs:1.4-14.17.1
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js

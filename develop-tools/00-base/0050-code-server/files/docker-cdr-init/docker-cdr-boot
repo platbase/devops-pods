@@ -1,9 +1,11 @@
 #!/bin/bash
 set -o errexit
 
-/docker-nodejs-init/docker-node-boot
+echo "*** Development environment with code-server ***"
 
+# extensions initialization - child image should install or copy extensions here
 if [ ! -d "/data/home/.local/share/code-server/extensions/" ]; then
+	# ONLY a BLANK ~/.config/code-server need extensions initialization
 	mkdir -p /data/home/.local/share/code-server/extensions
 	chown -Rv u01:u01 /data/home/.local/
 

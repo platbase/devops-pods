@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-nodejs:
-        image: platbase.com/dev.nodejs:1.3-14.17.1
+        image: platbase.com/dev.nodejs:1.4-14.17.1
         ports:
             - "${PORT1}:8080"
         volumes:

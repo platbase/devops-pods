@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-cdr-go:
-        image: platbase.com/dev.env-go:1.3-1.16.5
+        image: platbase.com/dev.env-go:1.4-1.16.5
         ports:
             - "${PORT1}:8080"
         volumes:

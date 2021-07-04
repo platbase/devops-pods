@@ -1,6 +1,8 @@
 #!/bin/bash
 # Some command when container boot
 
+echo "*** The Basic Development Environment ***"
+
 # Check /workspace and /data: MUST contain 'devops.platbase.com-docker-workspace'/'devops.platbase.com-docker-data'
 echo "... Validate /workspace and /data"
 function check_docker_dir() {
@@ -27,7 +29,7 @@ echo "# min    hour      date       month      week      command" > /root/.cront
 /usr/bin/crontab /root/.crontab
 
 # "Fixed" Environment variables
-DEVOPS_FIXED_ENVS="$DEVOPS_FIXED_ENVS TERM LANG DISPLAY"
+DEVOPS_FIXED_ENVS="TERM LANG DISPLAY $DEVOPS_FIXED_ENVS"
 echo "... \"FIX\" environment variables: ${DEVOPS_FIXED_ENVS}"
 /docker-base-init/set-fixed-ENVs "$DEVOPS_FIXED_ENVS"
 
@@ -36,7 +38,7 @@ echo "... Detect IP of docker host and bind it's hostname to 'docker-host'"
 cat /etc/hosts | grep "docker-host"
 if [ $? > 0 ]; then
     echo "# Add docker host's IP address(The same as the default gateway)"    >> /etc/hosts
-    echo "$(/sbin/ip route|awk '/default/ { print $3 }')     docker-host"            >> /etc/hosts
+    echo "$(/sbin/ip route|awk '/default/ { print $3 }')     docker-host"     >> /etc/hosts
 fi
 
 # Move u01's home to /data
@@ -49,10 +51,10 @@ if [[ ! -f "/data/.home-moved" ]]; then
 fi
 usermod -d /data/home u01
 
-# Clean .bashrc-docker-*
+# The empty .bashrc-docker-* (hooked in .bashrc)
 export _RC="/data/home/.config/.bashrc-docker-PATH"; rm -f ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
 export _RC="/data/home/.config/.bashrc-docker-PS1" ; rm -f ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
 export _RC="/data/home/.config/.bashrc-docker-CMD" ; rm -f ${_RC}; touch ${_RC}; chown u01:u01 ${_RC}
 
 # The defaults
-/docker-base-init/set-PATH "/usr/sbin:/sbin"
+#/docker-base-init/set-PATH "/usr/sbin:/sbin"

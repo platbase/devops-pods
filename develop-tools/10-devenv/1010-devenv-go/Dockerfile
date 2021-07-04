@@ -1,11 +1,11 @@
 # Development environment for golang with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.env-go:1.3-1.16.5 .
+#   docker build --force-rm -t platbase.com/dev.env-go:1.4-1.16.5 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/dev.code-server:1.3-3.10.2
+FROM platbase.com/dev.code-server:1.4-3.10.2
 LABEL maintainer="https://github.com/platbase"
 
 # The version of golang

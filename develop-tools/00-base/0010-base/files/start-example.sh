@@ -1,7 +1,7 @@
 #!/bin/bash
-echo "*** The Basic Development Environment ***"
 set -o errexit
 
+# Initialization scripts
 /docker-base-init/docker-boot
 
 /docker-base-init/set-PS1 Example
