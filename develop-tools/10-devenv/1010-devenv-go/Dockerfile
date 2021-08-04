@@ -20,7 +20,7 @@ CMD /start-cdr-go.sh
 
 ###############################################################################
 
-# Install code-server
+# Install go-lang
 RUN wget -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
     tar xzvf /tmp/go${GO_VERSION}.linux-amd64.tar.gz -C /opt && \
     rm -f "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
