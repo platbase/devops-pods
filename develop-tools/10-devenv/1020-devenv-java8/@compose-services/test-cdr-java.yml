@@ -2,7 +2,7 @@
 # Running on parent folder: dc-start -
 version: '3'
 services:
-    test-cdr-go:
+    test-cdr-java:
         image: platbase.com/dev.env-java:1.4-08
         ports:
             - "${PORT1}:8080"

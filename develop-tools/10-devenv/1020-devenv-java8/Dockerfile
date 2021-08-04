@@ -20,10 +20,15 @@ RUN apt-get update
 
 # Install java
 RUN apt-get install -y openjdk-8-jdk maven
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/profile && \
+    echo "export PATH=\$JAVA_HOME/bin:\$PATH"                 >> /etc/profile
 
 # Install extensions
 RUN code-server --extensions-dir /usr/local/share/code-server/extensions --install-extension vscjava.vscode-java-pack && \
     code-server --extensions-dir /usr/local/share/code-server/extensions --install-extension redhat.vscode-xml && \
+    code-server --extensions-dir /usr/local/share/code-server/extensions --install-extension vscjava.vscode-spring-initializr && \
+    code-server --extensions-dir /usr/local/share/code-server/extensions --install-extension pivotal.vscode-spring-boot && \
+    code-server --extensions-dir /usr/local/share/code-server/extensions --install-extension dgileadi.java-decompiler && \
     chown -Rv u01:u01 /usr/local/share/code-server/extensions
 
 # Add shell scripts
