@@ -1,0 +1,16 @@
+---
+# Running on parent folder: dc-start -
+version: '3'
+services:
+    test-cdr-go:
+        image: platbase.com/dev.env-java:1.4-08
+        ports:
+            - "${PORT1}:8080"
+        volumes:
+            - ${RUNTIME_DIR}/workspace:/workspace
+            - ${RUNTIME_DIR}/data:/data
+            #- /tmp/.X11-unix:/tmp/.X11-unix
+        environment:
+            #- DISPLAY=unix$DISPLAY
+            - TERM=xterm-256color    # make terminal of VSCode colorful
+        #privileged: true
