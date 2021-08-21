@@ -1,15 +1,15 @@
 # Development environment with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.code-server:1.4-3.10.2 .
+#   docker build --force-rm -t platbase.com/dev.code-server:latest -t platbase.com/dev.code-server:1.4-3.11.1 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/dev.nodejs:1.4-14.17.1
+FROM platbase.com/dev.nodejs:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV CODE_SERVER_VER=3.10.2
+ENV CODE_SERVER_VER=3.11.1
 
 # Mappings
 EXPOSE 8080

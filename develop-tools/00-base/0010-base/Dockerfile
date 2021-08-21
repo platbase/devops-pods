@@ -1,9 +1,9 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.base:1.4-20.04 .
+#   docker build --force-rm -t platbase.com/dev.base:latest -t platbase.com/dev.base:1.4-20.04 .
 # run:
-#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base:1.4-20.04
+#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base
 # run chromium:
 #   dc-run test-chromium
 # run chromium with --no-sandbox ( chromium --no-sandbox )

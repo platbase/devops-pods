@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-chromium:
-        image: platbase.com/dev.base:1.4-20.04
+        image: platbase.com/dev.base:latest
         volumes:
             - ${RUNTIME_DIR}/workspace:/workspace
             - ${RUNTIME_DIR}/data:/data
