@@ -3,7 +3,7 @@
 version: '3'
 services:
     demo-nodejs:
-        image: platbase.com/dev.code-server:1.4-3.10.2
+        image: platbase.com/dev.code-server:latest
         ports:
             - "${PORT1}:8080"
         volumes:
