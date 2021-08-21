@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-cdr-go:
-        image: platbase.com/dev.env-go:1.4-1.16.5
+        image: platbase.com/dev.env-go:latest
         ports:
             - "${PORT1}:8080"
         volumes:
@@ -13,4 +13,6 @@ services:
         environment:
             #- DISPLAY=unix$DISPLAY
             - TERM=xterm-256color    # make terminal of VSCode colorful
+            - http_proxy=${http_proxy}
+            - https_proxy=${http_proxy}
         #privileged: true

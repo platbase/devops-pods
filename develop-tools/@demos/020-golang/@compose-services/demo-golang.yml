@@ -3,7 +3,7 @@
 version: '3'
 services:
     demo-golang:
-        image: platbase.com/dev.env-go:1.4-1.16.5
+        image: platbase.com/dev.env-go:latest
         ports:
             - "${PORT1}:8080"
         volumes:

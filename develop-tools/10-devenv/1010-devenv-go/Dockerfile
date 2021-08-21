@@ -1,15 +1,15 @@
 # Development environment for golang with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.env-go:1.4-1.16.5 .
+#   docker build --force-rm -t platbase.com/dev.env-go:latest -t platbase.com/dev.env-go:1.4-1.16.7 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/dev.code-server:1.4-3.10.2
+FROM platbase.com/dev.code-server:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of golang
-ENV GO_VERSION=1.16.5
+ENV GO_VERSION=1.16.7
 
 # Mappings
 EXPOSE 8080
@@ -48,7 +48,12 @@ RUN GOROOT="/opt/go" && \
     GOPATH="/opt/GOPATH/u01" $GOROOT/bin/go get -v honnef.co/go/tools/cmd/staticcheck          && \
     GOPATH="/opt/GOPATH/u01" $GOROOT/bin/go get -v golang.org/x/tools/gopls
 
+# Install dlv-dap ( See https://www.bookstack.cn/read/vscode-go/dlv-dap.md : Manually installing dlv-dap )
+RUN GOROOT="/opt/go" && \
+    GOBIN=/tmp/ $GOROOT/bin/go install github.com/go-delve/delve/cmd/dlv@master && \
+    GOPATH="/opt/GOPATH/u01" mv /tmp/dlv $GOPATH/bin/dlv-dap
+
 # Add shell scripts
 ADD files /
-RUN chmod +x /docker-cdr-init/docker-cdr-install-ext.sh && \
+RUN chmod +x /docker-cdr-init/docker-cdr-language-ext.sh && \
     chmod +x /start-cdr-go.sh

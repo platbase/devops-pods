@@ -13,6 +13,9 @@ set -o errexit
 /docker-base-init/set-PS1 code-server
 #/docker-base-init/set-CMD "cd /workspace" -- VSCode'Debugger should focus pwd to project's folder
 
+#Language external commands
+/docker-cdr-init/docker-cdr-language-ext.sh
+
 echo "*** Starting code-server ***"
 su - u01 -c ' \
 /usr/bin/code-server \
