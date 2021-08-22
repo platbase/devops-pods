@@ -20,11 +20,19 @@ CMD /start-cdr.sh
 
 ###############################################################################
 
+# The pre-added commands
+ADD commands/add-extensions.sh /opt/add-extensions.sh
+RUN chmod +x /opt/add-extensions.sh
+
 # Install code-server
 RUN wget -O "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb" \
 	       https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VER}/code-server_${CODE_SERVER_VER}_amd64.deb && \
     dpkg -i "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb" && \
     rm -f "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb"
+ 
+# Add common extensions
+RUN /opt/add-extensions.sh vscode-icons-team.vscode-icons vincaslt.highlight-matching-tag alefragnani.bookmarks \
+                           esbenp.prettier-vscode gruntfuggly.todo-tree
 
 # Add shell scripts
 ADD files /

@@ -9,16 +9,19 @@ if [ -d "/data/home/.local/share/code-server/extensions/" ]; then
 		echo "... Backup previous version's extensions INTO '/data/home/.local/share/code-server/extensions.BF${CODE_SERVER_VER}/' ..."
 		mv "/data/home/.local/share/code-server/extensions/" "/data/home/.local/share/code-server/extensions.BF${CODE_SERVER_VER}/"
 	fi
+else
+	# Yes, we should build a mark to avoid recreate extensions.BF* when second running on same local volume
+	mkdir -p "/data/home/.local/share/code-server/extensions.BF${CODE_SERVER_VER}/"
 fi
 
 # extensions initialization - child image should install or copy extensions here
 if [ ! -d "/data/home/.local/share/code-server/extensions/" ]; then
 	# ONLY a BLANK ~/.config/code-server need extensions initialization
-	mkdir -p /data/home/.local/share/code-server/extensions
+	mkdir -p "/data/home/.local/share/code-server/extensions"
 	
 	# Install pre-installed extensions
     /docker-cdr-init/docker-cdr-install-extensions.sh
-
+    
     echo "... First boot - setting up ownership for u01 :'/data/home/.local/' ..."
     echo ".... --------"
 	chown -Rv u01:u01 /data/home/.local/ | (sed -u 7q; echo "..."; tail -n 7)

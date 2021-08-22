@@ -22,8 +22,8 @@ CMD /start-cdr-go.sh
 
 # Install go-lang
 RUN wget -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
-    tar xzvf /tmp/go${GO_VERSION}.linux-amd64.tar.gz -C /opt && \
-    rm -f "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
+    tar xzvf /tmp/go${GO_VERSION}.linux-amd64.tar.gz -C /opt | (sed -u 7q; echo "..."; tail -n 7) && \
+    rm -fv "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
 RUN echo "export GOROOT=/opt/go"                                                     >> /etc/profile && \
     echo "export GOARCH=amd64"                                                       >> /etc/profile && \
     echo "export GOOS=linux"                                                         >> /etc/profile && \
@@ -32,8 +32,7 @@ RUN echo "export GOROOT=/opt/go"                                                
     echo "export PATH=\$PATH:\$GOROOT/bin:/workspace/go/bin:/opt/GOPATH/u01/bin"     >> /etc/profile
 
 # Install extensions
-RUN code-server --extensions-dir /usr/local/share/code-server/extensions --install-extension golang.go && \
-    chown -Rv u01:u01 /usr/local/share/code-server/extensions
+RUN /opt/add-extensions.sh golang.go
 
 # Install packages
 RUN GOROOT="/opt/go" && \
