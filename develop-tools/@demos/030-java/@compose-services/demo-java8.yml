@@ -3,7 +3,7 @@
 version: '3'
 services:
     demo-java8:
-        image: platbase.com/dev.env-java:1.4-08
+        image: platbase.com/dev.env-java:latest
         ports:
             - "${PORT1}:8080"
         volumes:
