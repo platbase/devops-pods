@@ -8,7 +8,7 @@
 FROM ubuntu:20.04
 LABEL maintainer="https://github.com/platbase"
 
-### Server runtime environment variables #############################################################
+### Server runtime environment variables ######################################
 # RT_WORKER_UID: UID(User Identifier) to run command
 ENV RT_WORKER_UID 1000
 # RT_WORKER_GID: GID(Group Identifier) to run command
@@ -16,7 +16,7 @@ ENV RT_WORKER_GID 1000
 # RT_WORK_PATH: Path list 
 ENV RT_WORK_PATH /test1:/test2
 # RT_WORK_COMMAND: Command line that /docker-init/start.sh should start it 
-ENV RT_WORK_COMMAND "echo 'Hello, Workd!'"
+ENV RT_WORK_COMMAND "echo 'Hello, World!'"
 ###############################################################################
 
 # Basic installations
