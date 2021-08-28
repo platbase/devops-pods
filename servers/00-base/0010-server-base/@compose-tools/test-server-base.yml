@@ -1,0 +1,12 @@
+---
+# Running on parent folder: dc-run -
+version: '3'
+services:
+    test-server-base:
+        image: platbase.com/server.base:latest
+        volumes:
+            - ${COMPOSE_DIR}/opt-test:/opt/test
+            - ${RUNTIME_DIR}/test:/test
+        environment:
+            - RT_WORK_COMMAND=/opt/test/test.sh
+            - RT_WORK_PATH=/test

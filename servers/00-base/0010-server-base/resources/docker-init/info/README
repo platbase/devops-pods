@@ -1,0 +1,2 @@
+/docker-init/info/ store some container informations, such as:
+ - /docker-init/info/ENV_FIRST_BOOT : if first boot of container.
