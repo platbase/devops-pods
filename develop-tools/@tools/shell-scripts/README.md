@@ -47,11 +47,17 @@ export PATH=$PATH:/home/***/devops-dockerfiles/develop-tools/@tools/shell-script
 
 There are variables can be used in compose file:
 
+- `COMPOSE_DIR`:
+
+  - Directory of the compose YML file;
+  - You can use `${COMPOSE_DIR}` to define volume relative to compose file
+
 - `RUNTIME_DIR`: 
+  
   - Directory to store runtime data;
   - Typically, we can define `volumes` based on the variables, to store configuration files or program's data in it; 
   - The actual value of`$RUNTIME_DIR` is in  compose file's directory, as the subdirectory with `POSITION_ID`( a string calculated from `$PWD` running   `dc-run` or `dc-start`) .
-
+  
 - `PORT1`/`PORT2`/`PORT3`: 
   - Auto-detected free ports for container running;
   - Mapping `ports` to `PORT1`/`PORT2`/`PORT3` should avoid port conflict when  running several containers at same time;

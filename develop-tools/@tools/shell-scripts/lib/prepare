@@ -6,8 +6,10 @@
 #   - COMPOSE_NAME: docker-compose yml filename(without file extension)
 #                  (For singleton docker-compose service, use '${DOCKER_BASE}/${COMPOSE_NAME}' as the
 #                   directory for container's runtime data is recommended);
-#   - WORKING_DIR: Full filename of the current working directory
+#   - WORKING_DIR: Full name of the current working directory
 #                  (For an interactive shell container, It's always mapped to /workspace);
+#   - COMPOSE_DIR: Full name of the compose file's directory
+#                  (You can use 'COMPOSE_DIR' to define volume relative to compose file);
 #   - POSITION_ID: A string which identify current working directory ($WORKING_DIR, replace "/" with ".")
 #                  (To separate the data file's position from containers which has a same image but started
 #                   from different working directory)
@@ -98,6 +100,8 @@ if [ ! -f "$YML_FILE" ]; then
 fi
 
 export WORKING_DIR="`pwd`"
+
+export COMPOSE_DIR="$(dirname '$YML_FILE')"
 
 # "Position ID" for WORKING_DIR(replace "~" to "H", then "/" to ".")
 POSITION_ID="${WORKING_DIR}"
