@@ -1,0 +1,18 @@
+---
+# Running on parent folder: dc-start -
+version: '3'
+services:
+    test-server-mysql:
+        image: platbase.com/server.mysql:latest
+        volumes:
+            - ${RUNTIME_DIR}/data:/data
+        ports:
+            #- "${PORT1}:3306"
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PWD=123456
+            - | # YAML multi-line text
+              MYSQL_INIT_SQL=
+                CREATE SCHEMA `test1` DEFAULT CHARACTER SET utf8 ;
+                CREATE SCHEMA `test2` DEFAULT CHARACTER SET utf8 ;
+                show databases ;
