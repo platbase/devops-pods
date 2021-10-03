@@ -121,3 +121,7 @@ export PORT2=$_PORT_
 detectPort 28080 29080
 export PORT3=$_PORT_
 echo "${bldblu}NOTE:${txtrst} Avaliable ports: ${bldgrn}$PORT1${txtrst}, ${bldgrn}$PORT2${txtrst} and ${bldgrn}$PORT3${txtrst}"
+
+# Current UID and GID
+export CURRENT_UID=$(id -u)
+export CURRENT_GID=$(id -g)
