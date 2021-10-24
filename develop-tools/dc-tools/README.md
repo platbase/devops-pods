@@ -26,7 +26,7 @@ Use `dc-run` and `dc-start` to handle two different types of compose file:
 
 ```bash
 # Add to ~/.bashrc
-export PATH=$PATH:/home/***/devops-dockerfiles/develop-tools/@tools/shell-scripts
+export PATH=$PATH:/home/***/devops-dockerfiles/develop-tools/dc-tools
 ```
 
 
