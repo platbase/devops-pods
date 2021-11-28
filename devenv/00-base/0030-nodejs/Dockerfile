@@ -1,7 +1,7 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.nodejs:latest -t platbase.com/dev.nodejs:1.4-14.17.5 .
+#   docker build --force-rm -t platbase.com/dev.nodejs:latest -t platbase.com/dev.nodejs:1.4-16.13.0-20211128 .
 # run test:
 #   dc-run -
 
@@ -9,7 +9,7 @@ FROM platbase.com/dev.base:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV NODE_VERSION=14.17.5
+ENV NODE_VERSION=16.13.0
 
 ENV DEVOPS_FIXED_ENVS "NODE_VERSION"
 

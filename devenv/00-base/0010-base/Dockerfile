@@ -1,7 +1,7 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.base:latest -t platbase.com/dev.base:1.4-20.04 .
+#   docker build --force-rm -t platbase.com/dev.base:latest -t platbase.com/dev.base:1.4-20.04-20211006 .
 # run:
 #   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base
 # run chromium:
@@ -9,7 +9,8 @@
 # run chromium with --no-sandbox ( chromium --no-sandbox )
 #   dc-run test-chromium-no-sandbox
 
-FROM ubuntu:20.04
+# ubnutu:20.04
+FROM ubuntu:focal-20211006
 LABEL maintainer="https://github.com/platbase"
 
 # Mappings
