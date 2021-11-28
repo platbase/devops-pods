@@ -114,6 +114,7 @@ export POSITION_ID="${POSITION_ID//\//.}"
 
 export DATA_DIR=${DOCKER_BASE}/${COMPOSE_NAME}/data
 mkdir -p "$DATA_DIR"
+touch "$DATA_DIR/devops.platbase.com-docker-data"
 echo "${bldblu}NOTE:${txtrst} (recommended) to store container's working data in ${bldgrn}$DATA_DIR${txtrst}" >&2
 export RUNTIME_DIR=${DOCKER_BASE}/${COMPOSE_NAME}/${POSITION_ID}
 mkdir -p "$RUNTIME_DIR"
