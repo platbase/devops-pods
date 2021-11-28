@@ -13,9 +13,13 @@
 #   - POSITION_ID: A string which identify current working directory ($WORKING_DIR, replace "/" with ".")
 #                  (To separate the data file's position from containers which has a same image but started
 #                   from different working directory)
+#   - DATA_DIR    = ${DOCKER_BASE}/${COMPOSE_NAME}/data
+#                  (To store working data)
 #   - RUNTIME_DIR = ${DOCKER_BASE}/${COMPOSE_NAME}/${POSITION_ID}
 #                  (A same docker-compose with different working directory should have it own "container's
 #                   runtime data file")
+#   - CURRENT_UID = The UID of current user
+#   - CURRENT_GID = The GID of current user
 
 function detectPort() {
     local LOWERPORT=$1
@@ -108,6 +112,9 @@ POSITION_ID="${WORKING_DIR}"
 export POSITION_ID="${POSITION_ID//$HOME/H}"
 export POSITION_ID="${POSITION_ID//\//.}"
 
+export DATA_DIR=${DOCKER_BASE}/${COMPOSE_NAME}/data
+mkdir -p "$DATA_DIR"
+echo "${bldblu}NOTE:${txtrst} (recommended) to store container's working data in ${bldgrn}$DATA_DIR${txtrst}" >&2
 export RUNTIME_DIR=${DOCKER_BASE}/${COMPOSE_NAME}/${POSITION_ID}
 mkdir -p "$RUNTIME_DIR"
 echo "${bldblu}NOTE:${txtrst} (recommended) to store container's runtime data in ${bldgrn}$RUNTIME_DIR${txtrst}" >&2

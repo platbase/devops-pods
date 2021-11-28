@@ -13,7 +13,8 @@ SHELL_DIR=$(cd "$(dirname "$SHELL_FILE")"; pwd)
 COMPOSE_TYPE="compose-tools"
 source "$SHELL_DIR/lib/prepare"
 
-CMD="docker-compose -f $YML_FILE run --service-ports $COMPOSE_NAME"
+#CMD="docker-compose -f $YML_FILE run --service-ports $COMPOSE_NAME"
+CMD="docker-compose -f $YML_FILE up"
 echo "${bldblu}NOTE:${txtrst} Start containers: ${bldgrn}$CMD${txtrst} ..."
 $CMD
 
@@ -24,7 +25,8 @@ docker-compose -f $YML_FILE down
 
 # if all "main" container instance removed, stop and remove other linked containers
 echo "${bldblu}INFO:${txtrst} Check running 'main' containers ..."
-docker-compose -f $YML_FILE ps | grep "_${COMPOSE_NAME}_run_"
+#docker-compose -f $YML_FILE ps | grep "_${COMPOSE_NAME}_run_"
+docker-compose -f $YML_FILE ps | grep "_${COMPOSE_NAME}_1"
 if [ $? -eq 1 ]; then
     echo "${bldblu}NOTE:${txtrst} All 'main' containers stopped, now stop linked containers ..."
     docker-compose -f $YML_FILE stop
