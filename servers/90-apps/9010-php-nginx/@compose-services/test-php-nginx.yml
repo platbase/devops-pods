@@ -1,0 +1,11 @@
+---
+# Running on parent folder: dc-start -
+version: '3'
+services:
+    test-php-nginx:
+        image: platbase.com/apps.php-nginx:latest
+        volumes:
+            - ${DATA_DIR}/php-app:/php-app
+            - ${DATA_DIR}/nginx-conf:/nginx-conf
+        ports:
+            - "8080:8080"
