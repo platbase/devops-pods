@@ -2,6 +2,7 @@
 set -o nounset
 set -o errexit
 
+# Prepare sample(If content is empty)
 if [ ! -f "/php-app/index.php" ]; then
 	echo "Prepare index.php: /docker-init/sample-app/index.php -> /php-app/ ..."
 	cp /docker-init/sample-app/index.php /php-app/
