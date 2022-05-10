@@ -1,0 +1,10 @@
+---
+# Running on parent folder: dc-start -
+version: '3'
+services:
+    test-sshd-t-server:
+        image: platbase.com/apps.sshd-t-server:latest
+        ports:
+            - "30022:22"
+        environment:
+            - "U01_SSH_PWD=For Test"
