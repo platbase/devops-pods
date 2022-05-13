@@ -15,5 +15,3 @@ if [ $? > 0 ]; then
     echo "# Add docker host's IP address(The same as the default gateway)"    >> /etc/hosts
     echo "$(/sbin/ip route|awk '/default/ { print $3 }')     docker-host"     >> /etc/hosts
 fi
-
-sleep 3000

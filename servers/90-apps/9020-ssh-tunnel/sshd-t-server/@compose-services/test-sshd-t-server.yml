@@ -8,4 +8,4 @@ services:
             - "30022:22"      # SSH Connect Port
             - "58080:58080"   # Service Port for ssh reverse tunnel
         environment:
-            - U01_SSH_PWD=server
+            - U01_SSH_PWD=1*2*3*
