@@ -2,7 +2,7 @@
 # Running on parent folder: dc-start -
 version: '3'
 services:
-    test-sshd-t-client:
+    test-ssh-t-client:
         image: platbase.com/apps.sshd-t-client:latest
         environment:
             - "U01_SSH_PWD=client"
