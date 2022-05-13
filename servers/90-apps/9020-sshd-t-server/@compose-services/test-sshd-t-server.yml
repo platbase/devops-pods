@@ -4,10 +4,8 @@ version: '3'
 services:
     test-sshd-t-server:
         image: platbase.com/apps.sshd-t-server:latest
-        #ports:
-        #    - "30022:22"
-        #    - "7001:7001"
-        network_mode: "host"
+        ports:
+            - "30022:22"      # SSH Connect Port
+            - "58080:58080"   # Service Port for ssh reverse tunnel
         environment:
-            - SSH_PORT=57777
-            - U01_SSH_PWD=123456
+            - U01_SSH_PWD=server
