@@ -7,3 +7,4 @@ services:
         environment:
             - "U01_SSH_PWD=1*2*3*"
             - "U01_SSH_ARGS=-N -R 0.0.0.0:58080:www.example.com:80 u01@docker-host -p 30022"
+            - "NET_DETECT_CMD=detectWithWget http://docker-host:58080"

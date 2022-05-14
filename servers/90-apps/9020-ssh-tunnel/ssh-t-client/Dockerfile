@@ -15,6 +15,9 @@ ENV RT_WORK_COMMAND 'echo "Can not reach here !"'
 ENV U01_SSH_PWD changeme
 
 ENV U01_SSH_ARGS '-N -R 0.0.0.0:58080:www.example.com:80 u01@docker-host -p 30022'
+ENV NET_DETECT_CMD 'delectWithNetcat docker-host 58080'
+ENV NET_DETECT_SEC 30
+ENV NET_CONFIRM_SEC 10
 ###############################################################################
 
 # sshd port
@@ -24,7 +27,7 @@ EXPOSE 22
 RUN apt-get update && apt-get upgrade -y
 
 # Install sshd
-RUN apt-get install -y --allow-unauthenticated openssh-client sshpass iproute2
+RUN apt-get install -y --allow-unauthenticated openssh-client sshpass iproute2 netcat
 
 # Automatically Accepts SSH Fingerprint
 RUN echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
