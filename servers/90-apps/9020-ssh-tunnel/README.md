@@ -50,6 +50,15 @@ There some build-in functions (`detect*`) for `NET_DETECT_CMD` : `delectWithNetc
   5. `Server Address`: The Address of SSH Server;
   6. `Server SSH Port`: The port of SSH Service;
 
+- Socks proxy:
+
+  ```ruby
+  -D 0.0.0.0:${Proxy Port} -N u01@${Server Address} -p ${Server SSH Port}
+  ```
+
+  - `Proxy Port`: The socks proxy port
+
+
 - ...
 
 
