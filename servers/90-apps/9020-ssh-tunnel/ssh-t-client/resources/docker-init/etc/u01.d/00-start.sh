@@ -19,8 +19,14 @@ delectWithNetcat(){
 }
 # Detect network using wget, i.e. : wget -t 3 -T 10 -q -O - http://docker-host:58080
 detectWithWget(){
-	local CMD="wget -t 3 -T 10 -q -O - $1"
+	local HTTP_ADDR=$1
+	
+	shift 1
+	local MORE_ARGS=$*
+
+	local CMD="wget ${MORE_ARGS} -t 3 -T 10 -q -O - ${HTTP_ADDR}"
 	set +o errexit
+	echo "*** [ ${CMD} ] ***"
 	${CMD}
 	local EXITCODE=$?
 	# exit codes for wget:
