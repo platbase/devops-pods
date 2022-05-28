@@ -2,7 +2,21 @@
 set -o nounset
 set -o errexit
 
-_DETECT_RESULT="OK"
+_DETECT_RESULT=0
+# Detect network using shell commands
+delectWithShellCommands(){
+	local CMD="$*"
+	set +o errexit
+	${CMD}
+	local EXITCODE=$?
+	if [ $EXITCODE -eq 0 ]; then
+		_DETECT_RESULT=0
+	else
+		echo ">>> Network detection error: [${CMD}]=$EXITCODE"
+		_DETECT_RESULT=$EXITCODE
+	fi
+	set -o errexit
+}
 # Detect network using netcat, i.e. : nc -w 10 -zv docker-host 58080
 delectWithNetcat(){
 	local CMD="nc -w 10 -zv $1 $2"

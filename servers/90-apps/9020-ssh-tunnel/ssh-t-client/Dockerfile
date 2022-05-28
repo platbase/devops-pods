@@ -1,7 +1,7 @@
 # Simple ssh client for tunnel
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/apps.ssh-t-client:latest -t platbase.com/apps.ssh-t-client:20220510-20.04 .
+#   docker build --force-rm -t platbase.com/apps.ssh-t-client:latest -t platbase.com/apps.ssh-t-client:20220529-20.04 .
 # run test:
 #   dc-start -
 
