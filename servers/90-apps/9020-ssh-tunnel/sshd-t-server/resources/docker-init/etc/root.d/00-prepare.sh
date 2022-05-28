@@ -10,6 +10,9 @@ sudo -l -U u01
 # Change password
 echo "u01:${U01_SSH_PWD}" | chpasswd
 
+# Change SSH Port
+echo "Port ${SSH_PORT}" >> /etc/ssh/sshd_config
+
 # Start SSH Server
 mkdir -p /var/run/sshd
 /usr/sbin/sshd -D -e

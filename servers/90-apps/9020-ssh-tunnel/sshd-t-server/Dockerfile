@@ -1,7 +1,7 @@
 # Simple sshd server for tunnel
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/apps.sshd-t-server:latest -t platbase.com/apps.sshd-t-server:20220510-20.04 .
+#   docker build --force-rm -t platbase.com/apps.sshd-t-server:latest -t platbase.com/apps.sshd-t-server:20220529-20.04 .
 # run test:
 #   dc-start -
 
@@ -14,6 +14,8 @@ ENV RT_WORK_COMMAND 'echo "Can not reach here !"'
 
 # The password for u01 user
 ENV U01_SSH_PWD changeme
+# The SSH Server Port
+ENV SSH_PORT 22
 ###############################################################################
 
 # sshd port
