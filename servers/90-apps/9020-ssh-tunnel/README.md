@@ -35,7 +35,7 @@ Example: [./ssh-t-client/@compose-services/test-ssh-t-client.yml](./ssh-t-client
 
 There some build-in functions (`detect*`) for `NET_DETECT_CMD` : `delectWithNetcat`, `detectWithWget`, ..., read  [./ssh-t-client/resources/docker-init/etc/u01.d/00-start.sh](./ssh-t-client/resources/docker-init/etc/u01.d/00-start.sh) for detail.
 
-### `ssh` command samples
+### About `ssh` command
 
 - Reverse tunnel:
 
@@ -60,6 +60,35 @@ There some build-in functions (`detect*`) for `NET_DETECT_CMD` : `delectWithNetc
 
 
 - ...
+
+## Example and reference
+
+### Export local git/sshd server with reverse tunnel
+
+- `U01_SSH_ARGS`:
+
+  ```ruby
+  -R 0.0.0.0:7722:local-git-sshd:22 -o StreamLocalBindUnlink=yes -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -N u01@example.com -p 57777
+  ```
+
+  - `-o StreamLocalBindUnlink=yes` - Specifies whether to remove an existing Unix-domain socket file for local or remote port forwarding before creating a new one.  It's useful to fix the random problem "Address already in use" of forwarded port.
+  - `-o ServerAliveInterval=10 -o ServerAliveCountMax=6` - It's helpful to make connection keep alive.
+
+- `NET_DETECT_CMD`:
+
+  ```bash
+  sshpass -p ${U01_SSH_PWD} \
+          ssh -o ConnectTimeout=5 u01@example.com -p 57777 \
+              "sshpass -p ****** ssh -o ConnectTimeout=5 u01@localhost -p 7722 'ls -al /git'"
+  ```
+
+- OR `NET_DETECT_CMD` (reference: https://www.golinuxcloud.com/test-ssh-connection/ ):
+
+  ```bash
+  sshpass -p ${U01_SSH_PWD} \
+          ssh -o ConnectTimeout=5 u01@example.com -p 57777 \
+              "echo *quit | telnet -e* localhost 7722 2>/dev/null | egrep -qi 'Connected to localhost.'"
+  ```
 
 
 
