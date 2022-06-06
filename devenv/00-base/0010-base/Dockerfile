@@ -75,8 +75,8 @@ ENV LC_ALL zh_CN.UTF-8
 RUN apt-get install -y language-pack-zh-hans            && \
     apt-get install -y fonts-ubuntu                     && \
     apt-get install -y fontconfig
-#ADD fonts /usr/share/fonts/opentype/adobe-fonts
-#RUN sudo fc-cache -f -v
+ADD fonts /usr/share/fonts/opentype/noto-cjk-fonts
+RUN sudo fc-cache -f -v
 
 # Install git and svn
 RUN apt-get install -y git subversion
