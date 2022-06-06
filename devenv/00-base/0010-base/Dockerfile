@@ -1,7 +1,7 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.base:latest -t platbase.com/dev.base:1.4-20.04-20211006 .
+#   docker build --force-rm -t platbase.com/dev.base:latest -t platbase.com/dev.base:1.5-22.04-20220428 .
 # run:
 #   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base
 # run chromium:
@@ -9,8 +9,8 @@
 # run chromium with --no-sandbox ( chromium --no-sandbox )
 #   dc-run test-chromium-no-sandbox
 
-# ubnutu:20.04
-FROM ubuntu:focal-20211006
+# ubnutu:22.04
+FROM ubuntu:jammy-20220428
 LABEL maintainer="https://github.com/platbase"
 
 # Mappings
@@ -26,15 +26,17 @@ CMD /start-example.sh
 RUN apt-get update
 
 # Install Chromium
+#---- build version need snapd
 #RUN apt-get install -y chromium-browser
-#----
+#---- chrome
 #RUN wget -O "/tmp/google-chrome-stable_current_amd64.deb" https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 #RUN apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
 #RUN rm /tmp/google-chrome-stable_current_amd64.deb
-#----
+#---- deb version
+# REF: https://www.linuxcapable.com/how-to-install-chromium-browser-on-ubuntu-22-04-lts/
 RUN apt-get install -y software-properties-common && \
-    add-apt-repository ppa:xtradeb/apps && \
-    apt-get install -y chromium
+    add-apt-repository ppa:savoury1/chromium -y && \
+    apt-get install -y chromium-browser
 
 # Preparing installation and install basic tools
 RUN \
@@ -48,7 +50,6 @@ RUN \
     apt-get install -y --allow-unauthenticated net-tools      && \
     apt-get install -y --allow-unauthenticated iproute2       && \
     apt-get install -y --allow-unauthenticated inetutils-ping && \
-    apt-get install -y --allow-unauthenticated python         && \
     apt-get install -y --allow-unauthenticated build-essential
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
@@ -72,8 +73,10 @@ ENV LC_ALL zh_CN.UTF-8
 
 # zh-CN support(fonts)
 RUN apt-get install -y language-pack-zh-hans            && \
-    apt-get install -y ttf-ubuntu-font-family           && \
-    apt-get install -y ttf-wqy-zenhei ttf-wqy-microhei
+    apt-get install -y fonts-ubuntu                     && \
+    apt-get install -y fontconfig
+#ADD fonts /usr/share/fonts/opentype/adobe-fonts
+#RUN sudo fc-cache -f -v
 
 # Install git and svn
 RUN apt-get install -y git subversion
