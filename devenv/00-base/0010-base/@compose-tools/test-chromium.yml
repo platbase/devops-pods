@@ -1,5 +1,6 @@
 ---
 # Running on parent folder: dc-run test-chromium
+# In container, run chromium with command: chromium-browser --disable-dev-shm-usage
 version: '3'
 services:
     test-chromium:

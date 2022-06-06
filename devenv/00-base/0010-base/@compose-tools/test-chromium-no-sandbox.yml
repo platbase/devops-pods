@@ -1,6 +1,6 @@
 ---
 # Running on parent folder: dc-run test-chromium-no-sandbox
-# NOTE: In container, you must run chromium with command: chromium --no-sandbox
+# NOTE: In container, you must run chromium with command: chromium-browser --no-sandbox --disable-dev-shm-usage
 version: '3'
 services:
     test-chromium-no-sandbox:
