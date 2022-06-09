@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-nodejs:
-        image: platbase.com/dev.nodejs:latest
+        image: bizobj-container.net/dev/dev.nodejs:latest
         ports:
             - "${PORT1}:8080"
         volumes:

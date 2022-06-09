@@ -1,15 +1,15 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.nodejs:latest -t platbase.com/dev.nodejs:1.4-16.13.0-20211128 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.nodejs:latest -t bizobj-container.net/dev/dev.nodejs:1.5-16.15.1-20220607 .
 # run test:
 #   dc-run -
 
-FROM platbase.com/dev.base:latest
+FROM bizobj-container.net/dev/dev.base:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV NODE_VERSION=16.13.0
+ENV NODE_VERSION=16.15.1
 
 ENV DEVOPS_FIXED_ENVS "NODE_VERSION"
 
@@ -31,9 +31,9 @@ RUN wget -O "/tmp/node-v${NODE_VERSION}-linux-x64.tar.xz" https://nodejs.org/dis
     chown -Rv u01:u01 /opt/node-v${NODE_VERSION}-linux-x64 && \
     rm "/tmp/node-v${NODE_VERSION}-linux-x64.tar.xz"
 RUN export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin&& \
-    npm config set prefix /data/nodejs/global --global && \
-    npm config set cache  /data/nodejs/cache  --global && \
-    npm config set registry ${NPM_REG} --global && \
+    npm config set prefix /data/nodejs/global --location=global && \
+    npm config set cache  /data/nodejs/cache  --location=global && \
+    npm config set registry ${NPM_REG} --location=global && \
     echo "export PATH=\$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin:/opt/node-v${NODE_VERSION}-linux-x64/bin/npm-global/bin" >> /etc/profile
 
 # Add nodejs-init shell scripts
