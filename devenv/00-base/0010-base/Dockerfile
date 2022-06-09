@@ -1,9 +1,9 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.base:latest -t platbase.com/dev.base:1.5-22.04-20220428 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:1.5-22.04-20220428 .
 # run:
-#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data platbase.com/dev.base
+#   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data bizobj-container.net/dev/dev.base
 # run chromium:
 #   dc-run test-chromium
 # run chromium with --no-sandbox ( chromium --no-sandbox )
@@ -97,7 +97,7 @@ RUN mkdir -p /home/u01/.config/ && \
     touch /home/u01/.config/.bashrc-docker-PATH && \
     touch /home/u01/.config/.bashrc-docker-PS1  && \
     touch /home/u01/.config/.bashrc-docker-CMD  && \
-    echo "# Added by platbase.com/dev.base"                 >> /home/u01/.bashrc && \
+    echo "# Added by bizobj-container.net/dev/dev.base"     >> /home/u01/.bashrc && \
     echo ". ~/.config/.bashrc-docker-PATH"                  >> /home/u01/.bashrc && \
     echo ". ~/.config/.bashrc-docker-PS1"                   >> /home/u01/.bashrc && \
     echo ". ~/.config/.bashrc-docker-CMD"                   >> /home/u01/.bashrc

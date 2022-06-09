@@ -4,7 +4,7 @@
 version: '3'
 services:
     test-chromium-no-sandbox:
-        image: platbase.com/dev.base:latest
+        image: bizobj-container.net/dev/dev.base:latest
         volumes:
             - ${RUNTIME_DIR}/workspace:/workspace
             - ${RUNTIME_DIR}/data:/data
