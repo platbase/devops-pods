@@ -1,15 +1,18 @@
 # Development environment with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.code-server:latest -t platbase.com/dev.code-server:1.4-3.12.0-20211128 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:1.5-4.4.0-20220609 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/dev.nodejs:latest
+FROM bizobj-container.net/dev/dev.nodejs:latest
 LABEL maintainer="https://github.com/platbase"
 
-# The version of node js
-ENV CODE_SERVER_VER=3.12.0
+# The version of code server
+ENV CODE_SERVER_VER=4.4.0
+
+# The directory to store default installed extensions
+ENV VSC_EXT_CACHE=/usr/local/share/code-server-platbase-cache/extensions
 
 # Mappings
 EXPOSE 8080
@@ -32,7 +35,7 @@ RUN wget -O "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb" \
  
 # Add common extensions
 RUN /opt/add-extensions.sh vscode-icons-team.vscode-icons vincaslt.highlight-matching-tag alefragnani.bookmarks \
-                           esbenp.prettier-vscode gruntfuggly.todo-tree
+                           gruntfuggly.todo-tree esbenp.prettier-vscode
 
 # Add shell scripts
 ADD files /

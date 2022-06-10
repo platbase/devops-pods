@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-cdr:
-        image: platbase.com/dev.code-server:latest
+        image: bizobj-container.net/dev/dev.code-server:latest
         ports:
             - "${PORT1}:8080"
         volumes:
