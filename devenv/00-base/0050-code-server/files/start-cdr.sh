@@ -19,6 +19,7 @@ set -o errexit
 echo "*** Starting code-server ***"
 su - u01 -c ' \
 /usr/bin/code-server \
-    --auth none \
-    --bind-addr 0.0.0.0:8080
+    --disable-telemetry \
+    --auth password \
+    --bind-addr 0.0.0.0:8443
 '

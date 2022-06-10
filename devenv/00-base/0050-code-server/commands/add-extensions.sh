@@ -1,9 +1,9 @@
 #!/bin/bash
 set -o errexit
 
-mkdir -p ${VSC_EXT_CACHE}
+mkdir -p ${CDR_EXT_CACHE}
 for ext in "$@"; do
-    code-server --extensions-dir ${VSC_EXT_CACHE} --install-extension $ext
+    code-server --extensions-dir ${CDR_EXT_CACHE} --install-extension $ext
 done
 
-chown -Rv u01:u01 ${VSC_EXT_CACHE} | (sed -u 7q; echo "..."; tail -n 7)
+chown -Rv u01:u01 ${CDR_EXT_CACHE} | (sed -u 7q; echo "..."; tail -n 7)

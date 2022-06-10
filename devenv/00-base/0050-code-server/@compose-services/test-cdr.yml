@@ -5,12 +5,13 @@ services:
     test-cdr:
         image: bizobj-container.net/dev/dev.code-server:latest
         ports:
-            - "${PORT1}:8080"
+            - "8443:8443"
         volumes:
             - ${RUNTIME_DIR}/workspace:/workspace
             - ${RUNTIME_DIR}/data:/data
             - /tmp/.X11-unix:/tmp/.X11-unix
         environment:
+            - CDR_PASSWORD=1234+-*/
             - DISPLAY=unix$DISPLAY
             - TERM=xterm-256color    # make terminal of VSCode colorful
         #privileged: true
