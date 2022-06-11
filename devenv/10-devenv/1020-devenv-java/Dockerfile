@@ -1,11 +1,11 @@
 # Development environment for java with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/dev.env-java:latest -t platbase.com/dev.env-java:1.4-0811 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.env-java:latest -t bizobj-container.net/dev/dev.env-java:1.5-08-17 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/dev.code-server:latest
+FROM bizobj-container.net/dev/dev.code-server:latest
 LABEL maintainer="https://github.com/platbase"
 
 # Mappings
@@ -19,11 +19,10 @@ CMD /start-cdr-java.sh
 RUN apt-get update
 
 # Install java
-RUN apt-get install -y openjdk-8-jdk
-RUN apt-get install -y openjdk-11-jdk maven
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> /etc/profile && \
-    echo "export JDK_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> /etc/profile && \
-    echo "export PATH=\$JAVA_HOME/bin:\$PATH"                 >> /etc/profile
+RUN apt-get install -y openjdk-8-jdk openjdk-17-jdk maven
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> /etc/profile && \
+    echo "export JDK_HOME=/usr/lib/jvm/java-17-openjdk-amd64"  >> /etc/profile && \
+    echo "export PATH=\$JAVA_HOME/bin:\$PATH"                  >> /etc/profile
 
 # Install extensions
 RUN /opt/add-extensions.sh vscjava.vscode-java-pack redhat.vscode-xml \
