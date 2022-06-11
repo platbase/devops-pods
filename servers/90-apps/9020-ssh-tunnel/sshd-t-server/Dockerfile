@@ -1,7 +1,7 @@
 # Simple sshd server for tunnel
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/apps.sshd-t-server:latest -t platbase.com/apps.sshd-t-server:20220529-20.04 .
+#   docker build --force-rm -t platbase.com/apps.sshd-t-server:latest -t platbase.com/apps.sshd-t-server:20220611-20.04 .
 # run test:
 #   dc-start -
 
