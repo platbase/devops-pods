@@ -17,9 +17,6 @@ set -o errexit
 /docker-cdr-init/docker-cdr-language-ext.sh
 
 echo "*** Starting code-server ***"
-su - u01 -c ' \
-/usr/bin/code-server \
-    --disable-telemetry \
-    --auth password \
-    --bind-addr 0.0.0.0:8443
-'
+CMD="/usr/bin/code-server --disable-telemetry --auth password --bind-addr 0.0.0.0:${CDR_HTTPS_PORT} --proxy-domain ${CDR_PROXY_DOMAIN}"
+echo ">>> ${CMD}"
+su - u01 -c "${CMD}"

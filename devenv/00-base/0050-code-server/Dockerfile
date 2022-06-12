@@ -1,7 +1,7 @@
 # Development environment with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:1.5-4.4.0-20220609 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:1.5-4.4.0-20220612 .
 # run test:
 #   dc-start -
 
@@ -13,6 +13,12 @@ ENV CODE_SERVER_VER=4.4.0
 
 # The directory to store default installed extensions
 ENV CDR_EXT_CACHE=/usr/local/share/code-server-platbase-cache/extensions
+
+# The server port - docker port mapping with same port is recommanded
+ENV CDR_HTTPS_PORT=8443
+
+# Proxy domain - ref: https://coder.com/docs/code-server/latest/guide#accessing-web-services
+ENV CDR_PROXY_DOMAIN=localhost
 
 # The password
 ENV CDR_PASSWORD="*change*me*"
