@@ -1,7 +1,7 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:1.5-22.04-20220428 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:1.5-22.04-20220428-0612 .
 # run:
 #   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data bizobj-container.net/dev/dev.base
 # run chromium:
@@ -24,6 +24,7 @@ CMD /start-example.sh
 
 ###############################################################################
 RUN apt-get update
+RUN yes | unminimize
 
 # Install Chromium
 #---- build version need snapd
@@ -34,9 +35,9 @@ RUN apt-get update
 #RUN rm /tmp/google-chrome-stable_current_amd64.deb
 #---- deb version
 # REF: https://www.linuxcapable.com/how-to-install-chromium-browser-on-ubuntu-22-04-lts/
-RUN apt-get install -y software-properties-common && \
-    add-apt-repository ppa:savoury1/chromium -y && \
-    apt-get install -y chromium-browser
+#RUN apt-get install -y software-properties-common && \
+#    add-apt-repository ppa:savoury1/chromium -y && \
+#    apt-get install -y chromium-browser
 
 # Preparing installation and install basic tools
 RUN \
