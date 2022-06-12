@@ -1,7 +1,7 @@
 # Development environment for java with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.env-java:latest -t bizobj-container.net/dev/dev.env-java:1.5-08-17 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.env-java:latest -t bizobj-container.net/dev/dev.env-java:1.5-08-17-20220612 .
 # run test:
 #   dc-start -
 
@@ -26,7 +26,11 @@ RUN echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> /etc/profile &
 
 # Install extensions
 RUN /opt/add-extensions.sh vscjava.vscode-java-pack redhat.vscode-xml \
-                           vscjava.vscode-spring-initializr pivotal.vscode-spring-boot dgileadi.java-decompiler
+                           vscjava.vscode-spring-initializr pivotal.vscode-spring-boot dgileadi.java-decompiler \
+                           redhat.fabric8-analytics
+
+# Additional(libncurses5 is needed in embeded MySQL)
+RUN apt-get install -y libncurses5
 
 # Add shell scripts
 ADD files /
