@@ -1,11 +1,11 @@
 # Simple sshd server for tunnel
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/apps.sshd-t-server:latest -t platbase.com/apps.sshd-t-server:20220611-20.04 .
+#   docker build --force-rm -t bizobj-container.net/srv/apps.sshd-t-server:latest -t bizobj-container.net/srv/apps.sshd-t-server:22.04-20220613 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/server.base:latest
+FROM bizobj-container.net/srv/server.base:latest
 LABEL maintainer="https://github.com/platbase"
 
 ### Server runtime environment variables ######################################

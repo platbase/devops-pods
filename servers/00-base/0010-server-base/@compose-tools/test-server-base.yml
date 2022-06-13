@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-server-base:
-        image: platbase.com/server.base:latest
+        image: bizobj-container.net/srv/server.base:latest
         volumes:
             - ${COMPOSE_DIR}/opt-test:/opt/test
             - ${RUNTIME_DIR}/test:/test

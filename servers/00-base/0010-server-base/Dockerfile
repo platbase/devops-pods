@@ -1,11 +1,11 @@
 # The basic environment for servers
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/server.base:latest -t platbase.com/server.base:20220426-20.04 .
+#   docker build --force-rm -t bizobj-container.net/srv/server.base:latest -t bizobj-container.net/srv/server.base:22.04-20220531-0613 .
 # run test:
 #   dc-run -
 
-FROM ubuntu:focal-20220426
+FROM ubuntu:jammy-20220531
 LABEL maintainer="https://github.com/platbase"
 
 ### Server runtime environment variables ######################################

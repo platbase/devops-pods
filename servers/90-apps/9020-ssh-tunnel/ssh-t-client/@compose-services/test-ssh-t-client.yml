@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-ssh-t-client:
-        image: platbase.com/apps.ssh-t-client:latest
+        image: bizobj-container.net/srv/apps.ssh-t-client:latest
         environment:
             - "U01_SSH_PWD=1*2*3*"
             - "U01_SSH_ARGS=-N -R 0.0.0.0:58080:www.example.com:80 u01@docker-host -p 30022"

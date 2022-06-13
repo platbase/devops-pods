@@ -1,11 +1,11 @@
 # Simple ssh client for tunnel
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/apps.ssh-t-client:latest -t platbase.com/apps.ssh-t-client:20220529-20.04 .
+#   docker build --force-rm -t bizobj-container.net/srv/apps.ssh-t-client:latest -t bizobj-container.net/srv/apps.ssh-t-client:22.04-20220613 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/server.base:latest
+FROM bizobj-container.net/srv/server.base:latest
 LABEL maintainer="https://github.com/platbase"
 
 ### Server runtime environment variables ######################################

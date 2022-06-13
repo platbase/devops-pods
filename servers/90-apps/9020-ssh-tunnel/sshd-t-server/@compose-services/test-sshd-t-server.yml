@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-sshd-t-server:
-        image: platbase.com/apps.sshd-t-server:latest
+        image: bizobj-container.net/srv/apps.sshd-t-server:latest
         ports:
             - "30022:22"      # SSH Connect Port
             - "58080:58080"   # Service Port for ssh reverse tunnel
