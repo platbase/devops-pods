@@ -40,7 +40,9 @@ mkdir -p /data/home/.config/code-server
 echo "# created by $* at $(date)" > /data/home/.config/code-server/config.yaml
 
 #Prepare password in ~/.config/code-server/config.yaml
-echo "password: \"$CDR_PASSWORD\""    >> /data/home/.config/code-server/config.yaml
+if [ "${CDR_PASSWORD}" != "BLANK" ]; then
+    echo "password: \"$CDR_PASSWORD\""    >> /data/home/.config/code-server/config.yaml
+fi
 
 #Prepare cert - for command argument:
 #    --cert /data/home/.config/code-server/cert/local.code-server.crt

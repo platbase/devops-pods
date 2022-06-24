@@ -1,7 +1,7 @@
 # Development environment with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:1.5-4.4.0-20220612 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:1.5-4.4.0-20220623 .
 # run test:
 #   dc-start -
 
@@ -20,7 +20,7 @@ ENV CDR_HTTPS_PORT=8443
 # Proxy domain - ref: https://coder.com/docs/code-server/latest/guide#accessing-web-services
 ENV CDR_PROXY_DOMAIN=localhost
 
-# The password
+# The password. NOTE: 'BLANK' means no password
 ENV CDR_PASSWORD="*change*me*"
 
 # Mappings

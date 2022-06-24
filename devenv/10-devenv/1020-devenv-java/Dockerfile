@@ -1,7 +1,7 @@
 # Development environment for java with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.env-java:latest -t bizobj-container.net/dev/dev.env-java:1.5-08-17-20220612 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.env-java:latest -t bizobj-container.net/dev/dev.env-java:1.5-08-17-20220623 .
 # run test:
 #   dc-start -
 
