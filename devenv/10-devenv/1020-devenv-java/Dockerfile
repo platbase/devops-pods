@@ -19,7 +19,9 @@ CMD /start-cdr-java.sh
 RUN apt-get update
 
 # Install java
-RUN apt-get install -y openjdk-8-jdk openjdk-17-jdk maven
+RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y openjdk-17-jdk
+RUN apt-get install -y maven
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> /etc/profile && \
     echo "export JDK_HOME=/usr/lib/jvm/java-17-openjdk-amd64"  >> /etc/profile && \
     echo "export PATH=\$JAVA_HOME/bin:\$PATH"                  >> /etc/profile
