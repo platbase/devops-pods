@@ -17,6 +17,7 @@ CMD /start-cdr-java.sh
 
 ###############################################################################
 RUN apt-get update
+RUN apt-get upgrade -y
 
 # Install java
 RUN apt-get install -y openjdk-8-jdk

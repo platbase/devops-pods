@@ -9,12 +9,12 @@ su - u01 -c "mvn -v"
 echo " .... --------"
 
 # Copy default settings.json
-USER_DIR="/data/home/.local/share/code-server/User"
-if [ ! -d "${USER_DIR}" ]; then
-	mkdir "${USER_DIR}"
-	chown u01:u01 "${USER_DIR}"
+MACHINE_DIR="/data/home/.local/share/code-server/Machine"
+if [ ! -d "${MACHINE_DIR}" ]; then
+	mkdir "${MACHINE_DIR}"
+	chown u01:u01 "${MACHINE_DIR}"
 fi
-DEF_SETTINGS="${USER_DIR}/settings.json"
+DEF_SETTINGS="${MACHINE_DIR}/settings.json"
 if [ ! -f "${DEF_SETTINGS}" ]; then
 	
 	cp /docker-cdr-init/settings.json "${DEF_SETTINGS}"
