@@ -1,7 +1,7 @@
 # Development environment with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:1.5-4.4.0-20220623 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:4.5.0-20220703 .
 # run test:
 #   dc-start -
 
@@ -9,7 +9,7 @@ FROM bizobj-container.net/dev/dev.nodejs:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of code server
-ENV CODE_SERVER_VER=4.4.0
+ENV CODE_SERVER_VER=4.5.0
 
 # The directory to store default installed extensions
 ENV CDR_EXT_CACHE=/usr/local/share/code-server-platbase-cache/extensions
