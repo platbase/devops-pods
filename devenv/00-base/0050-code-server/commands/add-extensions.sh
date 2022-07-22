@@ -3,6 +3,7 @@ set -o errexit
 
 mkdir -p ${CDR_EXT_CACHE}
 for ext in "$@"; do
+    echo "INSTALL EXT: $ext [ code-server --extensions-dir ${CDR_EXT_CACHE} --install-extension $ext ] ..."
     code-server --extensions-dir ${CDR_EXT_CACHE} --install-extension $ext
 done
 

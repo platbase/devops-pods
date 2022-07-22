@@ -1,7 +1,7 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:1.5-22.04-20220428-0612 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:22.04-20220531 .
 # run:
 #   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data bizobj-container.net/dev/dev.base
 # run chromium:
@@ -10,7 +10,7 @@
 #   dc-run test-chromium-no-sandbox
 
 # ubnutu:22.04
-FROM ubuntu:jammy-20220428
+FROM ubuntu:jammy-20220531
 LABEL maintainer="https://github.com/platbase"
 
 # Mappings
