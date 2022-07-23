@@ -47,7 +47,7 @@ RUN wget -O "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb" \
     rm -f "/tmp/code-server_${CODE_SERVER_VER}_amd64.deb"
 
 # Yes, add builder signature
-RUN echo "$(date)" > /usr/lib/code-server/src/browser/_builder_.txt
+RUN echo "CODE SERVER Image built at $(date)" > /usr/lib/code-server/src/browser/_builder_.txt
 
 # The pre-added commands
 ADD commands/add-extensions.sh /opt/add-extensions.sh
