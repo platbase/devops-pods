@@ -44,30 +44,33 @@ if [ "${CDR_PASSWORD}" != "BLANK" ]; then
     echo "password: \"$CDR_PASSWORD\""    >> /data/home/.config/code-server/config.yaml
 fi
 
-#Prepare cert - for command argument:
-#    --cert /data/home/.config/code-server/cert/local.code-server.crt
-#    --cert-key=/data/home/.config/code-server/cert/local.code-server.key
-mkdir -p /data/home/.config/code-server/cert
-cd /data/home/.config/code-server/cert
-
-openssl genrsa -out ca.key 4096
-openssl req -x509 -new -nodes -sha512 -days 3650 -subj "/C=CN/ST=local-st/L=local-l/O=local-o/OU=local-ou/CN=local.code-server" -key ca.key -out ca.crt
-openssl genrsa -out local.code-server.key 4096
-openssl req -sha512 -new -subj "/C=CN/ST=local-st/L=local-l/O=local-o/OU=local-ou/CN=local.code-server" -key local.code-server.key -out local.code-server.csr
-
-cat > v3.ext <<-EOF
+rm -fRv /data/home/.config/code-server/cert
+if [ "${CDR_WITH_HTTPS}" == "Y" ]; then
+	#Prepare cert - for command argument:
+	#    --cert /data/home/.config/code-server/cert/local.code-server.crt
+	#    --cert-key=/data/home/.config/code-server/cert/local.code-server.key
+	mkdir -p /data/home/.config/code-server/cert
+	cd /data/home/.config/code-server/cert
+	
+	openssl genrsa -out ca.key 4096
+	openssl req -x509 -new -nodes -sha512 -days 3650 -subj "/C=CN/ST=local-st/L=local-l/O=local-o/OU=local-ou/CN=local.code-server" -key ca.key -out ca.crt
+	openssl genrsa -out local.code-server.key 4096
+	openssl req -sha512 -new -subj "/C=CN/ST=local-st/L=local-l/O=local-o/OU=local-ou/CN=local.code-server" -key local.code-server.key -out local.code-server.csr
+	
+	cat > v3.ext <<-EOF
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = IP:127.0.0.1
 EOF
-
-openssl x509 -req -sha512 -days 3650 -extfile v3.ext -CA ca.crt -CAkey ca.key -CAcreateserial -in local.code-server.csr -out local.code-server.crt
-#openssl x509 -inform PEM -in local.code-server.crt -out local.code-server.cert
-#update-ca-trust
-echo "cert: /data/home/.config/code-server/cert/local.code-server.crt"     >> /data/home/.config/code-server/config.yaml
-echo "cert-key: /data/home/.config/code-server/cert/local.code-server.key" >> /data/home/.config/code-server/config.yaml
+	
+	openssl x509 -req -sha512 -days 3650 -extfile v3.ext -CA ca.crt -CAkey ca.key -CAcreateserial -in local.code-server.csr -out local.code-server.crt
+	#openssl x509 -inform PEM -in local.code-server.crt -out local.code-server.cert
+	#update-ca-trust
+	echo "cert: /data/home/.config/code-server/cert/local.code-server.crt"     >> /data/home/.config/code-server/config.yaml
+	echo "cert-key: /data/home/.config/code-server/cert/local.code-server.key" >> /data/home/.config/code-server/config.yaml
+fi
 
 # Final
 chown -Rv u01:u01 /data/home/.config/code-server

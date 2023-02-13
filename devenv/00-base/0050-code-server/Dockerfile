@@ -15,7 +15,10 @@ ENV CODE_SERVER_VER=4.9.1
 ENV CDR_EXT_CACHE=/usr/local/share/code-server-platbase-cache/extensions
 
 # The server port - docker port mapping with same port is recommanded
-ENV CDR_HTTPS_PORT=8443
+ENV CDR_HTTP_PORT=8080
+
+# Use https, else http(Y/N)
+ENV CDR_WITH_HTTPS=N
 
 # Proxy domain - ref: https://coder.com/docs/code-server/latest/guide#accessing-web-services
 ENV CDR_PROXY_DOMAIN=localhost

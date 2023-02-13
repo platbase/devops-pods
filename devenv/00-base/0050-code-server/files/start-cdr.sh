@@ -17,7 +17,7 @@ set -o errexit
 /docker-cdr-init/docker-cdr-language-ext.sh
 
 echo "*** Starting code-server ***"
-CMD="/usr/bin/code-server --disable-telemetry --bind-addr 0.0.0.0:${CDR_HTTPS_PORT} --proxy-domain ${CDR_PROXY_DOMAIN}"
+CMD="/usr/bin/code-server --disable-telemetry --bind-addr 0.0.0.0:${CDR_HTTP_PORT} --proxy-domain ${CDR_PROXY_DOMAIN}"
 if [ "${CDR_PASSWORD}" != "BLANK" ]; then
     CMD="${CMD} --auth password"
 else
