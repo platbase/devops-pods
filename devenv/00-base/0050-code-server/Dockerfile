@@ -1,7 +1,7 @@
 # Development environment with code-server.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:4.5.1 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.code-server:latest -t bizobj-container.net/dev/dev.code-server:4.9.1 .
 # run test:
 #   dc-start -
 
@@ -9,7 +9,7 @@ FROM bizobj-container.net/dev/dev.nodejs:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of code server
-ENV CODE_SERVER_VER=4.5.1
+ENV CODE_SERVER_VER=4.9.1
 
 # The directory to store default installed extensions
 ENV CDR_EXT_CACHE=/usr/local/share/code-server-platbase-cache/extensions
@@ -55,7 +55,7 @@ RUN chmod +x /opt/add-extensions.sh
 
 # Add common extensions
 RUN /opt/add-extensions.sh vscode-icons-team.vscode-icons vincaslt.highlight-matching-tag alefragnani.bookmarks \
-                           gruntfuggly.todo-tree esbenp.prettier-vscode
+                           gruntfuggly.todo-tree esbenp.prettier-vscode cweijan.vscode-office vue.volar gera2ld.markmap-vscode
 
 # Add shell scripts
 ADD files /
