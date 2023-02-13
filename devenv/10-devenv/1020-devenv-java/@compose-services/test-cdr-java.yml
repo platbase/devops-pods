@@ -5,12 +5,13 @@ services:
     test-cdr-java:
         image: bizobj-container.net/dev/dev.env-java:latest
         ports:
-            - "8443:8443"
+            - "58080:58080"
         volumes:
             - ${RUNTIME_DIR}/workspace:/workspace
             - ${RUNTIME_DIR}/data:/data
             #- /tmp/.X11-unix:/tmp/.X11-unix
         environment:
+            - CDR_HTTP_PORT=58080
             - CDR_PASSWORD=1234+-*/
             #- DISPLAY=unix$DISPLAY
             - TERM=xterm-256color    # make terminal of VSCode colorful
