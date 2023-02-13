@@ -1,7 +1,7 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.nodejs:latest -t bizobj-container.net/dev/dev.nodejs:16.16.0 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.nodejs:latest -t bizobj-container.net/dev/dev.nodejs:18.14.0 .
 # run test:
 #   dc-run -
 
@@ -9,7 +9,7 @@ FROM bizobj-container.net/dev/dev.base:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV NODE_VERSION=16.16.0
+ENV NODE_VERSION=18.14.0
 
 ENV DEVOPS_FIXED_ENVS "NODE_VERSION"
 
