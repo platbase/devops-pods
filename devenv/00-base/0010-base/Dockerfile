@@ -1,7 +1,7 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:22.04-20220531 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:22.04-20230126 .
 # run:
 #   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data bizobj-container.net/dev/dev.base
 # run chromium:
@@ -10,7 +10,7 @@
 #   dc-run test-chromium-no-sandbox
 
 # ubnutu:22.04
-FROM ubuntu:jammy-20220531
+FROM ubuntu:jammy-20230126
 LABEL maintainer="https://github.com/platbase"
 
 # Mappings
@@ -35,9 +35,9 @@ RUN yes | unminimize
 #RUN rm /tmp/google-chrome-stable_current_amd64.deb
 #---- deb version
 # REF: https://www.linuxcapable.com/how-to-install-chromium-browser-on-ubuntu-22-04-lts/
-#RUN apt-get install -y software-properties-common && \
-#    add-apt-repository ppa:savoury1/chromium -y && \
-#    apt-get install -y chromium-browser
+RUN apt-get install -y software-properties-common && \
+    add-apt-repository ppa:savoury1/chromium -y && \
+    apt-get install -y chromium-browser
 
 # Preparing installation and install basic tools
 RUN \
@@ -51,6 +51,8 @@ RUN \
     apt-get install -y --allow-unauthenticated net-tools      && \
     apt-get install -y --allow-unauthenticated iproute2       && \
     apt-get install -y --allow-unauthenticated inetutils-ping && \
+    apt-get install -y --allow-unauthenticated lsof && \
+    apt-get install -y --allow-unauthenticated cutter && \
     apt-get install -y --allow-unauthenticated build-essential
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \

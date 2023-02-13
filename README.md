@@ -1,7 +1,6 @@
 # devops-dockerfiles
+
 The Dockerfiles for development, testing and deployment.
-
-
 
 ## Abstract
 
@@ -13,8 +12,6 @@ The Dockerfiles for development, testing and deployment.
 - `servers` - server environments
   - `00-base` - The basic docker images
   - `10-database` - The docker images for variants of database environment
-
-
 
 ## Tips
 
@@ -35,3 +32,10 @@ docker build $PROXY --force-rm -t platbase.com/dev.base:1.4-20.04 .
 # ======== Tested in Ubuntu 20.04 ========
 ```
 
+### TODO
+
+1. 包含 lsof
+2. 包含 cutter，用于清除 TIME_WAIT 的无效连接： [Linux Cutting the tcp/ip network connection with cutter command - nixCraft](https://www.cyberciti.biz/tips/cutting-the-tcpip-network-connection-with-cutter.html)
+3. 提示最近一次 connection 检查成功的时间
+4. 安装 cweijan.vscode-office , Vue.volar , [gera2ld.markmap-vscode](https://juejin.cn/post/7064473224049852453)
+5. npm 升级，以及 `config global` `--global`、 `--local` are deprecated. Use `--location=global` instead.
