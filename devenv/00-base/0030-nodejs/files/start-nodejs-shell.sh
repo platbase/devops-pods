@@ -9,6 +9,6 @@ set -o errexit
 /docker-base-init/set-fixed-ENVs http_proxy https_proxy
 
 /docker-base-init/set-PS1 NodeJS
-/docker-base-init/set-CMD "cd /workspace"
+/docker-base-init/set-CMD 'test "$(cd ~; pwd)" = "$(pwd)" && cd /workspace || true'
 
 su - u01
