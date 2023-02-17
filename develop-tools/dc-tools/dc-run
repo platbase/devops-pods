@@ -13,7 +13,13 @@ SHELL_DIR=$(cd "$(dirname "$SHELL_FILE")"; pwd)
 COMPOSE_TYPE="compose-tools"
 source "$SHELL_DIR/lib/prepare"
 
-CMD="docker-compose -f $YML_FILE run --service-ports $COMPOSE_NAME"
+# for "run", create identify name of container
+CONTAINER_ID="${YML_FILE}"
+CONTAINER_ID="${CONTAINER_ID//\//.}"
+CONTAINER_ID="${CONTAINER_ID//\ /_}"
+CONTAINER_ID="${CONTAINER_ID//\@/_}"
+
+CMD="docker-compose -f $YML_FILE run --name $COMPOSE_NAME-$CONTAINER_ID --service-ports $COMPOSE_NAME"
 #CMD="docker-compose -f $YML_FILE up"
 echo "${bldblu}NOTE:${txtrst} Start containers: ${bldgrn}$CMD${txtrst} ..."
 $CMD
