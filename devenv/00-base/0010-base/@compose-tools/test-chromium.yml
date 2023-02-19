@@ -8,6 +8,7 @@ services:
         volumes:
             - ${RUNTIME_DIR}/workspace:/workspace
             - ${RUNTIME_DIR}/data:/data
+            - ${COMPOSE_DIR}:/data/home/.raw
             #- /tmp/dev-base.ws:/workspace
             #- /tmp/dev-base.data:/data
             - /tmp/.X11-unix:/tmp/.X11-unix

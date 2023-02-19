@@ -1,7 +1,7 @@
 # The basic environment for development
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:22.04-20230126-01 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.base:latest -t bizobj-container.net/dev/dev.base:22.04-20230126-02 .
 # run:
 #   docker run -it --rm -v /tmp/dev-base.ws:/workspace -v /tmp/dev-base.data:/data bizobj-container.net/dev/dev.base
 # run chromium:
@@ -105,13 +105,13 @@ RUN mkdir -p /home/u01/.config/ && \
     echo ". ~/.config/.bashrc-docker-PS1"                   >> /home/u01/.bashrc && \
     echo ". ~/.config/.bashrc-docker-CMD"                   >> /home/u01/.bashrc
 
+# Finally
+RUN apt-get -y upgrade
+
 # Add base-init shell scripts
 ADD files /
 RUN chmod +x /docker-base-init/* && \
     chmod +x /start-example.sh
-
-# Finally
-RUN apt-get -y upgrade
 
 ###############################################################################
 

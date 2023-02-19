@@ -1,6 +1,9 @@
 #!/bin/bash
 # Some command when container boot
 
+set -o errexit
+set -o nounset
+
 echo "*** The Basic Development Environment ***"
 
 # Check /workspace and /data: MUST contain 'devops.platbase.com-docker-workspace'/'devops.platbase.com-docker-data'
@@ -34,16 +37,18 @@ echo "... \"FIX\" environment variables: ${DEVOPS_FIXED_ENVS}"
 /docker-base-init/set-fixed-ENVs "$DEVOPS_FIXED_ENVS"
 
 # Detect the host IP and bind it to hostname "docker-host"
+set +o errexit
 echo "... Detect IP of docker host and bind it's hostname to 'docker-host'"
 cat /etc/hosts | grep "docker-host"
 if [ $? > 0 ]; then
     echo "# Add docker host's IP address(The same as the default gateway)"    >> /etc/hosts
     echo "$(/sbin/ip route|awk '/default/ { print $3 }')     docker-host"     >> /etc/hosts
 fi
+set -o errexit
 
 # Move u01's home to /data
 if [[ ! -f "/data/.home-moved" ]]; then
-	cp -Rv /home/u01 /data/home
+	cp -Rv /home/u01/. /data/home
     chown -R u01:u01 /data/home
 	
 	#Mark installed

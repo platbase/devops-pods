@@ -1,7 +1,7 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.nodejs:latest -t bizobj-container.net/dev/dev.nodejs:18.14.0-01 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.nodejs:latest -t bizobj-container.net/dev/dev.nodejs:18.14.0-02 .
 # run test:
 #   dc-run -
 

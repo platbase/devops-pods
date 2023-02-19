@@ -1,7 +1,7 @@
 # JDK, NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.java-fullstack:latest -t bizobj-container.net/dev/dev.java-fullstack:20230218 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.java-fullstack:latest -t bizobj-container.net/dev/dev.java-fullstack:20230219 .
 # run test:
 #   dc-run -
 
