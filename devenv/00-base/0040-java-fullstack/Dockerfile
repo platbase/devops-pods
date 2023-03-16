@@ -1,7 +1,7 @@
 # JDK, NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/dev/dev.java-fullstack:latest -t bizobj-container.net/dev/dev.java-fullstack:20230219 .
+#   docker build --force-rm -t bizobj-container.net/dev/dev.java-fullstack:latest -t bizobj-container.net/dev/dev.java-fullstack:20230316 .
 # run test:
 #   dc-run -
 
@@ -27,6 +27,9 @@ RUN echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> /etc/profile &
 
 # Additional(libncurses5 is needed in embeded MySQL)
 RUN apt-get install -y libncurses5
+
+# Additional(chinese fonts, for Java Client such like JavaFX)
+RUN apt-get install -y fonts-wqy-microhei fonts-wqy-zenhei
 
 # Add shell scripts
 ADD files /
