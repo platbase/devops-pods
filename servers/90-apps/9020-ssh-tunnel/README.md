@@ -38,11 +38,11 @@ There some build-in functions (`detect*`) for `NET_DETECT_CMD` : `delectWithNetc
 ### About `ssh` command
 
 - Reverse tunnel:
-
+  
   ```ruby
   -N -R 0.0.0.0:${Server Listen Port}:${Forward Address}:${Forward Port} u01@${Server Address} -p ${Server SSH Port}
   ```
-
+  
   1. `0.0.0.0`: In docker container, the remote address should be always `0.0.0.0` to be compatible with container's port mapping;
   2. `Server Listen Port`: The service port on SSH Server;
   3. `Forward Address`: The IP or DNS Address of target server;
@@ -51,13 +51,12 @@ There some build-in functions (`detect*`) for `NET_DETECT_CMD` : `delectWithNetc
   6. `Server SSH Port`: The port of SSH Service;
 
 - Socks proxy:
-
+  
   ```ruby
   -D 0.0.0.0:${Proxy Port} -N u01@${Server Address} -p ${Server SSH Port}
   ```
-
+  
   - `Proxy Port`: The socks proxy port
-
 
 - ...
 
@@ -66,16 +65,16 @@ There some build-in functions (`detect*`) for `NET_DETECT_CMD` : `delectWithNetc
 ### Export local git/sshd server with reverse tunnel
 
 - `U01_SSH_ARGS`:
-
+  
   ```ruby
   -R 0.0.0.0:7722:local-git-sshd:22 -o StreamLocalBindUnlink=yes -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -N u01@example.com -p 57777
   ```
-
+  
   - `-o StreamLocalBindUnlink=yes` - Specifies whether to remove an existing Unix-domain socket file for local or remote port forwarding before creating a new one.  It's useful to fix the random problem "Address already in use" of forwarded port.
   - `-o ServerAliveInterval=10 -o ServerAliveCountMax=6` - It's helpful to make connection keep alive.
 
 - `NET_DETECT_CMD`:
-
+  
   ```bash
   sshpass -p ${U01_SSH_PWD} \
           ssh -o ConnectTimeout=5 u01@example.com -p 57777 \
@@ -83,13 +82,11 @@ There some build-in functions (`detect*`) for `NET_DETECT_CMD` : `delectWithNetc
   ```
 
 - OR `NET_DETECT_CMD` (reference: https://www.golinuxcloud.com/test-ssh-connection/ ):
-
+  
   ```bash
   sshpass -p ${U01_SSH_PWD} \
           ssh -o ConnectTimeout=5 u01@example.com -p 57777 \
               "echo *quit | telnet -e* localhost 7722 2>/dev/null | egrep -qi 'Connected to localhost.'"
   ```
-
-
 
 ## END

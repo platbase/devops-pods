@@ -1,7 +1,7 @@
 # Simple ssh client for tunnel
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/srv/apps.ssh-t-client:latest -t bizobj-container.net/srv/apps.ssh-t-client:22.04-20220613 .
+#   docker build --force-rm -t bizobj-container.net/srv/apps.ssh-t-client:latest -t bizobj-container.net/srv/apps.ssh-t-client:20230319 .
 # run test:
 #   dc-start -
 
@@ -27,7 +27,7 @@ EXPOSE 22
 RUN apt-get update && apt-get upgrade -y
 
 # Install sshd
-RUN apt-get install -y --allow-unauthenticated openssh-client sshpass iproute2 netcat
+RUN apt-get install -y --allow-unauthenticated openssh-client sshpass iproute2 netcat lsof cutter
 
 # Automatically Accepts SSH Fingerprint
 RUN echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config

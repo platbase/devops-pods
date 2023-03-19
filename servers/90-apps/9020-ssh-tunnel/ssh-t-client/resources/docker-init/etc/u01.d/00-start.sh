@@ -2,6 +2,9 @@
 set -o nounset
 set -o errexit
 
+_LAST_DETECT_TIME="N/A"
+_LAST_DETECT_OK_TIME="N/A"
+
 _DETECT_RESULT=0
 # Detect network using shell commands
 delectWithShellCommands(){
@@ -66,7 +69,7 @@ detectWithWget(){
 }
 
 _sleep(){
-	echo "> [$1] after $2 seconds ..."
+	echo "> [$1] after $2 seconds (Last detection=[${_LAST_DETECT_TIME}], Last success=[${_LAST_DETECT_OK_TIME}]) ..."
 	sleep $2
 }
 
@@ -82,6 +85,7 @@ doSSHConnect() {
 }
 
 networkDetect() {
+	_LAST_DETECT_TIME=$(date "+%Y-%m-%d %H:%M:%S")
 	${NET_DETECT_CMD}
 	if [ ${_DETECT_RESULT} -ne 0 ]; then
 		echo -e "********\n>>> ${NET_DETECT_CMD} : connection broken, try reconnecting ...\n********"
@@ -89,6 +93,7 @@ networkDetect() {
 		_sleep "Confirm network connection" ${NET_CONFIRM_SEC}
 	else
 		echo -e "\n> ${NET_DETECT_CMD} : connection keep ready.\n"
+		_LAST_DETECT_OK_TIME=$(date "+%Y-%m-%d %H:%M:%S")
 		_sleep "Detect network connection" ${NET_DETECT_SEC}
 	fi
 	networkDetect

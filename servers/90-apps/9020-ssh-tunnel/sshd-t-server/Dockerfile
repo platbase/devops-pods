@@ -1,7 +1,7 @@
 # Simple sshd server for tunnel
 # ----
 # build image:
-#   docker build --force-rm -t bizobj-container.net/srv/apps.sshd-t-server:latest -t bizobj-container.net/srv/apps.sshd-t-server:22.04-20220613 .
+#   docker build --force-rm -t bizobj-container.net/srv/apps.sshd-t-server:latest -t bizobj-container.net/srv/apps.sshd-t-server:20230319 .
 # run test:
 #   dc-start -
 
@@ -25,7 +25,7 @@ EXPOSE 22
 RUN apt-get update && apt-get upgrade -y
 
 # Install sshd
-RUN apt-get install -y --allow-unauthenticated openssh-server
+RUN apt-get install -y --allow-unauthenticated openssh-server lsof cutter
 
 # PermitRootLogin no , GatewayPorts yes
 RUN echo "PermitRootLogin no" >> /etc/ssh/sshd_config
