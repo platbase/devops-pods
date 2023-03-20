@@ -3,7 +3,7 @@
 version: '3'
 services:
     test-server-mysql:
-        image: platbase.com/server.mysql:latest
+        image: bizobj-container.net/srv/server.mysql:latest
         volumes:
             - ${RUNTIME_DIR}/data:/data
         ports:

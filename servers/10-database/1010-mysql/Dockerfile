@@ -1,11 +1,11 @@
 # MySQL Server
 # ----
 # build image:
-#   docker build --force-rm -t platbase.com/server.mysql:latest -t platbase.com/server.mysql:8.0-20.04 .
+#   docker build --force-rm -t bizobj-container.net/srv/server.mysql:latest -t bizobj-container.net/srv/server.mysql:8.0-20230320 .
 # run test:
 #   dc-start -
 
-FROM platbase.com/server.base:latest
+FROM bizobj-container.net/srv/server.base:latest
 LABEL maintainer="https://github.com/platbase"
 
 ### Server runtime environment variables ######################################
