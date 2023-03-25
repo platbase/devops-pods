@@ -5,7 +5,7 @@
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 # run test as Pod:
-#   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-base-test-base ; podman pod rm -f devpods-00-base-test
+#   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
 # debian 11/bullseye
 FROM debian:11
