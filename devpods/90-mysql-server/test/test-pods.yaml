@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod  
+metadata:  
+  name: devpods-90-test
+  labels:
+    name: devpods, mysql
+spec: 
+  volumes:
+  - {name: "test-data", hostPath: {path: "./test/data"}}
+  containers:
+  - name: mysql
+    image: bizobj-container.net/pods/mysql-server
+    stdin: true
+    tty: true
+    ports:
+    - containerPort: 3306 #容器对外的端口
+      hostPort: 3306
+      protocol: TCP
+    volumeMounts:
+    - {mountPath: "/data", name: "test-data" }
+    env:
+    - {name: "MYSQL_ROOT_PWD", value: "123456"}
