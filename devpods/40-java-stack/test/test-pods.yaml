@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod  
+metadata:  
+  name: devpods-40-test
+  labels:
+    name: devpods, java
+spec: 
+  volumes:
+  - {name: "/tmp/.X11-unix", hostPath: {path: "/tmp/.X11-unix"}}
+  - {name: ".vscode-server", hostPath: {path: "./test/.vscode-server"}}
+  - {name: "test-data",      hostPath: {path: "./test/data"}}
+  - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
+  containers:
+  - name: java
+    image: bizobj-container.net/pods/java-stack
+    stdin: true
+    tty: true
+    volumeMounts:
+    - {mountPath: "/tmp/.X11-unix",       name: "/tmp/.X11-unix"}
+    - {mountPath: "/root/.vscode-server", name: ".vscode-server" }
+    - {mountPath: "/data",                name: "test-data" }
+    - {mountPath: "/root/workspace",      name: "test-workspace" }
+    env:
+    - {name: "DISPLAY", value: "unix$DISPLAY"}
+    command: ['bash', '-c', 'sleep 2s && echo "Hello, Kubernetes!" && java -version && mvn -version && bash -il']
