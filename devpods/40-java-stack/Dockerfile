@@ -14,6 +14,7 @@ LABEL maintainer="https://github.com/platbase"
 VOLUME ["/data"]
 
 ###############################################################################
+RUN apt-get update -y
 
 # Install java
 RUN apt-get install -y openjdk-17-jdk maven

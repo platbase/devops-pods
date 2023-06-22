@@ -20,6 +20,7 @@ ENV NPM_REG=https://registry.npm.taobao.org
 VOLUME ["/data"]
 
 ###############################################################################
+RUN apt-get update -y
 
 # Install NodeJS
 RUN wget -O "/tmp/node-v${NODE_VERSION}-linux-x64.tar.xz" https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz && \
