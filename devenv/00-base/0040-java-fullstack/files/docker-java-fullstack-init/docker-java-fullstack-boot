@@ -1,5 +1,0 @@
-#!/bin/bash
-set -o errexit
-
-echo "*** Development environment with Java and Maven ***"
-mvn -version

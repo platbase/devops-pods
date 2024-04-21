@@ -1,6 +1,0 @@
-#!/bin/bash
-# Add to command running after shell started
-
-echo ".... Add cron task: $1"
-echo "$1" >> /root/.crontab
-/usr/bin/crontab /root/.crontab

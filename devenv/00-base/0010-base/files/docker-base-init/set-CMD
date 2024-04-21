@@ -1,5 +1,0 @@
-#!/bin/bash
-# Add to command running after shell started
-
-echo ".... Add autoexec-command: $1"
-echo "$1" >> /data/home/.config/.bashrc-docker-CMD
