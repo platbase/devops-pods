@@ -1,14 +1,14 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:20230325 .
+#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:20240421 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
-# debian 11/bullseye
-FROM debian:11
+# https://hub.docker.com/_/debian, bookworm, bookworm-20240408, 12.5, 12
+FROM debian:12.5
 LABEL maintainer="https://github.com/platbase"
 
 # Environment variables
@@ -29,7 +29,7 @@ CMD /bin/bash
 ###############################################################################
 
 # Prepare apt-get
-RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources
 RUN apt-get update && apt-get -y upgrade
 
 # Preparing installation and install basic tools
@@ -40,6 +40,9 @@ RUN apt-get install -y telnet nano cron procps fontconfig     && \
 
 # Additional(Chinese fonts, for Java Client such like JavaFX)
 RUN apt-get install -y fonts-wqy-microhei fonts-wqy-zenhei
+
+# VSCode copy/paste support
+RUN apt-get install -y xclip
 
 # Install Chromium
 #RUN apt-get install -y chromium
