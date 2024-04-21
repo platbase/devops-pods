@@ -12,7 +12,7 @@ spec:
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
   - name: frontend
-    image: bizobj-container.net/pods/frontend-stack
+    image: bizobj-container.net/pods/frontend-stack:latest
     stdin: true
     tty: true
     volumeMounts:

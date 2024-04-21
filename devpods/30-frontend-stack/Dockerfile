@@ -1,7 +1,7 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:18.15.0 .
+#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20.12.2 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/frontend-stack:latest
 # run test as Pod:
@@ -11,10 +11,10 @@ FROM bizobj-container.net/pods/dev.base:latest
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV NODE_VERSION=18.15.0
+ENV NODE_VERSION=20.12.2
 
 # The npm registry server
-ENV NPM_REG=https://registry.npm.taobao.org
+ENV NPM_REG=https://registry.npmmirror.com
 
 # Volume for nodejs global cache (/data/nodejs)
 VOLUME ["/data"]
