@@ -20,4 +20,4 @@ spec:
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
     - {name: "DISPLAY", value: "unix$DISPLAY"}
-    command: ['bash', '-c', 'sleep 2s && echo "Hello, Kubernetes!" && bash -il']
+    command: ['bash', '-c', 'sleep 2s && cat /etc/os-release && bash -il']
