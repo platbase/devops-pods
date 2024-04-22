@@ -19,6 +19,9 @@ export PATH="/opt/mysql-server/bin:$PATH"
 mkdir -p /var/run/mysqld
 #*chown -Rv u01:u01 /var/run/mysqld
 
+# Prepare conf.d directory
+mkdir -p /etc/mysql/conf.d/
+
 # If volumn /data/mysql not exist, init mysql database ...
 if [ ! -d "/data/mysql" ]
 then
