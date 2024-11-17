@@ -54,10 +54,10 @@ cat /tmp/boot.sql
 if [ "${FIRST_START}" = "YES" ]
 then
     echo "system echo '>>>>>>>> This is the init sql for database, run once only ...';" > /tmp/init.sql
-	echo "${MYSQL_INIT_SQL}" >> /tmp/init.sql
+    echo "${MYSQL_INIT_SQL}" >> /tmp/init.sql
 else
-    echo "system echo '>>>>>>>> This is the init sql for database: show all databases ...';" > /tmp/init.sql
-	echo "show databases ;" >> /tmp/init.sql
+    echo "system echo '>>>>>>>> This is the init sql for database ...';" > /tmp/init.sql
+    echo "${MYSQL_START_SQL}" >> /tmp/init.sql
 fi
 echo "system echo '******** Init sql for database finished.';" >> /tmp/init.sql
 # Review init.sql
@@ -68,7 +68,9 @@ echo "system echo '******** Init sql for database finished.';" >> /tmp/init.sql
 #  * Disable Client TCP Cache, to avoid error such like:
 #      "IP address '172.17.0.1' could not be resolved: Temporary failure in name resolution"
 #/usr/sbin/mysqld --user=u01 --skip-host-cache --skip-name-resolve --init-file=/tmp/boot.sql &
-mysqld --user=root --skip-host-cache --skip-name-resolve --init-file=/tmp/boot.sql &
+#mysqld --user=root --skip-host-cache --skip-name-resolve --init-file=/tmp/boot.sql &
+# The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+mysqld --user=root --skip-name-resolve --init-file=/tmp/boot.sql &
 
 set +o errexit
 for (( _TIME = 1 ; _TIME <= 120 ; _TIME++ )); do

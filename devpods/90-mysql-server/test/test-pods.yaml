@@ -9,7 +9,7 @@ spec:
   - {name: "test-data", hostPath: {path: "./test/data"}}
   containers:
   - name: mysql
-    image: bizobj-container.net/pods/mysql-server
+    image: bizobj-container.net/pods/mysql-server:20241117-8.0.40
     stdin: true
     tty: true
     ports:
@@ -20,3 +20,8 @@ spec:
     - {mountPath: "/data", name: "test-data" }
     env:
     - {name: "MYSQL_ROOT_PWD", value: "123456"}
+    - {name: "MYSQL_START_SQL",
+       value: "SHOW VARIABLES LIKE 'datadir';
+               SHOW VARIABLES LIKE 'log_error';
+               SHOW VARIABLES LIKE 'pid_file';
+               SHOW VARIABLES LIKE '%buffer%';"}

@@ -1,22 +1,24 @@
 # MySQL Database Server, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:8.0.36 .
+#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20241117-8.0.40 .
 # run test by podman:
 #   podman run -it --rm bizobj-container.net/pods/mysql-server:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-90-test-mysql ; podman pod rm -f devpods-90-test
 
-FROM bizobj-container.net/pods/dev.base:latest
+FROM bizobj-container.net/pods/dev.base:bookworm-20241111
 LABEL maintainer="https://github.com/platbase"
 
 # The version of mysql
-ENV MYSQL_VERSION=8.0.36
+ENV MYSQL_VERSION=8.0.40
 
 # The default mysql root password
 ENV MYSQL_ROOT_PWD=root
-# MySQL initialization SQL
-ENV MYSQL_INIT_SQL='show databases ;'
+# MySQL initialization SQL (Run ONCE for first creating database)
+ENV MYSQL_INIT_SQL='SHOW VARIABLES; show databases ;'
+# MySQL starting SQL (Run Every time database starting)
+ENV MYSQL_START_SQL='show databases ;'
 
 # MySQL port 3306
 EXPOSE 3306
