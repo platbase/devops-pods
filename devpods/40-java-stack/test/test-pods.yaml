@@ -12,7 +12,7 @@ spec:
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
   - name: java
-    image: bizobj-container.net/pods/java-stack:latest
+    image: bizobj-container.net/pods/java-stack:20241117-8-and-21
     stdin: true
     tty: true
     volumeMounts:
@@ -22,4 +22,4 @@ spec:
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
     - {name: "DISPLAY", value: "unix$DISPLAY"}
-    command: ['bash', '-c', 'sleep 2s && cat /etc/os-release && java -version && mvn -version && bash -il']
+    command: ['bash', '-ic', 'sleep 2s && cat /etc/os-release && java -version && mvn -version && bash -il']
