@@ -1,0 +1,6 @@
+#!/bin/bash
+# Set Envionment Variable
+
+echo ".... Set Envionment Variable: $1 $2"
+
+echo "export $1=\"$2\""  >> /container-init/.config/.bashrc-container-ENVS
