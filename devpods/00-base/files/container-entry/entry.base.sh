@@ -2,9 +2,9 @@
 set -e
 set -u
 
-# Change password of 'u01'
-sudo bash -c "echo \"u01:${PASSWORD_U01}\" | chpasswd"
-echo ">>> Password of 'u01' is reset."
+# Change password of 'root'
+sudo bash -c "echo \"root:${SET_ROOT_PASS}\" | chpasswd"
+echo ">>> Password of 'root' is reset."
 
 f_usage(){
     echo -e "\n[Help]

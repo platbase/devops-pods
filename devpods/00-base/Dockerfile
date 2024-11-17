@@ -4,6 +4,7 @@
 #   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:bookworm-20241111 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
+#   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
@@ -23,8 +24,8 @@ ENV LANG=C.UTF-8
 # Terminal type
 ENV TERM=xterm-256color
 
-# Password for default user 'u01'
-ENV PASSWORD_U01=docker.io
+# Password for default user "root"(NOTE: applied in /container-entry/entry.base.sh)
+ENV SET_ROOT_PASS=docker.io
 
 ###############################################################################
 
@@ -59,31 +60,33 @@ RUN apt-get install -y libncurses5 default-mysql-client
 # Install Chromium
 #RUN apt-get install -y chromium
 
-# Add user "u01", sudo with no password
-RUN useradd -mU -u 1000 -d /home/u01 -s /bin/bash u01 && \
-    usermod -a -G sudo u01 && \
-    echo "u01:${PASSWORD_U01}" | chpasswd     # Can not set password properly with "-p" argument in "useradd" command
-RUN echo "u01 ALL= (ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/u01-nopasswd
-RUN chown -Rv 1000:1000 ~u01
+# Change sshd behaviors
+RUN echo "PermitRootLogin yes      " >  /etc/ssh/sshd_config.d/00-base.conf &&\
+    echo "AllowAgentForwarding yes " >> /etc/ssh/sshd_config.d/00-base.conf &&\
+    echo "AllowTcpForwarding yes   " >> /etc/ssh/sshd_config.d/00-base.conf &&\
+    echo "X11Forwarding yes        " >> /etc/ssh/sshd_config.d/00-base.conf
 
-# Change bashrc
+# Change bashrc settings
 RUN mkdir -p /container-init/.config/                      &&\
     touch /container-init/.config/.bashrc-container-PS1    &&\
     touch /container-init/.config/.bashrc-container-PATH   &&\
-    touch /container-init/.config/.bashrc-container-ENVS
-RUN echo "\n\n"                                              >> /etc/bash.bashrc &&\
-    echo "### $(date) ; $(id)"                               >> /etc/bash.bashrc &&\
+    touch /container-init/.config/.bashrc-container-ENVS   &&\
+    echo "\n\n### $(date) ; $(id)"                           >> /etc/bash.bashrc &&\
     echo "### Default alias"                                 >> /etc/bash.bashrc &&\
     echo "alias ls='ls --color=auto'"                        >> /etc/bash.bashrc &&\
     echo "alias ll='ls --color=auto -al'"                    >> /etc/bash.bashrc &&\
-    echo "### Command line Prompt"                           >> /etc/bash.bashrc &&\
+    echo "### Command line Prompt, PATH, and ENVs"           >> /etc/bash.bashrc &&\
     echo ". /container-init/.config/.bashrc-container-PS1"   >> /etc/bash.bashrc &&\
     echo ". /container-init/.config/.bashrc-container-PATH"  >> /etc/bash.bashrc &&\
     echo ". /container-init/.config/.bashrc-container-ENVS"  >> /etc/bash.bashrc
 
 # Init scripts
 ADD files /
-RUN /container-init/set-PS1 "DevPod"
+
+# Add hostname into PS1
+RUN /container-init/set-PS1 "\\h"   # "\h" means "hostname" of PS1
+
+###############################################################################
 
 # Entry
 ENTRYPOINT ["/container-entry/entry.base.sh"]

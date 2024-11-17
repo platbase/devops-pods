@@ -11,13 +11,21 @@ spec:
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
   - name: base
-    image: bizobj-container.net/pods/dev.base:latest
+    image: bizobj-container.net/pods/dev.base:bookworm-20241111
     stdin: true
     tty: true
+    securityContext:
+      hostname: devpods-00-test
+      #runAsUser: 1000
+      #runAsGroup: 1000
+    ports:
+    - {containerPort: 22, hostPort: 29922, protocol: "TCP"}
     volumeMounts:
     - {mountPath: "/tmp/.X11-unix",       name: "/tmp/.X11-unix"}
     - {mountPath: "/root/.vscode-server", name: ".vscode-server" }
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
-    - {name: "DISPLAY", value: "unix$DISPLAY"}
-    command: ['bash', '-c', 'sleep 2s && cat /etc/os-release && bash -il']
+    - {name: "DISPLAY",       value: "unix$DISPLAY"}
+    - {name: "SET_ROOT_PASS", value: "123456"}
+    #command: ['bash', '-c', 'sleep 2s && cat /etc/os-release && bash -il']
+    args: ['--sshd', '--crond', '--', 'bash', '-c', 'sleep 2s && cat /etc/os-release && bash -il']
