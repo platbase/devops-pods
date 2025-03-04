@@ -14,6 +14,7 @@ f_usage(){
         --crond  : Start crond service
         --atd    : Start atd service
         --nginx  : Start nginx service
+        --dockerd: Start docker (DinD)
         (tail):   Command to run
     
     For example:
@@ -31,8 +32,9 @@ WITH_rinetd=0
 WITH_crond=0
 WITH_atd=0
 WITH_nginx=0
+WITH_dockerd=0
 # Getopt: parse arguments
-ARGS=$(getopt -o h --long help,sshd,rinetd,crond,atd,nginx -- "$@")
+ARGS=$(getopt -o h --long help,sshd,rinetd,crond,atd,nginx,dockerd -- "$@")
 eval set -- "${ARGS}"
 while true
 do
@@ -64,6 +66,11 @@ do
         --nginx)
             echo "[--nginx]: Should start nginx .";
             WITH_nginx=1
+            shift
+            ;;
+        --dockerd)
+            echo "[--dockerd]: Should start docker(DinD) .";
+            WITH_dockerd=1
             shift
             ;;
         --)
@@ -108,6 +115,12 @@ if [ $WITH_nginx == 1 ]; then
     echo ">>> Starting nginx ..."
     sudo service nginx start
     sudo service nginx status
+fi
+
+if [ $WITH_dockerd == 1 ]; then
+    echo ">>> Starting dockerd(DinD) ..."
+    sudo sh -c "nohup dockerd --host=unix:///var/run/docker.sock > /var/log/dockerd.log 2>&1 &"
+    ps -ef | grep docker
 fi
 
 if [ -z "$*" ];then

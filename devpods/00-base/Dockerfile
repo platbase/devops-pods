@@ -1,15 +1,16 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:bookworm-20241111 .
+#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:bookworm-20250224 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 #   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
+#   podman run --privileged -it --rm bizobj-container.net/pods/dev.base:latest --dockerd -- iostat 10
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
 # https://hub.docker.com/_/debian
-FROM debian:bookworm-20241111
+FROM debian:bookworm-20250224
 LABEL maintainer="https://github.com/platbase"
 
 # Environment variables
@@ -38,7 +39,37 @@ RUN apt-get install -y telnet nano cron at procps fontconfig           && \
     apt-get install -y net-tools iproute2 inetutils-ping lsof sysstat  && \
     apt-get install -y wget curl sudo                                  &&\
     apt-get install -y build-essential git subversion git-lfs          &&\
-    apt-get install -y openssh-server sshfs rinetd nginx docker.io
+    apt-get install -y openssh-server sshfs rinetd nginx
+
+# Install docker for dind
+# 安装基本依赖
+RUN apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release \
+        iptables \
+        libseccomp2
+# 添加 Docker 官方 GPG 密钥
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | \
+    gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# 设置 Docker 仓库源
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+    https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+# 安装 Docker 引擎组件
+RUN apt-get update && \
+    apt-get install -y \
+        docker-ce \
+        docker-ce-cli \
+        containerd.io
+# 安装 Docker Compose（可选）
+RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.3/docker-compose-$(uname -s)-$(uname -m)" \
+    -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose
+# 配置 Docker 存储驱动（避免与宿主机冲突）
+RUN mkdir -p /etc/docker && \
+    echo '{"storage-driver": "vfs"}' > /etc/docker/daemon.json
 
 # Additional(Chinese fonts, for Java Client such like JavaFX)
 RUN apt-get install -y fonts-noto-cjk          &&\
@@ -46,9 +77,10 @@ RUN apt-get install -y fonts-noto-cjk          &&\
     apt-get install -y fonts-wqy-microhei fonts-wqy-zenhei xfonts-intl-chinese xfonts-wqy
 
 # Locales
-RUN apt-get install -y locales                                              && \
-    echo -e "\nzh_CN.UTF-8 UTF-8\nen_US.UTF-8 UTF-8" >> /etc/locale.gen     && \
-    dpkg-reconfigure --frontend=noninteractive locales                      && \
+RUN apt-get install -y locales                           && \
+    echo "zh_CN.UTF-8 UTF-8"   >> /etc/locale.gen        && \
+    echo "en_US.UTF-8 UTF-8"   >> /etc/locale.gen        && \
+    dpkg-reconfigure --frontend=noninteractive locales   && \
     update-locale LANG=zh_CN.UTF-8
 
 # VSCode copy/paste support
