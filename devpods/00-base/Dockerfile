@@ -67,9 +67,9 @@ RUN apt-get update && \
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.3/docker-compose-$(uname -s)-$(uname -m)" \
     -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
-# 配置 Docker 存储驱动（避免与宿主机冲突）
-RUN mkdir -p /etc/docker && \
-    echo '{"storage-driver": "vfs"}' > /etc/docker/daemon.json
+# 配置 Docker 存储驱动（避免与宿主机冲突） -- 效率较低, 在完全内部 DinD 的情况下使用默认 overlay2 更合适
+#RUN mkdir -p /etc/docker && \
+#    echo '{"storage-driver": "vfs"}' > /etc/docker/daemon.json
 
 # Additional(Chinese fonts, for Java Client such like JavaFX)
 RUN apt-get install -y fonts-noto-cjk          &&\
