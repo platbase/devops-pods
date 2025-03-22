@@ -88,6 +88,9 @@ done
 echo -e "\nBegin to process CMD ..."
 
 if [ $WITH_sshd == 1 ]; then
+    echo ">>> Private key files regularization ..."
+    sudo chown -Rv root:root /etc/ssh/
+    sudo chmod -v 600 /etc/ssh/ssh_host_*_key
     echo ">>> Starting sshd ..."
     sudo service ssh start
     sudo service ssh status
