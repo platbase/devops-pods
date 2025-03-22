@@ -19,6 +19,7 @@ spec:
     volumeMounts:
     - {mountPath: "/data", name: "test-data" }
     env:
+    - {name: "MYSQL_HEALTHCHECK_INTERVAL", value: "15"}
     - {name: "MYSQL_ROOT_PWD", value: "123456"}
     - {name: "MYSQL_START_SQL",
        value: "SHOW VARIABLES LIKE 'datadir';

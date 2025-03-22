@@ -30,6 +30,9 @@ ENV MYSQL_DBINIT_ARGS='--lower_case_table_names=1'
 # for this check. This is crucial for containers with large databases that have slow start-up times.
 ENV MYSQL_DBCHECK_TIMES=120
 
+# Interval (in seconds) for periodic health checks with opt/scripts/mysql-server/healthcheck.sh
+ENV MYSQL_HEALTHCHECK_INTERVAL=60
+
 # MySQL port 3306
 EXPOSE 3306
 

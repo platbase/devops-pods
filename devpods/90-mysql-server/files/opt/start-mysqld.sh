@@ -28,8 +28,9 @@ then
     mkdir -p /data/mysql/db
     echo "=> [MySQL Starting 1/5] $(date "+%Y-%m-%d %H:%M:%S") Begin to create database instance with --datadir=/data/mysql/db ..."
 
-    # Prepare error log to make tail work fine
-    echo -e "\n######## Create MySQL Instance [/data/mysql/db] with [${MYSQL_DBINIT_ARGS}] ... - $(date "+%Y-%m-%d %H:%M:%S") ########\n\n" >> /data/mysql/error.log
+    # Prepare logs to make tail work fine
+    touch /data/mysql/error.log
+    touch /data/mysql/monitor.log
 
     mysqld --no-defaults ${MYSQL_DBINIT_ARGS} --initialize --datadir=/data/mysql/db
     #*chown -Rv u01:u01 /data/mysql
@@ -88,8 +89,8 @@ for (( _TIME = 1 ; _TIME <= ${MYSQL_DBCHECK_TIMES} ; _TIME++ )); do
     echo quit | mysql -uroot -p"${MYSQL_ROOT_PWD}" # Test mysql server ready or not
     if [ $? -ne 0 ]; then
         echo " > [$(date "+%Y-%m-%d %H:%M:%S")]: waiting for mysqld start ..."
-        echo "######## Waiting mysqld ready for initialization data (${_TIME}/${MYSQL_DBCHECK_TIMES}) ... - $(date "+%Y-%m-%d %H:%M:%S") ########" >> /data/mysql/error.log
-        tail /data/mysql/error.log
+        echo ">>> [$(date "+%Y-%m-%d %H:%M:%S")] Waiting mysqld ready for initialization data (${_TIME}/${MYSQL_DBCHECK_TIMES}) ..." >> /data/mysql/monitor.log
+        tail -n 3 /data/mysql/error.log /data/mysql/monitor.log
         sleep 2;
     else
         echo " > [$(date "+%Y-%m-%d %H:%M:%S")]: mysqld started ."
@@ -113,7 +114,7 @@ mysqladmin shutdown -u root -p"${MYSQL_ROOT_PWD}"
 
 # Restart working mysqld
 echo "=====> [MySQL Starting 5/5] $(date "+%Y-%m-%d %H:%M:%S") Begin to start working mysqld instance ..."
-echo -e "\n\n######## The working mysqld instance booting start ... - $(date "+%Y-%m-%d %H:%M:%S") ########\n\n" >> /data/mysql/error.log
+echo ">>> [$(date "+%Y-%m-%d %H:%M:%S")] The working mysqld instance booting start ..." >> /data/mysql/monitor.log
 mysqld --user=root --skip-name-resolve &
 
 # Tail error log, to prevent container exit
@@ -122,4 +123,34 @@ echo "
 [$(date)]: MySQL service started successful .
 *******************************************************************************
 "
-tail -f /data/mysql/error.log
+
+# Prepare for health check
+# Configuration to access with network(Note: MUST host = 127.0.0.1, if use "localhost", mysqladmin try to through socket '/tmp/mysql.sock')
+mkdir -p /opt/tmp/mysql-server
+echo "
+[client]
+user = root
+password = ${MYSQL_ROOT_PWD}
+host = 127.0.0.1
+port = 3306
+" > /opt/tmp/mysql-server/health-check-network.cnf
+chmod 600 /opt/tmp/mysql-server/health-check-network.cnf
+# Configuration to access with linux socket
+echo "
+[client]
+user = root
+password = ${MYSQL_ROOT_PWD}
+socket = /var/run/mysqld/mysqld.sock
+" > /opt/tmp/mysql-server/health-check-socket.cnf
+chmod 600 /opt/tmp/mysql-server/health-check-socket.cnf
+# Periodically health check
+(
+set +o errexit
+while true; do
+    /opt/scripts/mysql-server/healthcheck.sh >> /data/mysql/monitor.log
+    sleep ${MYSQL_HEALTHCHECK_INTERVAL};
+done
+) &
+
+# Last command to keep running  ...
+tail -f /data/mysql/error.log /data/mysql/monitor.log
