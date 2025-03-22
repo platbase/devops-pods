@@ -12,7 +12,7 @@ spec:
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
   - name: java
-    image: bizobj-container.net/pods/java-stack:20241117-8-and-21
+    image: bizobj-container.net/pods/java-stack:latest
     stdin: true
     tty: true
     volumeMounts:
