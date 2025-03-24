@@ -9,8 +9,8 @@ SELECT CONCAT(
 -- 数据库名称及占用空间大小
 SELECT '- 数据库名称及占用空间大小' AS '';
 SELECT CONCAT(
-  '   - ', RPAD(RIGHT(CONCAT('`', table_schema, '`'), 24), 24, ' '),
-  ': ', SUM(data_length + index_length) / 1024 / 1024, ' MB'
+  '   - ', RPAD(CONCAT('`', table_schema, '`'), 36, ' '),
+  ': ', LPAD(ROUND(SUM(data_length + index_length) / 1024 / 1024, 3), 16, ' '), ' MB'
 ) AS ''
 FROM information_schema.tables
 GROUP BY table_schema
