@@ -22,4 +22,20 @@ spec:
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
     - {name: "DISPLAY", value: "unix$DISPLAY"}
-    command: ['bash', '-ic', 'sleep 2s && export && cat /etc/os-release && node -v && npm -v && yarn -v && bash -il']
+    command: 
+    - 'bash'
+    - '-ic'
+    - |
+      sleep 2s
+      export
+      set -x
+      cat /etc/os-release
+      node -v
+      npm -v
+      yarn -v
+      pnpm -v
+      python3 --version
+      pip3 --version
+      pipx --version
+      /root/.local/bin/uv --version
+      bash -il
