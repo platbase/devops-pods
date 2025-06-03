@@ -22,4 +22,15 @@ spec:
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
     - {name: "DISPLAY", value: "unix$DISPLAY"}
-    command: ['bash', '-ic', 'sleep 2s && cat /etc/os-release && java -version && mvn -version && bash -il']
+    command:
+    - 'bash'
+    - '-ic'
+    - |
+      sleep 2s
+      set -x
+      cat /etc/os-release
+      java -version
+      mvn -version
+      /usr/lib/jvm/temurin-8-jdk-amd64/bin/java -version
+      /usr/lib/jvm/temurin-21-jdk-amd64/bin/java -version
+      bash -il
