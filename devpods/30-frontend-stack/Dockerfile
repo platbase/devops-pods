@@ -1,17 +1,17 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20250520-22.16.0 .
+#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20250610-22.17.0 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/frontend-stack:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-30-test-frontend ; podman pod rm -f devpods-30-test
 
-FROM bizobj-container.net/pods/dev.base:bookworm-20250520
+FROM bizobj-container.net/pods/dev.base:bookworm-20250610
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV NODE_VERSION=22.16.0
+ENV NODE_VERSION=22.17.0
 
 # The npm registry server
 ENV NPM_REG=https://registry.npmmirror.com

@@ -1,13 +1,13 @@
 # JDK, NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/java-stack:latest -t bizobj-container.net/pods/java-stack:20250520-8-and-21 .
+#   podman build --force-rm -t bizobj-container.net/pods/java-stack:latest -t bizobj-container.net/pods/java-stack:20250610-8-and-21 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/java-stack:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-40-test-java ; podman pod rm -f devpods-40-test
 
-FROM bizobj-container.net/pods/frontend-stack:20250520-22.16.0
+FROM bizobj-container.net/pods/frontend-stack:20250610-22.17.0
 LABEL maintainer="https://github.com/platbase"
 
 # Volume for nodejs global cache (/data/nodejs)

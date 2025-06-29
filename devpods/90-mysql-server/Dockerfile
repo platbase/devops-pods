@@ -1,13 +1,13 @@
 # MySQL Database Server, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20250520-8.4.5 .
+#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20250610-8.4.5 .
 # run test by podman:
 #   podman run -it --rm bizobj-container.net/pods/mysql-server:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-90-test-mysql ; podman pod rm -f devpods-90-test
 
-FROM bizobj-container.net/pods/dev.base:bookworm-20250520
+FROM bizobj-container.net/pods/dev.base:bookworm-20250610
 LABEL maintainer="https://github.com/platbase"
 
 # The version of mysql
