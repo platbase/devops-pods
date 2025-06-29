@@ -1,7 +1,7 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:bookworm-20250520 .
+#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:bookworm-20250610 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 #   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
@@ -10,7 +10,7 @@
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
 # https://hub.docker.com/_/debian
-FROM debian:bookworm-20250520
+FROM debian:bookworm-20250610
 LABEL maintainer="https://github.com/platbase"
 
 # Environment variables
@@ -44,7 +44,7 @@ RUN apt-get update                                                     && \
     apt-get install -y net-tools iproute2 inetutils-ping lsof sysstat  && \
     apt-get install -y wget curl sudo                                  && \
     apt-get install -y build-essential git subversion git-lfs          && \
-    apt-get install -y openssh-server sshfs rinetd nginx               && \
+    apt-get install -y openssh-server sshfs rinetd nginx sqlite3       && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Install docker for dind
