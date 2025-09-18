@@ -1,7 +1,7 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:bookworm-20250610 .
+#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:trixie-20250908 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 #   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
@@ -10,7 +10,7 @@
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
 # https://hub.docker.com/_/debian
-FROM debian:bookworm-20250610
+FROM debian:trixie-20250908
 LABEL maintainer="https://github.com/platbase"
 
 # Environment variables
@@ -62,10 +62,10 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/d
 RUN apt-get update && \
     apt-get install -y docker-ce docker-ce-cli containerd.io && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
-# 5. Install Docker Compose (optional)
-RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.3/docker-compose-$(uname -s)-$(uname -m)" \
-    -o /usr/local/bin/docker-compose && \
-    chmod +x /usr/local/bin/docker-compose
+# # 5. Install Docker Compose (optional)
+# RUN curl -L "https://github.com/docker/compose/releases/download/v2.39.3/docker-compose-$(uname -s)-$(uname -m)" \
+#     -o /usr/local/bin/docker-compose && \
+#     chmod +x /usr/local/bin/docker-compose
 # 6. Configure Docker storage driver (avoid conflicts with host machine) -- Less efficient, prefer default overlay2 for full internal DinD scenarios
 #RUN mkdir -p /etc/docker && \
 #    echo '{"storage-driver": "vfs"}' > /etc/docker/daemon.json
@@ -93,7 +93,7 @@ RUN apt-get update && \
 
 # Additional(libncurses5 is needed in embeded MySQL)
 RUN apt-get update && \
-    apt-get install -y libncurses5 default-mysql-client && \
+    apt-get install -y libncurses6 default-mysql-client && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Install Chromium
