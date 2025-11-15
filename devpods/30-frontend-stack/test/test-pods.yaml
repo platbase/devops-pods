@@ -37,5 +37,5 @@ spec:
       python3 --version
       pip3 --version
       pipx --version
-      /root/.local/bin/uv --version
+      uv --version
       bash -il
