@@ -15,7 +15,7 @@ The Dockerfiles for development, testing and deployment.
 
 ### dockerd
 After `bookworm-20250610`, Running `dockerd` in `00-base` container has the following limits:
-1. `Ubuntu 22.04.5 LTS` - Can't support `"storage-driver": "overlay2"`:
+1. `Ubuntu 22.04.5 LTS`(`Linux 6.8.0-86-generic (c20bc164f7d6)`) - Can't support `"storage-driver": "overlay2"`:
    - The reason is `userxattr`: an overlayfs mount option (Linux ≥5.11) that allows unprivileged users to read/write extended attributes.
    - Older kernels reject it with -EINVAL; newer Docker/containerd enable it by default, so systems with kernel <5.11 fail to mount overlayfs and Docker reports “driver not supported”.
    - Or kernel compile-time switch `CONFIG_OVERLAY_FS_USERXATTR` is disabled (common in some vendor kernels), the file `/sys/module/overlay/parameters/userxattr` is missing and any mount request with userxattr returns -EINVAL, even on kernel 6.x.
@@ -25,7 +25,7 @@ After `bookworm-20250610`, Running `dockerd` in `00-base` container has the foll
           -e DOCKER_DAEMON_ARGS="--storage-driver=vfs" --name test-dev-base-dind \
           bizobj-container.net/pods/dev.base:bookworm-20251103 --dockerd -- iostat 10
       ``` 
-2. `Ubuntu 20.04.6 LTS` - Error like:
+2. `Ubuntu 20.04.6 LTS`(`Linux 5.4.0-202-generic (cca1e631b957)`)- Error like:
    ```
    docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: unable to apply cgroup configuration: mkdir /sys/fs/cgroup/cpuset/docker/32ca877a452f378acc77a6183b42cc0ac806483a390be3cb482b3798677ae752: permission denied
    ```
