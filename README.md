@@ -14,7 +14,7 @@ The Dockerfiles for development, testing and deployment.
 ## Troubleshoot
 
 ### dockerd
-From `bookworm-20251103`, Running `dockerd` in current containers has the following limites:
+After `bookworm-20250610`, Running `dockerd` in `00-base` container has the following limits:
 1. `Ubuntu 22.04.5 LTS` - Can't support `"storage-driver": "overlay2"`:
    - The reason is `userxattr`: an overlayfs mount option (Linux ≥5.11) that allows unprivileged users to read/write extended attributes.
    - Older kernels reject it with -EINVAL; newer Docker/containerd enable it by default, so systems with kernel <5.11 fail to mount overlayfs and Docker reports “driver not supported”.
