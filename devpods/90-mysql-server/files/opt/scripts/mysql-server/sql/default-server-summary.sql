@@ -51,7 +51,7 @@ SELECT CONCAT(
 -- InnoDB 存储引擎相关参数
 SELECT CONCAT(
   '### InnoDB 存储引擎相关参数', CHAR(10),
-  '- **`innodb_flush_log_at_trx_commit`**: 控制事务提交时 InnoDB 刷新日志到磁盘的策略. 设置为 1 时最安全, 但性能较差；设置为 2 时, 性能和数据安全之间取得平衡. ', CHAR(10),
+  '- **`innodb_flush_log_at_trx_commit`**: 控制事务提交时 InnoDB 刷新日志到磁盘的策略. 0/1(默认)/2, 设置为 1 时最安全, 但性能较差；设置为 2 时, 性能和数据安全之间取得平衡. ', CHAR(10),
   '   - innodb_flush_log_at_trx_commit=`', @@innodb_flush_log_at_trx_commit, '`'
 ) AS '';
 SELECT CONCAT(

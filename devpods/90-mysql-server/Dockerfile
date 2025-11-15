@@ -1,17 +1,17 @@
 # MySQL Database Server, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20250610-8.4.5 .
+#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20251103-8.4.7 .
 # run test by podman:
 #   podman run -it --rm bizobj-container.net/pods/mysql-server:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-90-test-mysql ; podman pod rm -f devpods-90-test
 
-FROM bizobj-container.net/pods/dev.base:bookworm-20250610
+FROM bizobj-container.net/pods/dev.base:trixie-20251103
 LABEL maintainer="https://github.com/platbase"
 
 # The version of mysql
-ENV MYSQL_VERSION=8.4.5
+ENV MYSQL_VERSION=8.4.7
 
 # The default mysql root password
 ENV MYSQL_ROOT_PWD=root
@@ -42,11 +42,11 @@ VOLUME ["/data"]
 ###############################################################################
 
 RUN apt-get update -y && \
-    apt-get install -y libaio1 libnuma1 libncurses5 && \
+    apt-get install -y libaio1t64 libnuma1 libncurses6 && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Install MySQL Community Server ( from https://dev.mysql.com/downloads/mysql/ )
-RUN export MYSQL_PACKAGE_NAME="mysql-${MYSQL_VERSION}-linux-glibc2.17-x86_64-minimal" && \
+RUN export MYSQL_PACKAGE_NAME="mysql-${MYSQL_VERSION}-linux-glibc2.28-x86_64-minimal" && \
     wget -O "/tmp/${MYSQL_PACKAGE_NAME}.tar.xz" https://dev.mysql.com/get/Downloads/MySQL-8.4/${MYSQL_PACKAGE_NAME}.tar.xz && \
     tar xvJf "/tmp/${MYSQL_PACKAGE_NAME}.tar.xz" -C /opt                              && \
     mv -v "/opt/${MYSQL_PACKAGE_NAME}" /opt/mysql-server                              && \
@@ -56,6 +56,10 @@ RUN export MYSQL_PACKAGE_NAME="mysql-${MYSQL_VERSION}-linux-glibc2.17-x86_64-min
 #   mysqld: Can't open shared library '/usr/lib/plugin/component_reference_cache.so' (errno: 0 /usr/lib/plugin/component_reference_cache.so: cannot open shared object file: No such file or directory)
 #   mysqld: Cannot load component from specified URN: 'file://component_reference_cache'.
 RUN ln -s /opt/mysql-server/lib/plugin /usr/lib/plugin
+
+# Avoid mysqld:
+#   mysqld: error while loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory
+RUN ln -s /lib/x86_64-linux-gnu/libaio.so.1t64 /lib/x86_64-linux-gnu/libaio.so.1
 
 # Default MySQL configuration and init scripts
 ADD files /
