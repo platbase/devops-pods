@@ -1,16 +1,16 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:trixie-20250908 .
+#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:bookworm-20251103 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 #   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
-#   podman run --privileged -it --rm bizobj-container.net/pods/dev.base:latest --dockerd -- iostat 10
+#   podman run --privileged -it --rm --name test-dev-base-dind -e DOCKER_DAEMON_ARGS="--storage-driver=vfs" bizobj-container.net/pods/dev.base:latest --dockerd -- iostat 10
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
 # https://hub.docker.com/_/debian
-FROM debian:trixie-20250908
+FROM debian:bookworm-20251103
 LABEL maintainer="https://github.com/platbase"
 
 # Environment variables
@@ -42,7 +42,7 @@ RUN apt-get update && apt-get -y upgrade && \
 RUN apt-get update                                                     && \
     apt-get install -y telnet nano cron at procps fontconfig           && \
     apt-get install -y net-tools iproute2 inetutils-ping lsof sysstat  && \
-    apt-get install -y wget curl sudo                                  && \
+    apt-get install -y wget curl sudo jq                               && \
     apt-get install -y build-essential git subversion git-lfs          && \
     apt-get install -y openssh-server sshfs rinetd nginx sqlite3       && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*

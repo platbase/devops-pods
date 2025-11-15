@@ -122,7 +122,7 @@ fi
 
 if [ $WITH_dockerd == 1 ]; then
     echo ">>> Starting dockerd(DinD) ..."
-    sudo sh -c "nohup dockerd --host=unix:///var/run/docker.sock > /var/log/dockerd.log 2>&1 &"
+    sudo -E /container-entry/dind/dind-start.sh
     ps -ef | grep docker
 fi
 
