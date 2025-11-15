@@ -5,7 +5,7 @@
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 #   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
-#   podman run --privileged -it --rm --name test-dev-base-dind -e DOCKER_DAEMON_ARGS="--storage-driver=vfs" bizobj-container.net/pods/dev.base:latest --dockerd -- iostat 10
+#   podman run --privileged -it --rm --name test-dev-base-dind bizobj-container.net/pods/dev.base:latest --dockerd -- iostat 10
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
