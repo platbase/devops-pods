@@ -13,10 +13,16 @@ LABEL maintainer="https://github.com/platbase"
 # The version of node js
 ENV NODE_VERSION=24.13.1
 
+# The version of go
+ENV GO_VERSION=1.26.0
+
 # The npm registry server
 ENV NPM_REG=https://registry.npmmirror.com
 
-# Volume for nodejs global cache (/data/nodejs)
+# Volume for persistent data
+#   - /data/nodejs/  (npm cache, global packages, pnpm store)
+#   - /data/python/  (pip cache, pipx tools, user packages)
+#   - /data/go/      (go executables, module cache, build cache)
 VOLUME ["/data"]
 
 ###############################################################################
@@ -35,6 +41,30 @@ RUN export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin          && \
     pnpm set registry ${NPM_REG} --location=global                      && \
     /container-init/set-PATH "/data/nodejs/global/bin"                  && \
     /container-init/set-PATH "/opt/node-v${NODE_VERSION}-linux-x64/bin"
+
+###############################################################################
+
+# Install Go
+RUN wget -O "/tmp/go${GO_VERSION}.linux-amd64.tar.gz" \
+         https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
+    tar xzf "/tmp/go${GO_VERSION}.linux-amd64.tar.gz" -C /opt && \
+    rm "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
+
+# Make go persistent directory structure:
+# /data/go/
+#   |- bin/          # executables from go install
+#   |- pkg/          # compiled packages
+#   |- cache/        # GOCACHE (build cache)
+#   |- modcache/     # GOMODCACHE (module dependencies)
+#   `- src/          # source code directory (traditional GOPATH)
+RUN mkdir -p /data/go/{bin,pkg,cache,modcache,src} && \
+    /container-init/set-ENV GOPATH        /data/go && \
+    /container-init/set-ENV GOMODCACHE    /data/go/modcache && \
+    /container-init/set-ENV GOCACHE       /data/go/cache && \
+    /container-init/set-PATH "/data/go/bin" && \
+    /container-init/set-PATH "/opt/go/bin"
+
+###############################################################################
 
 # Install Python3
 RUN apt-get update                                                     && \
