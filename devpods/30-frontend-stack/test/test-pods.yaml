@@ -40,7 +40,8 @@ spec:
       uv --version
       set +x
 
-      echo "=== Testing Python persistence configuration ==="
+      echo ""
+      echo "=== Python: Python persistence configuration ==="
       echo "Environment variables:"
       env | grep -E '^(PIPX_|UV_|PYTHONUSERBASE)' || echo "Some environment variables not set"
       echo ""
@@ -51,18 +52,19 @@ spec:
       pipx environment
       echo ""
 
-      echo "=== Installing pipx packages (black, ruff) ==="
+      echo "=== Python: Testing PIPX packages installation (black, ruff) ==="
       pipx install black
       pipx install ruff
       echo ""
+      black --version || echo "black command not found in PATH"
+      ruff --version || echo "ruff command not found in PATH"
+      echo ""
 
-      echo "=== Testing Python package in virtual environment ==="
+      echo "=== Python: Testing Python package in virtual environment ==="
       python3 -m venv /tmp/venv-test
       source /tmp/venv-test/bin/activate
       pip install requests
       echo ""
-
-      echo "=== Verifying installation locations ==="
       echo "Directory structure in /data/python/:"
       ls -la /data/python/
       echo ""
@@ -78,14 +80,7 @@ spec:
       rm -rf /tmp/venv-test
       echo ""
 
-      echo "=== Testing installed tools ==="
-      black --version || echo "black command not found in PATH"
-      ruff --version || echo "ruff command not found in PATH"
-      echo ""
-      echo "=== Persistence test complete ==="
-      echo ""
-
-      echo "=== Testing PYTHONUSERBASE configuration ==="
+      echo "=== Python: Testing PYTHONUSERBASE configuration ==="
       echo "PYTHONUSERBASE value:"
       echo "  $PYTHONUSERBASE"
       echo ""
@@ -101,5 +96,7 @@ spec:
       echo "Note: This test bypasses PEP 668 (externally-managed environment)."
       echo "      For production environments, consider using pipx for applications."
       echo ""
+
+      echo "=== Python: Persistence test complete ==="
 
       bash -il
