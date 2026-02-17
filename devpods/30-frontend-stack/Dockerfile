@@ -50,7 +50,7 @@ RUN apt-get update                                                     && \
 #   |   `- bin/       # symlinks to pipx installed executables
 #   |- uv/            # uv cache directory
 #   `- global/        # user-installed Python packages
-RUN pip install --user uv && \
+RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install uv && \
     mkdir -p /data/python/{cache,pipx/{venvs,bin},uv,global} && \
     pip config set global.cache-dir /data/python/cache && \
     PIPX_HOME=/data/python/pipx PIPX_BIN_DIR=/data/python/pipx/bin pipx ensurepath && \
@@ -59,8 +59,7 @@ RUN pip install --user uv && \
     /container-init/set-ENV UV_CACHE_DIR    /data/python/uv && \
     /container-init/set-ENV PYTHONUSERBASE  /data/python/global && \
     /container-init/set-PATH "/data/python/pipx/bin" && \
-    /container-init/set-PATH "/data/python/global/bin" && \
-    /container-init/set-PATH "/root/.local/bin"
+    /container-init/set-PATH "/data/python/global/bin"
 
 # Init scripts
 RUN /container-init/set-PS1 "\\h|Frontend"
