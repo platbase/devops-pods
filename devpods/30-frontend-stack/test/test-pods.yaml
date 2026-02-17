@@ -38,4 +38,48 @@ spec:
       pip3 --version
       pipx --version
       uv --version
+
+      echo "=== Testing Python persistence configuration ==="
+      echo "Environment variables:"
+      env | grep -E '^(PIPX_|UV_|PYTHONUSERBASE)=' || echo "Some environment variables not set"
+      echo ""
+      echo "Directory structure in /data/python/:"
+      ls -la /data/python/
+      echo ""
+      echo "Pip configuration:"
+      pip config list
+      echo ""
+      echo "Pipx environment:"
+      pipx environment
+      echo ""
+      echo "Checking /data/python/pipx/bin for executables:"
+      ls -la /data/python/pipx/bin/ || echo "Directory not found or empty"
+      echo ""
+
+      echo "=== Installing test packages ==="
+      echo "Installing pipx packages (black, ruff)..."
+      pipx install black
+      pipx install ruff
+      echo ""
+      echo "Installing pip user package (requests)..."
+      pip install --user requests
+      echo ""
+      echo "=== Verifying installation locations ==="
+      echo "Pipx symlinks in /data/python/pipx/bin/:"
+      ls -la /data/python/pipx/bin/
+      echo ""
+      echo "Pipx venvs in /data/python/pipx/venvs/:"
+      ls -la /data/python/pipx/venvs/
+      echo ""
+      echo "Pip user packages in /data/python/global/lib/python*/site-packages/:"
+      find /data/python/global/lib -name "requests" -type d 2>/dev/null || echo "requests not found"
+      echo ""
+
+      echo "=== Testing installed tools ==="
+      black --version || echo "black command not found in PATH"
+      ruff --version || echo "ruff command not found in PATH"
+      python3 -c "import requests; print(f'requests version: {requests.__version__}')" || echo "requests module not found"
+      echo ""
+      echo "=== Persistence test complete ==="
+      
       bash -il

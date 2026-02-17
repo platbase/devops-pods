@@ -41,8 +41,26 @@ RUN apt-get update                                                     && \
     apt-get install -y python3 python3-pip python3-venv pipx           && \
     apt-get install -y libssl-dev libffi-dev python3-dev               && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
-RUN pipx ensurepath && \
-    PIPX_HOME=/opt/pipx/venvs PIPX_BIN_DIR=/usr/local/bin pipx install uv
+
+# Make python persistent directory structure:
+# /data/python/
+#   |- cache/         # pip cache directory
+#   |- pipx/          # pipx directory
+#   |   |- venvs/     # virtual environments for installed tools
+#   |   `- bin/       # symlinks to pipx installed executables
+#   |- uv/            # uv cache directory
+#   `- global/        # user-installed Python packages
+RUN pip install --user uv && \
+    mkdir -p /data/python/{cache,pipx/{venvs,bin},uv,global} && \
+    pip config set global.cache-dir /data/python/cache && \
+    PIPX_HOME=/data/python/pipx PIPX_BIN_DIR=/data/python/pipx/bin pipx ensurepath && \
+    /container-init/set-ENV PIPX_HOME       /data/python/pipx && \
+    /container-init/set-ENV PIPX_BIN_DIR    /data/python/pipx/bin && \
+    /container-init/set-ENV UV_CACHE_DIR    /data/python/uv && \
+    /container-init/set-ENV PYTHONUSERBASE  /data/python/global && \
+    /container-init/set-PATH "/data/python/pipx/bin" && \
+    /container-init/set-PATH "/data/python/global/bin" && \
+    /container-init/set-PATH "/root/.local/bin"
 
 # Init scripts
 RUN /container-init/set-PS1 "\\h|Frontend"
