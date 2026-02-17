@@ -69,7 +69,7 @@ spec:
       echo ""
       echo "=== Go: Testing Go hello world with external module ==="
       mkdir -p /tmp/go-hello
-      cd /tmp/go-hello
+      pushd /tmp/go-hello
       
       # Initialize Go module
       go mod init example.com/hello
@@ -115,6 +115,7 @@ spec:
       ls -la /data/go/modcache/gonum.org*/ | head -5 || echo "Module not in modcache"
       
       # Cleanup
+      popd
       rm -rf /tmp/go-hello
       echo ""
 
