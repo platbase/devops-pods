@@ -63,6 +63,19 @@ RUN apt-get update && \
     apt-get install -y docker-ce docker-ce-cli containerd.io && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
 
+# Install podman and make fuse-overlayfs
+# (Specify runroot/graphroot to fix podman "runroot must be set" error)
+RUN apt-get update && \
+    apt-get install -y fuse-overlayfs podman podman-compose && \
+    mkdir -p /etc/containers && \
+    echo '[storage]'                                 > /etc/containers/storage.conf && \
+    echo 'driver="overlay"'                          >> /etc/containers/storage.conf && \
+    echo 'runroot="/run/containers/storage"'         >> /etc/containers/storage.conf && \
+    echo 'graphroot="/var/lib/containers/storage"'   >> /etc/containers/storage.conf && \
+    echo '[storage.options]'                         >> /etc/containers/storage.conf && \
+    echo 'mount_program="/usr/bin/fuse-overlayfs"'   >> /etc/containers/storage.conf && \
+    apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
+
 # Additional(Chinese fonts, for Java Client such like JavaFX)
 RUN apt-get update && \
     apt-get install -y fonts-noto-cjk          &&\

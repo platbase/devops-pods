@@ -1,0 +1,11 @@
+name: test001
+
+services:
+
+    nginx-server:
+        image: docker.io/nginx:latest
+        container_name: nginx-server
+        hostname: nginx-server
+        environment:
+            - TZ=Asia/Shanghai
+        restart: always

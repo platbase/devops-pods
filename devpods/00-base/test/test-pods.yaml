@@ -9,6 +9,7 @@ spec:
   - {name: "/tmp/.X11-unix", hostPath: {path: "/tmp/.X11-unix"}}
   - {name: ".vscode-server", hostPath: {path: "./test/.vscode-server"}}
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
+  - {name: "test-cmds",      hostPath: {path: "./test/test-cmds"}}
   containers:
   - name: base
     image: bizobj-container.net/pods/dev.base:latest
@@ -16,6 +17,7 @@ spec:
     tty: true
     securityContext:
       hostname: devpods-00-test
+      privileged: true         # Same as "--privileged" argument
       #runAsUser: 1000
       #runAsGroup: 1000
     ports:
@@ -24,8 +26,9 @@ spec:
     - {mountPath: "/tmp/.X11-unix",       name: "/tmp/.X11-unix"}
     - {mountPath: "/root/.vscode-server", name: ".vscode-server" }
     - {mountPath: "/root/workspace",      name: "test-workspace" }
+    - {mountPath: "/opt/test-cmds",       name: "test-cmds" }
     env:
     - {name: "DISPLAY",       value: "unix$DISPLAY"}
     - {name: "SET_ROOT_PASS", value: "123456"}
     #command: ['bash', '-c', 'sleep 2s && cat /etc/os-release && bash -il']
-    args: ['--sshd', '--crond', '--', 'bash', '-c', 'sleep 2s && cat /etc/os-release && bash -il']
+    args: ['--sshd', '--crond', '--', 'bash', '-c', 'sleep 2s && /opt/test-cmds/test001.sh && bash -il']
