@@ -65,10 +65,60 @@ spec:
       echo ""
       echo "Go module cache in /data/go/modcache:"
       ls -la /data/go/modcache/ 2>/dev/null | head -10 || echo "Directory not found or empty"
+      
+      echo ""
+      echo "=== Go: Testing Go hello world with external module ==="
+      mkdir -p /tmp/go-hello
+      cd /tmp/go-hello
+      
+      # Initialize Go module
+      go mod init example.com/hello
+      
+      # Download external math module
+      go get gonum.org/v1/gonum/floats
+      
+      # Create Go code using external module
+      printf '%s\n' 'package main' > main.go
+      printf '\n%s\n' 'import (' >> main.go
+      printf '\t%s\n' '"fmt"' >> main.go
+      printf '\t%s\n' '"gonum.org/v1/gonum/floats"' >> main.go
+      printf '%s\n' ')' >> main.go
+      printf '\n%s\n' 'func main() {' >> main.go
+      printf '\t%s\n' 'fmt.Println("=== Go Hello World with External Module ===")' >> main.go
+      printf '\t%s\n' 'fmt.Printf("PI value: %.15f\\n", floats.Pi)' >> main.go
+      printf '\n' >> main.go
+      printf '\t%s\n' '// Calculate circle area and circumference' >> main.go
+      printf '\t%s\n' 'radius := 5.0' >> main.go
+      printf '\t%s\n' 'area := floats.Pi * radius * radius' >> main.go
+      printf '\t%s\n' 'circumference := 2 * floats.Pi * radius' >> main.go
+      printf '\n' >> main.go
+      printf '\t%s\n' 'fmt.Printf("Radius: %.2f\\n", radius)' >> main.go
+      printf '\t%s\n' 'fmt.Printf("Area: %.2f\\n", area)' >> main.go
+      printf '\t%s\n' 'fmt.Printf("Circumference: %.2f\\n", circumference)' >> main.go
+      printf '\n' >> main.go
+      printf '\t%s\n' 'fmt.Println("\\nHello, World!")' >> main.go
+      printf '%s\n' '}' >> main.go
+      
+      # Use go install installed tool to check code
+      echo "Running golangci-lint on code:"
+      golangci-lint run || echo "Note: linting skipped or warnings"
+      
+      # Compile and run Go program
+      echo "Running hello world:"
+      go run main.go
+      
+      # Verify external module in cache
+      echo ""
+      echo "External module (gonum) in cache:"
+      ls -la /data/go/modcache/gonum.org*/ | head -5 || echo "Module not in modcache"
+      
+      # Cleanup
+      rm -rf /tmp/go-hello
       echo ""
 
       echo "=== Go: Persistence test complete ==="
-
+      echo ""
+      
       echo ""
       echo "=== Python: Python persistence configuration ==="
       echo "Environment variables:"
