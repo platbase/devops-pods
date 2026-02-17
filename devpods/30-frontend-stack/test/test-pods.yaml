@@ -83,5 +83,23 @@ spec:
       ruff --version || echo "ruff command not found in PATH"
       echo ""
       echo "=== Persistence test complete ==="
-      
+      echo ""
+
+      echo "=== Testing PYTHONUSERBASE configuration ==="
+      echo "PYTHONUSERBASE value:"
+      echo "  $PYTHONUSERBASE"
+      echo ""
+      echo "Installing test package (toml) using pip --user..."
+      pip install --break-system-packages --user toml
+      echo ""
+      echo "Verifying installation location:"
+      pip show toml
+      echo ""
+      echo "Testing toml package with Python code:"
+      python3 -c "import toml; data = toml.loads('[tool]\nname = \"test\"\n'); print(f'toml loaded successfully, parsed: {data}')"
+      echo ""
+      echo "Note: This test bypasses PEP 668 (externally-managed environment)."
+      echo "      For production environments, consider using pipx for applications."
+      echo ""
+
       bash -il
