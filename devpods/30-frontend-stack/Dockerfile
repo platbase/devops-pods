@@ -1,7 +1,7 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20260216.node-2.13.1-python3 .
+#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20260217.node-2.13.1-go-1.26.0-python3 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/frontend-stack:latest
 # run test as Pod:
@@ -47,7 +47,7 @@ RUN export PATH=$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin          && \
 # Install Go
 RUN wget -O "/tmp/go${GO_VERSION}.linux-amd64.tar.gz" \
          https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
-    tar xzf "/tmp/go${GO_VERSION}.linux-amd64.tar.gz" -C /opt && \
+    tar xzvf "/tmp/go${GO_VERSION}.linux-amd64.tar.gz" -C /opt && \
     rm "/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
 
 # Make go persistent directory structure:
