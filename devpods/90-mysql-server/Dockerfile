@@ -1,17 +1,17 @@
 # MySQL Database Server, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20251103-8.4.7 .
+#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20260217.8.4.8 .
 # run test by podman:
 #   podman run -it --rm bizobj-container.net/pods/mysql-server:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-90-test-mysql ; podman pod rm -f devpods-90-test
 
-FROM bizobj-container.net/pods/dev.base:trixie-20251103
+FROM bizobj-container.net/pods/dev.base:trixie-20260202
 LABEL maintainer="https://github.com/platbase"
 
 # The version of mysql
-ENV MYSQL_VERSION=8.4.7
+ENV MYSQL_VERSION=8.4.8
 
 # The default mysql root password
 ENV MYSQL_ROOT_PWD=root
