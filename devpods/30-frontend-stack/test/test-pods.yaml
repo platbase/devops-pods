@@ -42,7 +42,7 @@ spec:
 
       echo "=== Testing Python persistence configuration ==="
       echo "Environment variables:"
-      env | grep -E '^(PIPX_|UV_|PYTHONUSERBASE)=' || echo "Some environment variables not set"
+      env | grep -E '^(PIPX_|UV_|PYTHONUSERBASE)' || echo "Some environment variables not set"
       echo ""
       echo "Pip configuration:"
       pip config list
