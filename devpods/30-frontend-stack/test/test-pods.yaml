@@ -78,26 +78,28 @@ spec:
       go get gonum.org/v1/gonum/floats
       
       # Create Go code using external module
-      printf '%s\n' 'package main' > main.go
-      printf '\n%s\n' 'import (' >> main.go
-      printf '\t%s\n' '"fmt"' >> main.go
-      printf '\t%s\n' '"gonum.org/v1/gonum/floats"' >> main.go
-      printf '%s\n' ')' >> main.go
-      printf '\n%s\n' 'func main() {' >> main.go
-      printf '\t%s\n' 'fmt.Println("=== Go Hello World with External Module ===")' >> main.go
-      printf '\t%s\n' 'fmt.Printf("PI value: %.15f\\n", floats.Pi)' >> main.go
-      printf '\n' >> main.go
-      printf '\t%s\n' '// Calculate circle area and circumference' >> main.go
-      printf '\t%s\n' 'radius := 5.0' >> main.go
-      printf '\t%s\n' 'area := floats.Pi * radius * radius' >> main.go
-      printf '\t%s\n' 'circumference := 2 * floats.Pi * radius' >> main.go
-      printf '\n' >> main.go
-      printf '\t%s\n' 'fmt.Printf("Radius: %.2f\\n", radius)' >> main.go
-      printf '\t%s\n' 'fmt.Printf("Area: %.2f\\n", area)' >> main.go
-      printf '\t%s\n' 'fmt.Printf("Circumference: %.2f\\n", circumference)' >> main.go
-      printf '\n' >> main.go
-      printf '\t%s\n' 'fmt.Println("\\nHello, World!")' >> main.go
-      printf '%s\n' '}' >> main.go
+      echo 'package main' > main.go
+      echo '' >> main.go
+      echo 'import (' >> main.go
+      echo '	"fmt"' >> main.go
+      echo '	"gonum.org/v1/gonum/floats"' >> main.go
+      echo ')' >> main.go
+      echo '' >> main.go
+      echo 'func main() {' >> main.go
+      echo '	fmt.Println("=== Go Hello World with External Module ===")' >> main.go
+      echo '	fmt.Printf("PI value: %.15f\\n", floats.Pi)' >> main.go
+      echo '	' >> main.go
+      echo '	// Calculate circle area and circumference' >> main.go
+      echo '	radius := 5.0' >> main.go
+      echo '	area := floats.Pi * radius * radius' >> main.go
+      echo '	circumference := 2 * floats.Pi * radius' >> main.go
+      echo '	' >> main.go
+      echo '	fmt.Printf("Radius: %.2f\\n", radius)' >> main.go
+      echo '	fmt.Printf("Area: %.2f\\n", area)' >> main.go
+      echo '	fmt.Printf("Circumference: %.2f\\n", circumference)' >> main.go
+      echo '	' >> main.go
+      echo '	fmt.Println("\\nHello, World!")' >> main.go
+      echo '}' >> main.go
       
       # Use go install installed tool to check code
       echo "Running golangci-lint on code:"
