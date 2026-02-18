@@ -75,24 +75,24 @@ spec:
       go mod init example.com/hello
       
       # Download external math module
-      go get gonum.org/v1/gonum/floats
+      go get gonum.org/v1/gonum/math
       
       # Create Go code using external module
       echo 'package main' > main.go
       echo '' >> main.go
       echo 'import (' >> main.go
       echo '	"fmt"' >> main.go
-      echo '	"gonum.org/v1/gonum/floats"' >> main.go
+      echo '	"gonum.org/v1/gonum/math"' >> main.go
       echo ')' >> main.go
       echo '' >> main.go
       echo 'func main() {' >> main.go
       echo '	fmt.Println("=== Go Hello World with External Module ===")' >> main.go
-      echo '	fmt.Printf("PI value: %.15f\\n", floats.Pi)' >> main.go
+      echo '	fmt.Printf("PI value: %.15f\\n", math.Pi)' >> main.go
       echo '	' >> main.go
       echo '	// Calculate circle area and circumference' >> main.go
       echo '	radius := 5.0' >> main.go
-      echo '	area := floats.Pi * radius * radius' >> main.go
-      echo '	circumference := 2 * floats.Pi * radius' >> main.go
+      echo '	area := math.Pi * radius * radius' >> main.go
+      echo '	circumference := 2 * math.Pi * radius' >> main.go
       echo '	' >> main.go
       echo '	fmt.Printf("Radius: %.2f\\n", radius)' >> main.go
       echo '	fmt.Printf("Area: %.2f\\n", area)' >> main.go
