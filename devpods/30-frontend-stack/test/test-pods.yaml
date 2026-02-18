@@ -52,21 +52,21 @@ spec:
       go env GOCACHE
       echo ""
 
-      echo "=== Go: Installing Go tool (golangci-lint) ==="
-      go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+      echo "=== Go: Installing Go tool (gum) ==="
+      go install github.com/charmbracelet/gum@latest
       echo ""
-
+      
       echo "=== Go: Verifying installation locations ==="
       echo "Go tool in PATH:"
-      which golangci-lint || echo "golangci-lint not found in PATH"
+      which gum || echo "gum not found in PATH"
       echo ""
       echo "Go executables in /data/go/bin:"
       ls -la /data/go/bin/ || echo "Directory not found"
       echo ""
       echo "Go module cache in /data/go/modcache:"
-      ls -la /data/go/modcache/ 2>/dev/null | head -10 || echo "Directory not found or empty"
-      
+      ls -la /data/go/modcache 2>/dev/null | head -10 || echo "Directory not found or empty"
       echo ""
+      
       echo "=== Go: Testing Go hello world with external module ==="
       mkdir -p /tmp/go-hello
       pushd /tmp/go-hello
@@ -74,7 +74,7 @@ spec:
       # Initialize Go module
       go mod init example.com/hello
       
-      # Download external math module
+      # Download external module
       go get github.com/shopspring/decimal
       
       # Create Go code using external module
@@ -87,25 +87,24 @@ spec:
       echo '' >> main.go
       echo 'func main() {' >> main.go
       echo '	fmt.Println("=== Go Hello World with External Module ===")' >> main.go
-      echo '	' >> main.go
       echo '	// High-precision Pi calculation using decimal package' >> main.go
-      echo '	pi := decimal.NewFromFloat(3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975366593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372458700660631558817488152092096282925948737687)' >> main.go
+      echo '	pi := decimal.NewFromFloat(3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679)' >> main.go
       echo '	' >> main.go
       echo '	// Calculate circle area with high precision' >> main.go
       echo '	radius := decimal.NewFromInt(5)' >> main.go
       echo '	radiusSquared := radius.Mul(radius)' >> main.go
       echo '	area := radiusSquared.Mul(pi)' >> main.go
       echo '	' >> main.go
-      echo '	fmt.Printf("Pi value: %s\n", pi.String())' >> main.go
-      echo '	fmt.Printf("Radius: %s\n", radius.String())' >> main.go
-      echo '	fmt.Printf("Area: %s\n", area.String())' >> main.go
+      echo '	fmt.Printf("Pi value: %s\\n", pi.String())' >> main.go
+      echo '	fmt.Printf("Radius: %s\\n", radius.String())' >> main.go
+      echo '	fmt.Printf("Area: %s\\n", area.String())' >> main.go
       echo '	' >> main.go
       echo '	fmt.Println("\\nHello, World!")' >> main.go
       echo '}' >> main.go
       
-      # Use go install installed tool to check code
-      echo "Running golangci-lint on code:"
-      golangci-lint run || echo "Note: linting skipped or warnings"
+      # Use go install installed tool
+      echo "Testing gum tool:"
+      gum confirm "Is the Go hello world test complete?" --default="Yes" --affirmative="Yes" --negative="No" --timeout=3 || echo "Gum tool test skipped"
       
       # Compile and run Go program
       echo "Running hello world:"
@@ -120,7 +119,7 @@ spec:
       popd
       rm -rf /tmp/go-hello
       echo ""
-
+      
       echo "=== Go: Persistence test complete ==="
       echo ""
       
