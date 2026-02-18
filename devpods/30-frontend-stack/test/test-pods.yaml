@@ -67,6 +67,12 @@ spec:
       ls -la /data/go/modcache 2>/dev/null | head -10 || echo "Directory not found or empty"
       echo ""
       
+      # Use go install installed tool
+      echo "Testing gum tool:"
+      gum format -- "# Gum Formats" "- Markdown" "- Code" "- Template" "- Emoji"
+      gum spin --spinner dot --title "Buying Bubble Gum..." -- sleep 5
+      echo ""
+      
       echo "=== Go: Testing Go hello world with external module ==="
       mkdir -p /tmp/go-hello
       pushd /tmp/go-hello
@@ -95,16 +101,12 @@ spec:
       echo '	radiusSquared := radius.Mul(radius)' >> main.go
       echo '	area := radiusSquared.Mul(pi)' >> main.go
       echo '	' >> main.go
-      echo '	fmt.Printf("Pi value: %s\\n", pi.String())' >> main.go
-      echo '	fmt.Printf("Radius: %s\\n", radius.String())' >> main.go
-      echo '	fmt.Printf("Area: %s\\n", area.String())' >> main.go
+      echo '	fmt.Printf("Pi value: %s\n", pi.String())' >> main.go
+      echo '	fmt.Printf("Radius: %s\n", radius.String())' >> main.go
+      echo '	fmt.Printf("Area: %s\n", area.String())' >> main.go
       echo '	' >> main.go
-      echo '	fmt.Println("\\nHello, World!")' >> main.go
+      echo '	fmt.Println("\nHello, World!")' >> main.go
       echo '}' >> main.go
-      
-      # Use go install installed tool
-      echo "Testing gum tool:"
-      gum confirm "Is the Go hello world test complete?" --default="Yes" --affirmative="Yes" --negative="No" --timeout=3 || echo "Gum tool test skipped"
       
       # Compile and run Go program
       echo "Running hello world:"
