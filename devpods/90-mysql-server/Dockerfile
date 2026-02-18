@@ -1,7 +1,7 @@
 # MySQL Database Server, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20260217.8.4.8 .
+#   podman build --force-rm -t bizobj-container.net/pods/mysql-server:latest -t bizobj-container.net/pods/mysql-server:20260217-8.4.8 .
 # run test by podman:
 #   podman run -it --rm bizobj-container.net/pods/mysql-server:latest
 # run test as Pod:
