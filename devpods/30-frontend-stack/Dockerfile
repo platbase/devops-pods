@@ -82,7 +82,7 @@ RUN apt-get update                                                     && \
 #   `- global/        # user-installed Python packages
 RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install uv && \
     mkdir -p /data/python/{cache,pipx/{venvs,bin},uv,global} && \
-    pip config set global.cache-dir /data/python/cache && \
+    pip config set --global global.cache-dir /data/python/cache && \
     PIPX_HOME=/data/python/pipx PIPX_BIN_DIR=/data/python/pipx/bin pipx ensurepath && \
     /container-init/set-ENV PIPX_HOME       /data/python/pipx && \
     /container-init/set-ENV PIPX_BIN_DIR    /data/python/pipx/bin && \
