@@ -34,6 +34,7 @@ spec:
       npm -v
       yarn -v
       pnpm -v
+      bun --version
       python3 --version
       pip3 --version
       pipx --version

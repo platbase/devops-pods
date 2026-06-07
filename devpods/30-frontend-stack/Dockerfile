@@ -1,20 +1,20 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20260217.node-2.13.1-go-1.26.0-python3 .
+#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20260607.node-24-go-1.26-python3 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/frontend-stack:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-30-test-frontend ; podman pod rm -f devpods-30-test
 
-FROM bizobj-container.net/pods/dev.base:trixie-20260202
+FROM bizobj-container.net/pods/dev.base:trixie-20260518
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV NODE_VERSION=24.13.1
+ENV NODE_VERSION=24.16.0
 
 # The version of go
-ENV GO_VERSION=1.26.0
+ENV GO_VERSION=1.26.4
 
 # The npm registry server
 ENV NPM_REG=https://registry.npmmirror.com
@@ -90,6 +90,9 @@ RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install uv && \
     /container-init/set-ENV PYTHONUSERBASE  /data/python/global && \
     /container-init/set-PATH "/data/python/pipx/bin" && \
     /container-init/set-PATH "/data/python/global/bin"
+
+# Install Bun ('BUN_INSTALL=/usr/local' make installation target to '/usr/local', it's already in $PATH)
+RUN BUN_INSTALL=/usr/local bash -c 'curl -fsSL https://bun.sh/install | bash'
 
 # Init scripts
 RUN /container-init/set-PS1 "\\h|Frontend"
