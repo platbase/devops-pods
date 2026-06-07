@@ -42,7 +42,7 @@ RUN apt-get update && apt-get -y upgrade && \
 RUN apt-get update                                                     && \
     apt-get install -y telnet nano cron at procps fontconfig           && \
     apt-get install -y net-tools iproute2 inetutils-ping lsof sysstat  && \
-    apt-get install -y wget curl sudo jq                               && \
+    apt-get install -y wget curl sudo jq unzip                         && \
     apt-get install -y build-essential git subversion git-lfs          && \
     apt-get install -y openssh-server sshfs rinetd nginx sqlite3       && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
