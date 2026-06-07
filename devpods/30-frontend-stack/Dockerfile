@@ -96,6 +96,7 @@ RUN BUN_INSTALL="/data/bun" bash -c 'curl -fsSL https://bun.sh/install | bash' &
     /container-init/set-ENV BUN_INSTALL "/data/bun" && \
     /container-init/set-PATH "/data/bun/bin"
 # FIXME Need backup /data/bun and restore it back to /data in entrypoint
+#  - Workaround - Run "curl -fsSL https://bun.sh/install | bash" and "mkdir -p /data/bun/global /data/bun/cache" in container again.
 
 # Init scripts
 RUN /container-init/set-PS1 "\\h|Frontend"

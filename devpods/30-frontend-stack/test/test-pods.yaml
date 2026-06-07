@@ -40,7 +40,6 @@ spec:
       pnpm -v
       which bun
       bun --version
-      bun pm global-dir
       python3 --version
       which pip3
       pip3 --version
