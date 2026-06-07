@@ -1,7 +1,7 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:trixie-20260202 .
+#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:trixie-20260518 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 #   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
@@ -10,7 +10,7 @@
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
 # https://hub.docker.com/_/debian
-FROM debian:trixie-20260202
+FROM debian:trixie-20260518
 LABEL maintainer="https://github.com/platbase"
 
 # Environment variables
@@ -29,7 +29,7 @@ ENV TERM=xterm-256color
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Password for default user "root"(NOTE: applied in /container-entry/entry.base.sh)
-ENV SET_ROOT_PASS=trixie-20260202
+ENV SET_ROOT_PASS=trixie-20260518
 
 ###############################################################################
 
