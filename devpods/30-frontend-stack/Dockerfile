@@ -91,8 +91,11 @@ RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install uv && \
     /container-init/set-PATH "/data/python/pipx/bin" && \
     /container-init/set-PATH "/data/python/global/bin"
 
-# Install Bun ('BUN_INSTALL=/usr/local' make installation target to '/usr/local', it's already in $PATH)
-RUN BUN_INSTALL=/usr/local bash -c 'curl -fsSL https://bun.sh/install | bash'
+# Install Bun
+RUN BUN_INSTALL="/data/bun" bash -c 'curl -fsSL https://bun.sh/install | bash' && \
+    /container-init/set-ENV BUN_INSTALL "/data/bun" && \
+    /container-init/set-PATH "/data/bun/bin"
+# FIXME Need backup /data/bun and restore it back to /data in entrypoint
 
 # Init scripts
 RUN /container-init/set-PS1 "\\h|Frontend"

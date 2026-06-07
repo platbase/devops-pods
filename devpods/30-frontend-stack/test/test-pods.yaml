@@ -30,14 +30,23 @@ spec:
       export
       set -x
       cat /etc/os-release
+      which node
       node -v
+      which npm
       npm -v
+      which yarn
       yarn -v
+      which pnpm
       pnpm -v
+      which bun
       bun --version
+      bun pm global-dir
       python3 --version
+      which pip3
       pip3 --version
+      which pipx
       pipx --version
+      which uv
       uv --version
       go version
       set +x
