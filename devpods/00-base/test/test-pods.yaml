@@ -10,6 +10,8 @@ spec:
   - {name: ".vscode-server", hostPath: {path: "./test/.vscode-server"}}
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   - {name: "test-cmds",      hostPath: {path: "./test/test-cmds"}}
+  - {name: "test-hooks-01",  hostPath: {path: "./test/test-hooks/test01"}}
+  - {name: "test-hooks-02",  hostPath: {path: "./test/test-hooks/test02"}}
   containers:
   - name: base
     image: bizobj-container.net/pods/dev.base:latest
@@ -23,10 +25,12 @@ spec:
     ports:
     - {containerPort: 22, hostPort: 29922, protocol: "TCP"}
     volumeMounts:
-    - {mountPath: "/tmp/.X11-unix",       name: "/tmp/.X11-unix"}
-    - {mountPath: "/root/.vscode-server", name: ".vscode-server" }
-    - {mountPath: "/root/workspace",      name: "test-workspace" }
-    - {mountPath: "/opt/test-cmds",       name: "test-cmds" }
+    - {mountPath: "/tmp/.X11-unix",                 name: "/tmp/.X11-unix"}
+    - {mountPath: "/root/.vscode-server",           name: ".vscode-server" }
+    - {mountPath: "/root/workspace",                name: "test-workspace" }
+    - {mountPath: "/opt/test-cmds",                 name: "test-cmds" }
+    - {mountPath: "/container-entry/hooks/test01",  name: "test-hooks-01" }
+    - {mountPath: "/container-entry/hooks/test02",  name: "test-hooks-02" }
     env:
     - {name: "DISPLAY",       value: "unix$DISPLAY"}
     - {name: "SET_ROOT_PASS", value: "123456"}

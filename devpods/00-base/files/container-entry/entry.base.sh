@@ -126,6 +126,10 @@ if [ $WITH_dockerd == 1 ]; then
     ps -ef | grep docker
 fi
 
+# Run hooks
+echo -e "\nBegin to process Hooks ..."
+/container-entry/utils/runhooks.sh
+
 if [ -z "$*" ];then
     echo ">>> No command, exit."
 else

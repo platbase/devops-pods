@@ -1,7 +1,7 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:trixie-20260518 .
+#   podman build --force-rm -t bizobj-container.net/pods/dev.base:latest -t bizobj-container.net/pods/dev.base:trixie-20260623 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/dev.base:latest
 #   podman run -it --rm bizobj-container.net/pods/dev.base:latest --atd --crond --nginx -- iostat 10
@@ -10,7 +10,7 @@
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
 # https://hub.docker.com/_/debian
-FROM debian:trixie-20260518
+FROM debian:trixie-20260623
 LABEL maintainer="https://github.com/platbase"
 
 # Environment variables
@@ -29,7 +29,7 @@ ENV TERM=xterm-256color
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Password for default user "root"(NOTE: applied in /container-entry/entry.base.sh)
-ENV SET_ROOT_PASS=trixie-20260518
+ENV SET_ROOT_PASS=trixie-20260623
 
 ###############################################################################
 
@@ -42,7 +42,7 @@ RUN apt-get update && apt-get -y upgrade && \
 RUN apt-get update                                                     && \
     apt-get install -y telnet nano cron at procps fontconfig           && \
     apt-get install -y net-tools iproute2 inetutils-ping lsof sysstat  && \
-    apt-get install -y wget curl sudo jq unzip                         && \
+    apt-get install -y wget curl sudo jq xmlstarlet unzip              && \
     apt-get install -y build-essential git subversion git-lfs          && \
     apt-get install -y openssh-server sshfs rinetd nginx sqlite3       && \
     apt-get clean && rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/*
