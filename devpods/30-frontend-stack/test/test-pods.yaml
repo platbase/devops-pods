@@ -22,7 +22,8 @@ spec:
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
     - {name: "DISPLAY", value: "unix$DISPLAY"}
-    command: 
+    args:
+    - '--' 
     - 'bash'
     - '-ic'
     - |

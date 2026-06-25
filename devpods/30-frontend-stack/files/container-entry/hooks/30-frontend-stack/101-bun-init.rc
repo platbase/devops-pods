@@ -1,0 +1,54 @@
+#!/bin/bash
+# Bun runtime initialization hook
+# Seeds /data/bun from /opt/bun-seed only when not previously initialized.
+# If already initialized, warns on version mismatch but never overwrites.
+
+set -euo pipefail
+
+BUN_DIR="/data/bun"
+SEED_DIR="/opt/bun-seed"
+
+BUN_BINARY="${BUN_DIR}/bin/bun"
+SEED_VERSION_FILE="${SEED_DIR}/.bun-seed-version"
+INSTALLED_VERSION_FILE="${BUN_DIR}/.bun-seed-version"
+
+# Abort if the seed directory is missing, indicating an image build issue.
+if [[ ! -d "${SEED_DIR}" ]]; then
+    echo "[bun-init] WARN: Seed directory ${SEED_DIR} not found, skipping bun initialization"
+    exit 0
+fi
+
+# If the version marker exists, the directory has already been initialized; skip copying.
+if [[ -f "${INSTALLED_VERSION_FILE}" ]]; then
+    # Compare versions and warn on mismatch.
+    if [[ -f "${SEED_VERSION_FILE}" ]]; then
+        INSTALLED_VER=$(cat "${INSTALLED_VERSION_FILE}" | tr -d '[:space:]')
+        SEED_VER=$(cat "${SEED_VERSION_FILE}" | tr -d '[:space:]')
+        if [[ "${INSTALLED_VER}" != "${SEED_VER}" ]]; then
+            echo "[bun-init] WARN: Bun version mismatch detected!"
+            echo "[bun-init] WARN:   Installed: ${INSTALLED_VER}"
+            echo "[bun-init] WARN:   Seed:      ${SEED_VER}"
+            echo "[bun-init] WARN: To update, remove ${INSTALLED_VERSION_FILE} and restart the container"
+        fi
+    fi
+    echo "[bun-init] Bun already initialized at ${BUN_DIR}, skipping seed copy"
+    exit 0
+fi
+
+# Abort if the target path exists but is not a directory.
+if [[ -e "${BUN_DIR}" && ! -d "${BUN_DIR}" ]]; then
+    echo "[bun-init] ERROR: ${BUN_DIR} exists but is not a directory" >&2
+    exit 1
+fi
+
+# Copy seed contents to the target directory.
+echo "[bun-init] Seeding bun from ${SEED_DIR} to ${BUN_DIR} ..."
+mkdir -p "${BUN_DIR}"
+
+cd "${SEED_DIR}"
+tar -cf - . | tar -xvf - -C "${BUN_DIR}"
+
+# Ensure the bun binary is executable, but only if the permission is missing.
+[[ -x "${BUN_DIR}/bin/bun" ]] || chmod +x "${BUN_DIR}/bin/bun"
+
+echo "[bun-init] Bun initialized successfully at ${BUN_DIR}"
