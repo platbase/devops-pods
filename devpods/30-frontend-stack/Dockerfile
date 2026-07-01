@@ -1,13 +1,13 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20260625.node-24-go-1.26-python3 .
+#   podman build --force-rm -t bizobj-container.net/pods/frontend-stack:latest -t bizobj-container.net/pods/frontend-stack:20260701.node-24-go-1.26-python3 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/frontend-stack:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-30-test-frontend ; podman pod rm -f devpods-30-test
 
-FROM bizobj-container.net/pods/dev.base:trixie-20260623
+FROM bizobj-container.net/pods/dev.base:trixie-20260623.1
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
