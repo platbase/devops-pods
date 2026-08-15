@@ -1,0 +1,116 @@
+#!/bin/bash
+# -----------------------------------------------------------------------------
+# Initializes /data subdirectories for Node.js, Python, Go, and Bun.
+# Designed to run at container startup (entrypoint) when /data is mounted
+# as a persistent volume.
+#
+# Architecture:
+#   - Node.js: dual-path via PATH + NODE_PATH (image: /opt/node-v...,
+#     runtime: /data/nodejs). No seed-copy required.
+#   - Python: dual-path via PATH + PYTHONPATH + PYTHONUSERBASE (image:
+#     /usr/local/lib/pythonX.Y/dist-packages, runtime: /data/python/global).
+#   - Go: dual-path via PATH + GOBIN (image: /opt/go/bin, runtime: /data/go/bin).
+#   - Bun: dual-path via PATH + BUN_INSTALL_* (image: /opt/bun, runtime:
+#     /data/bun). No seed-copy required.
+#
+# Features:
+#   - Idempotent: safe to run multiple times
+#   - Auto-detects Python version from /etc/PYTHON_VERSION or runtime
+#   - Fixes ownership when PUID/PGID env vars are set
+# -----------------------------------------------------------------------------
+
+set -euo pipefail
+
+# --- Logging helpers ---------------------------------------------------------
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
+info() { echo -e "${GREEN}[init-data]${NC} $*"; }
+warn() { echo -e "${YELLOW}[init-data]${NC} $*"; }
+error() { echo -e "${RED}[init-data]${NC} $*" >&2; }
+
+# --- Guard: is /data actually mounted? ---------------------------------------
+if [[ ! -d /data ]]; then
+    warn "/data does not exist; skipping volume initialization."
+    exit 0
+fi
+
+# --- 1. Node.js --------------------------------------------------------------
+# Node.js uses a dual-path strategy:
+#   - Image-embedded: /opt/node-v${VERSION}-linux-x64 (binary + baked globals)
+#   - Runtime: /data/nodejs (cache, user globals, pnpm store, and 'pnpm' for PNPM_HOME)
+# Globals installed at build time stay in the image. Runtime globals go to /data.
+# Resolution is handled by PATH and NODE_PATH;
+init_nodejs() {
+    info "Node.js  -> preparing /data/nodejs ..."
+    
+    mkdir -pv /data/nodejs/{cache,global/lib/node_modules,global/bin,pnpm-store,pnpm}
+}
+
+# --- 2. Python ---------------------------------------------------------------
+# Python uses PYTHONUSERBASE + PYTHONPATH:
+#   - Image-embedded: /usr/local/lib/pythonX.Y/dist-packages
+#   - Runtime: /data/python/global/lib/pythonX.Y/site-packages
+# The runtime user site-packages is prepended to PYTHONPATH so it takes
+# precedence over the image-embedded system site-packages.
+init_python() {
+    info "Python   -> preparing /data/python ..."
+    
+    # Detect Python version: prefer /etc/PYTHON_VERSION, fallback to runtime
+    local py_version
+    if [[ -f /etc/PYTHON_VERSION ]]; then
+        py_version=$(cat /etc/PYTHON_VERSION)
+    else
+        py_version=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")' 2>/dev/null || echo "3.11")
+    fi
+    info "Python   -> detected version ${py_version}"
+
+    # /data/python/
+    #   |- cache/         # pip cache directory
+    #   |- pipx/          # pipx directory
+    #   |   |- venvs/     # virtual environments for installed tools
+    #   |   `- bin/       # symlinks to pipx installed executables
+    #   |- uv/            # uv cache directory
+    #   `- global/        # user-installed Python packages
+    mkdir -pv /data/python/{cache,pipx/venvs,pipx/bin,uv}
+    # Create the user site-packages directory using the version from /etc/PYTHON_VERSION.
+    # This directory will be added to PYTHONPATH so that runtime user packages are
+    # searched BEFORE the system site-packages, allowing users to override docker-image-
+    # embedded libraries without uninstalling them.
+    mkdir -pv "/data/python/global/lib/python${py_version}/site-packages"
+}
+
+# --- 3. Go -------------------------------------------------------------------
+# Go uses a dual-path strategy:
+#   - Image-embedded: /opt/go/bin (baked tools)
+#   - Runtime: /data/go/bin (user-installed tools), /data/go/modcache, /data/go/cache
+# GOBIN points to /data/go/bin at runtime. PATH includes both.
+init_go() {
+    info "Go       -> preparing /data/go ..."
+    
+    mkdir -pv /data/go/{bin,pkg,cache,modcache,src}
+}
+
+# --- 4. Bun ------------------------------------------------------------------
+# Bun uses a dual-path strategy:
+#   - Image-embedded: /opt/bun (bun binary + baked global tools)
+#   - Runtime: /data/bun (user globals, cache, bin)
+# BUN_INSTALL_GLOBAL_DIR and BUN_INSTALL_BIN point to /data/bun at runtime.
+# PATH includes both /data/bun/bin and /opt/bun/bin.
+init_bun() {
+    info "Bun      -> preparing /data/bun ..."
+    
+    mkdir -pv /data/bun/{bin,install/{global,cache}}
+}
+
+# --- Main --------------------------------------------------------------------
+main() {
+    info "Starting /data volume initialization ..."
+    
+    init_nodejs
+    init_python
+    init_go
+    init_bun
+    
+    info "Done."
+}
+
+main "$@"

@@ -12,7 +12,7 @@ spec:
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
   - name: frontend
-    image: bizobj-container.net/pods/frontend-stack:latest
+    image: bizobj-container.net/pods/bizobj-pod/frontend:latest
     stdin: true
     tty: true
     volumeMounts:
@@ -193,5 +193,18 @@ spec:
       echo ""
 
       echo "=== Python: Persistence test complete ==="
+
+      echo "=== Image-embedded bin: Testing image-embedded CLI for NodeJS, GO, PIPX/UV/PIP, BUN ==="
+      echo "--- duf --version (go install github.com/muesli/duf@latest) ---"
+      duf --version
+      echo "--- glances --version (pipx install glances) ---"
+      glances --version
+      echo "--- httpie --version (uv tool install httpie) ---"
+      httpie --version
+      echo '--- python3 -c "import humanize; print(humanize.precisedelta(3723))" (pip install --no-cache-dir humanize) ---'
+      python3 -c "import humanize; print(humanize.precisedelta(3723))"
+      echo '--- concurrently "duf --version" "glances --version" "httpie --version" (bun add -g concurrently) ---'
+      concurrently "duf --version" "glances --version" "httpie --version"
+      echo "=== Image-embedded bin: Test complete ==="
 
       bash -il
