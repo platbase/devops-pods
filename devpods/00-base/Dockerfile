@@ -1,11 +1,11 @@
 # The basic environment for development, based on podman
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod-devbase:latest -t bizobj-container.net/pods/bizobj-pod-devbase:trixie-20260803 .
+#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod/devbase:latest -t bizobj-container.net/pods/bizobj-pod/devbase:trixie-20260803 .
 # run test by podman:
-#   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/bizobj-pod-devbase:latest
-#   podman run -it --rm bizobj-container.net/pods/bizobj-pod-devbase:latest --atd --crond --nginx -- iostat 10
-#   podman run --privileged -it --rm --name test-dev-base-dind bizobj-container.net/pods/bizobj-pod-devbase:latest --dockerd -- iostat 10
+#   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/bizobj-pod/devbase:latest
+#   podman run -it --rm bizobj-container.net/pods/bizobj-pod/devbase:latest --atd --crond --nginx -- iostat 10
+#   podman run --privileged -it --rm --name test-dev-base-dind bizobj-container.net/pods/bizobj-pod/devbase:latest --dockerd -- iostat 10
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-00-test-base ; podman pod rm -f devpods-00-test
 
