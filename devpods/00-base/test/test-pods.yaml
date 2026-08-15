@@ -14,7 +14,7 @@ spec:
   - {name: "test-hooks-02",  hostPath: {path: "./test/test-hooks/test02"}}
   containers:
   - name: base
-    image: bizobj-container.net/pods/dev.base:latest
+    image: bizobj-container.net/pods/bizobj-pod-devbase:latest
     stdin: true
     tty: true
     securityContext:
