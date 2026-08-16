@@ -7,7 +7,7 @@
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-40-test-java ; podman pod rm -f devpods-40-test
 
-FROM bizobj-container.net/pods/bizobj-pod/frontend:20260815.node-24-go-1.26-python3
+FROM bizobj-container.net/pods/bizobj-pod/frontend:20260816.node-24-go-1.26-python3
 LABEL maintainer="https://github.com/platbase"
 
 # Volume for nodejs global cache (/data/nodejs)
