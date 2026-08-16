@@ -9,7 +9,7 @@ spec:
   - {name: "test-data", hostPath: {path: "./test/data"}}
   containers:
   - name: mysql
-    image: bizobj-container.net/pods/mysql-server:latest
+    image: bizobj-container.net/pods/bizobj-pod/mysql:latest
     stdin: true
     tty: true
     ports:
