@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod  
+metadata:  
+  name: devpods-91-test
+  labels:
+    name: devpods, llm, opencode
+spec: 
+  volumes:
+  - {name: "/tmp/.X11-unix", hostPath: {path: "/tmp/.X11-unix"}}
+
+  - {name: "test-data",      hostPath: {path: "./test/data"}}
+  - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
+  containers:
+  - name: llm
+    image: bizobj-container.net/pods/bizobj-pod/llm:latest
+    stdin: true
+    tty: true
+    volumeMounts:
+    - {mountPath: "/tmp/.X11-unix",       name: "/tmp/.X11-unix"}
+    - {mountPath: "/data",                name: "test-data" }
+    - {mountPath: "/root/workspace",      name: "test-workspace" }
+    env:
+    - {name: "DISPLAY", value: "unix$DISPLAY"}
+    args:
+    - '--'
+    - 'bash'
+    - '-ic'
+    - |
+      sleep 2s
+      set -x
+      cat /etc/os-release
+      
+      which opencode
+      opencode -v
+
+      bash -il

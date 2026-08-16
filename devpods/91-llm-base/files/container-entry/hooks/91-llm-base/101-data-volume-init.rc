@@ -1,0 +1,15 @@
+#!/bin/bash
+# -----------------------------------------------------------------------------
+# Initializes /data/opencode subdirectories for OpenCode.
+# -----------------------------------------------------------------------------
+
+set -euo pipefail
+
+source /container-entry/lib/ensure-linked-dir.sh
+
+batch_ensure_linked "/root" "/data/opencode" ".local/share/opencode" ".local/share/opentui"
+batch_ensure_linked "/root" "/data/opencode" ".local/state/opencode"
+batch_ensure_linked "/root" "/data/opencode" ".config/opencode"
+batch_ensure_linked "/root" "/data/opencode" ".cache/opencode"
+
+batch_ensure_linked "/root" "/data/vscode" ".vscode-server"
