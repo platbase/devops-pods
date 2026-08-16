@@ -16,7 +16,6 @@
 # Features:
 #   - Idempotent: safe to run multiple times
 #   - Auto-detects Python version from /etc/PYTHON_VERSION or runtime
-#   - Fixes ownership when PUID/PGID env vars are set
 # -----------------------------------------------------------------------------
 
 set -euo pipefail
