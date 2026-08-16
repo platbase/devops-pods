@@ -11,5 +11,3 @@ batch_ensure_linked "/root" "/data/opencode" ".local/share/opencode" ".local/sha
 batch_ensure_linked "/root" "/data/opencode" ".local/state/opencode"
 batch_ensure_linked "/root" "/data/opencode" ".config/opencode"
 batch_ensure_linked "/root" "/data/opencode" ".cache/opencode"
-
-batch_ensure_linked "/root" "/data/vscode" ".vscode-server"

@@ -1,0 +1,10 @@
+#!/bin/bash
+# -----------------------------------------------------------------------------
+# Initializes /data /data/vscode/.vscode-server as the link of /root/.vscode-server
+# -----------------------------------------------------------------------------
+
+set -euo pipefail
+
+source /container-entry/lib/ensure-linked-dir.sh
+
+batch_ensure_linked "/root" "/data/vscode" ".vscode-server"
