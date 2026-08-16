@@ -40,7 +40,7 @@ RUN apt-get update && apt-get -y upgrade && \
 
 # Preparing installation and install basic tools
 RUN apt-get update                                                     && \
-    apt-get install -y telnet nano cron at procps fontconfig           && \
+    apt-get install -y telnet nano cron at procps fontconfig file      && \
     apt-get install -y net-tools iproute2 inetutils-ping lsof sysstat  && \
     apt-get install -y wget curl sudo jq xmlstarlet unzip ripgrep      && \
     apt-get install -y build-essential git subversion git-lfs          && \
