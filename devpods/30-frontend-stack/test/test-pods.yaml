@@ -51,6 +51,18 @@ spec:
       go version
       set +x
 
+      echo "=== NodeJS: Testing NPM packages installation (npm install -g fkill-cli) ==="
+      npm install -g fkill-cli
+      echo ""
+      fkill --version || echo "fkill(fkill-cli) command not found in PATH"
+      echo ""
+
+      echo "=== NodeJS: Testing PNPM packages installation (pnpm install -g --allow-build=husky vtop) ==="
+      pnpm install -g --allow-build=husky vtop
+      echo ""
+      vtop --version || echo "vtop command not found in PATH"
+      echo ""
+
       echo ""
       echo "=== Go: Go persistence configuration ==="
       echo "Environment variables:"
@@ -155,6 +167,12 @@ spec:
       ruff --version || echo "ruff command not found in PATH"
       echo ""
 
+      echo "=== Python: Testing UV packages installation (rich-cli) ==="
+      uv tool install rich-cli
+      echo ""
+      rich --version || echo "rich(rich-cli) command not found in PATH"
+      echo ""
+
       echo "=== Python: Testing Python package in virtual environment ==="
       python3 -m venv /tmp/venv-test
       source /tmp/venv-test/bin/activate
@@ -194,7 +212,18 @@ spec:
 
       echo "=== Python: Persistence test complete ==="
 
+      echo "=== BUN: Testing Bun packages installation (bun add -g speed-test) ==="
+      bun add -g speed-test
+      echo ""
+      speed-test --version || echo "speed-test command not found in PATH"
+      echo ""
+
       echo "=== Image-embedded bin: Testing image-embedded CLI for NodeJS, GO, PIPX/UV/PIP, BUN ==="
+      echo "--- tldr --version (npm install -g --prefix=/opt/node-v${NODE_VERSION}-linux-x64 tldr) ---"
+      tldr --version
+      # FIXME Pre-install into docker-image with pnpm is is not functioning well.
+      #echo "--- gtop --version (pnpm add -g gtop) ---"
+      #gtop --version
       echo "--- duf --version (go install github.com/muesli/duf@latest) ---"
       duf --version
       echo "--- glances --version (pipx install glances) ---"

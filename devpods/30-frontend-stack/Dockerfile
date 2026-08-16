@@ -1,7 +1,7 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod/frontend:latest -t bizobj-container.net/pods/bizobj-pod/frontend:20260815.node-24-go-1.26-python3 .
+#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod/frontend:latest -t bizobj-container.net/pods/bizobj-pod/frontend:20260816.node-24-go-1.26-python3 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/bizobj-pod/frontend:latest
 # run test as Pod:
@@ -62,9 +62,15 @@ RUN /container-init/set-PATH "/data/nodejs/global/bin"                  && \
 #  -- so that these tools are pre-installed into docker-image
 #     and remain available even when /data is mounted as a volume at runtime.
 RUN export PATH="$PATH:/opt/node-v${NODE_VERSION}-linux-x64/bin"        && \
-    npm install -g --prefix=/opt/node-v${NODE_VERSION}-linux-x64 tldr   && \
-    export PNPM_HOME=/opt/node-v${NODE_VERSION}-linux-x64               && \
-    pnpm add -g --global-dir /opt/node-v${NODE_VERSION}-linux-x64/lib/node_modules gtop
+    npm install -g --prefix=/opt/node-v${NODE_VERSION}-linux-x64 tldr
+# FIXME Pre-install into docker-image with pnpm is is not functioning well.
+#  -- pnpm add -g is designed for package managers and build tools that pnpm itself controls.
+#     For general CLI utilities, npm's global installation is more compatible with Node.js module resolution.
+# RUN export PATH="$PATH:/opt/pnpm/bin"                                   && \
+#     export PNPM_HOME=/opt/pnpm                                          && \
+#     pnpm config set store-dir /opt/pnpm/store --location=global         && \
+#     pnpm add -g gtop                                                    && \
+#     pnpm config set store-dir /data/nodejs/pnpm-store --location=global
 
 ###############################################################################
 
@@ -121,7 +127,7 @@ RUN mkdir -pv /opt/pipx/{venvs,bin} && \
     mkdir -pv /opt/uv/{tools,bin}
 
 # Install uv as the basic pipx tool into docker-image
-RUN export PATH="/opt/venv/bin:${PATH}" && \
+RUN export PATH="/opt/venv/bin:${PATH}:/opt/pipx/bin" && \
     PIPX_HOME=/opt/pipx \
     PIPX_BIN_DIR=/opt/pipx/bin \
     PIPX_DEFAULT_PYTHON=/opt/venv/bin/python \
@@ -171,7 +177,7 @@ RUN pip config set --global global.cache-dir /data/python/cache && \
 #  -- Install uv via pipx into an image-embedded location (/opt/pipx).
 #     We override PIPX_HOME and PIPX_BIN_DIR for this RUN only so the tool is baked
 #     into the image, not written to the mounted volume.
-RUN export PATH="/opt/venv/bin:$PATH" && \
+RUN export PATH="/opt/venv/bin:$PATH:/opt/pipx/bin" && \
     PIPX_HOME=/opt/pipx \
     PIPX_BIN_DIR=/opt/pipx/bin \
     PIPX_DEFAULT_PYTHON=/opt/venv/bin/python \
@@ -179,7 +185,7 @@ RUN export PATH="/opt/venv/bin:$PATH" && \
 # UV
 #  -- Install additional uv tools into an image-embedded location.
 #     We override UV_TOOL_DIR and UV_TOOL_BIN_DIR for this RUN only.
-RUN export PATH="/opt/venv/bin:/opt/pipx/bin:$PATH" && \
+RUN export PATH="/opt/venv/bin:$PATH:/opt/pipx/bin:/opt/uv/bin" && \
     UV_TOOL_DIR=/opt/uv/tools UV_TOOL_BIN_DIR=/opt/uv/bin uv tool install httpie
 # PIP
 #   -- 'pip install' (WITHOUT --user) installs into the system site-packages
