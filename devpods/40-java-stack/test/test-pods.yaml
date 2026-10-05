@@ -7,7 +7,7 @@ metadata:
 spec: 
   volumes:
   - {name: "/tmp/.X11-unix", hostPath: {path: "/tmp/.X11-unix"}}
-  - {name: ".vscode-server", hostPath: {path: "./test/.vscode-server"}}
+  #- {name: ".vscode-server", hostPath: {path: "./test/.vscode-server"}}
   - {name: "test-data",      hostPath: {path: "./test/data"}}
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
@@ -17,7 +17,7 @@ spec:
     tty: true
     volumeMounts:
     - {mountPath: "/tmp/.X11-unix",       name: "/tmp/.X11-unix"}
-    - {mountPath: "/root/.vscode-server", name: ".vscode-server" }
+    #- {mountPath: "/root/.vscode-server", name: ".vscode-server" }
     - {mountPath: "/data",                name: "test-data" }
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
@@ -34,4 +34,5 @@ spec:
       mvn -version
       /usr/lib/jvm/temurin-8-jdk-amd64/bin/java -version
       /usr/lib/jvm/temurin-24-jdk-amd64/bin/java -version
+      cd ~
       bash -il
