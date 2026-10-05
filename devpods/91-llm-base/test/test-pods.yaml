@@ -7,7 +7,6 @@ metadata:
 spec: 
   volumes:
   - {name: "/tmp/.X11-unix", hostPath: {path: "/tmp/.X11-unix"}}
-
   - {name: "test-data",      hostPath: {path: "./test/data"}}
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
@@ -33,4 +32,5 @@ spec:
       which opencode
       opencode -v
 
+      cd ~
       bash -il

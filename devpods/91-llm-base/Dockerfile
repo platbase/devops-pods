@@ -1,13 +1,13 @@
 # The basic environment for LLM Agents
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod/llm:latest -t bizobj-container.net/pods/bizobj-pod/llm:20260816 .
+#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod/llm:latest -t bizobj-container.net/pods/bizobj-pod/llm:20261005 .
 # run test by podman:
 #   podman run -it --rm bizobj-container.net/pods/bizobj-pod/llm:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-91-test-llm ; podman pod rm -f devpods-91-test
 
-FROM bizobj-container.net/pods/bizobj-pod/java:20260816.java-8-and-24-node-24-go-1.26-python3
+FROM bizobj-container.net/pods/bizobj-pod/java:20261005.java-8-and-24-node-24-go-1.27-python3
 LABEL maintainer="https://github.com/platbase"
 
 VOLUME ["/data"]
