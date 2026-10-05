@@ -7,7 +7,7 @@ metadata:
 spec: 
   volumes:
   - {name: "/tmp/.X11-unix", hostPath: {path: "/tmp/.X11-unix"}}
-  - {name: ".vscode-server", hostPath: {path: "./test/.vscode-server"}}
+  #- {name: ".vscode-server", hostPath: {path: "./test/.vscode-server"}}
   - {name: "test-data",      hostPath: {path: "./test/data"}}
   - {name: "test-workspace", hostPath: {path: "./test/workspace"}}
   containers:
@@ -17,7 +17,7 @@ spec:
     tty: true
     volumeMounts:
     - {mountPath: "/tmp/.X11-unix",       name: "/tmp/.X11-unix"}
-    - {mountPath: "/root/.vscode-server", name: ".vscode-server" }
+    #- {mountPath: "/root/.vscode-server", name: ".vscode-server" }
     - {mountPath: "/data",                name: "test-data" }
     - {mountPath: "/root/workspace",      name: "test-workspace" }
     env:
@@ -235,5 +235,17 @@ spec:
       echo '--- concurrently "duf --version" "glances --version" "httpie --version" (bun add -g concurrently) ---'
       concurrently "duf --version" "glances --version" "httpie --version"
       echo "=== Image-embedded bin: Test complete ==="
+      echo ""
 
+      echo "=== Testing 102-data-volume-vscode.rc ==="
+      echo "$(date)" >> ~/.vscode-server/README.txt
+      cat ~/.vscode-server/README.txt
+      echo "=== 102-data-volume-vscode.rc: Test complete ==="
+      echo ""
+
+      echo "=== \$PATH ==="
+      echo "$PATH"
+      echo ""
+
+      cd ~
       bash -il

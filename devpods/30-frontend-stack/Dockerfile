@@ -1,20 +1,20 @@
 # NodeJS and npm, As the basic environment for development.
 # ----
 # build image:
-#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod/frontend:latest -t bizobj-container.net/pods/bizobj-pod/frontend:20260816.node-24-go-1.26-python3 .
+#   podman build --force-rm -t bizobj-container.net/pods/bizobj-pod/frontend:latest -t bizobj-container.net/pods/bizobj-pod/frontend:20261005.node-24-go-1.27-python3 .
 # run test by podman:
 #   podman run -it --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bizobj-container.net/pods/bizobj-pod/frontend:latest
 # run test as Pod:
 #   podman play kube ./test/test-pods.yaml ; podman attach devpods-30-test-frontend ; podman pod rm -f devpods-30-test
 
-FROM bizobj-container.net/pods/bizobj-pod/devbase:trixie-20260803
+FROM bizobj-container.net/pods/bizobj-pod/devbase:trixie-20260918
 LABEL maintainer="https://github.com/platbase"
 
 # The version of node js
-ENV NODE_VERSION=24.19.0
+ENV NODE_VERSION=24.21.0
 
 # The version of go
-ENV GO_VERSION=1.26.6
+ENV GO_VERSION=1.27.1
 
 # The npm registry server
 ENV NPM_REG=https://registry.npmmirror.com
@@ -202,7 +202,9 @@ RUN export PATH="/opt/venv/bin:$PATH" && \
 
 # Install Bun to /opt/bun (image-embedded).
 #  -- The bun binary is placed at /opt/bun/bin/bun and survives volume mounts.
-RUN BUN_INSTALL=/opt/bun bash -c 'curl -fsSL https://bun.sh/install | bash'
+#  -- SHELL=/bin/sh: avoid adding bun PATH at the head of $PATH to ~/.bashrc (which should override "/data/bun/bin" PATH)
+#RUN BUN_INSTALL=/opt/bun bash -c 'curl -fsSL https://bun.sh/install | bash'
+RUN BUN_INSTALL=/opt/bun SHELL=/bin/sh bash -c 'curl -fsSL https://bun.sh/install | bash'
 
 # BUN_INSTALL:              Default root directory Bun uses for global operations.
 # BUN_INSTALL_GLOBAL_DIR:   Where 'bun install -g' places package contents.
